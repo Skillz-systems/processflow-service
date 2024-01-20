@@ -24,7 +24,7 @@ return new class extends Migration
             $table->enum("step_type", ['create', 'delete', 'update', 'approve_auto_assign', 'approve_manual_assign'])->comment()->default("approve_auto_assign");
             $table->enum("user_type", ['user', 'supplier', 'customer', 'contractor'])->comment()->default("customer");
             $table->integer("next_step_id")->comment()->nullable();
-            $table->integer("status")->comment()->nullable();
+            $table->boolean("status")->comment()->default(1);
             $table->timestamps();
         });
     }
