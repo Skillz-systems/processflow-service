@@ -6,6 +6,7 @@ use App\Service\ProcessflowStepService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ProcessFlowStepTest extends TestCase
 {
