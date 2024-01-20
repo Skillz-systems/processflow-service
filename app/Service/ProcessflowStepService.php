@@ -10,7 +10,7 @@ class ProcessflowStepService
 {
 
     /**
-     * Create a new process flow step which can be reusable .
+     * Create a new process flow step.
      *
      * @param \Illuminate\Http\Request $request
      *
