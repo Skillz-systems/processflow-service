@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Service\ProcessflowStepService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use PHPUnit\Framework\TestCase;
+//use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
 
 class ProcessFlowStepTest extends TestCase
@@ -49,6 +49,17 @@ class ProcessFlowStepTest extends TestCase
             "status" => 1,
         ]);
         $this->assertTrue($createNewProcessFlowStep);
+
+    }
+
+    public function test_to_see_if_an_error_happens_when_creating_a_processfolow(): void
+    {
+        $data = new Request([
+            "name" => "test name 2",
+        ]);
+        $createNewProcessFlowStepService = new ProcessflowStepService();
+        $createNewProcessFlowStep = $createNewProcessFlowStepService->createProcessFlowStep($data);
+        $this->assertTrue(!$createNewProcessFlowStep);
 
     }
 }
