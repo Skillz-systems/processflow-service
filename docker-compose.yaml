@@ -12,7 +12,7 @@ services:
     ports:
       - 1010:8000
     networks:
-      - processflow_network
+      - processflownetwork
 
   processflow_queue:
     build:
@@ -20,30 +20,31 @@ services:
       dockerfile: Dockerfile
     command: "php artisan queue:work"
     networks:
-      - processflow_network
+      - processflownetwork
 
   mysql:
     image: mariadb:10.5.8
     environment:
-      - MYSQL_ROOT_PASSWORD=forge
-      - MYSQL_DATABASE=processflow
+      - MYSQL_ROOT_PASSWORD=Ubuxa##99
+      - MYSQL_DATABASE=forge
       - MYSQL_USER=forge
-      - MYSQL_PASSWORD=forge
+      - MYSQL_PASSWORD=Ubuxa##99
     networks:
-      - processflow_network
+      - processflownetwork
   # phpmyadmin
   phpmyadmin:
     image: phpmyadmin
     ports:
-      - "1011:80"
+      - 1011:80
     environment:
       - PMA_HOST=mysql
-      - PMA_PASSWORD=forge
+      - PMA_PASSWORD=Ubuxa##99
     networks:
-      - processflow_network
+      - processflownetwork
     restart: unless-stopped
     volumes:
-      - ./:/app
+      - .:/app
 
 networks:
-  processflow_network:
+  processflownetwork:
+    driver: bridge

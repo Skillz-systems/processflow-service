@@ -14,7 +14,7 @@ WORKDIR /app
 COPY . /app
 
 # Install application dependencies
-RUN composer update
+
 RUN composer install 
 
 # Expose the port and start the PHP server
