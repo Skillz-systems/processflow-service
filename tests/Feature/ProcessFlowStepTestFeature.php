@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 //use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
 
-class ProcessFlowStepTest extends TestCase
+class ProcessFlowStepTestFeature extends TestCase
 {
     use RefreshDatabase;
 

@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Validator;
 class ProcessflowStepService
 {
 
+    /**
+     * Create a new process flow step.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return bool True if the process flow step is created successfully, false otherwise.
+     * @throws bool False  has an error.
+     */
+
     public function createProcessFlowStep(Request $request): bool
     {
         $model = new ProcessFlowStep();
