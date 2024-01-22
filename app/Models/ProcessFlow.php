@@ -17,7 +17,7 @@ class ProcessFlow extends Model
         'day',
         'week',
     ];
-    // protected $casts = [
-    //     'status' => 'boolean'
-    // ];
+    protected $casts = [
+        'status' => 'boolean'
+    ];
 }
