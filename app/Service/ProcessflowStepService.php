@@ -10,7 +10,7 @@ class ProcessflowStepService
 {
 
     /**
-     * This Method is used to create a new process flow step service .
+     * This Method is used to create a new process flow step in the database .
      *
      * @param \Illuminate\Http\Request $request
      *
