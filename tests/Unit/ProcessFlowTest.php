@@ -19,22 +19,50 @@ class ProcessFlowTest extends TestCase
     // Creating a process flow with all required fields should return true.
     public function test_create_process_flow_with_all_required_fields()
     {
-        $data = [
-            "name"          => "Process FLow 1",
-            "start_step_id" => 1,
-            "frequency"     => "daily",
-            "frequency_for" => "users",
-            "week"          => "weekly",
-            "daily"         => "thursday",
-        ];
+        // $this->assertTrue(true);
+        // $data = [
+        //     "name"          => "Process FLow 1",
+        //     "start_step_id" => 1,
+        //     "frequency"     => "daily",
+        //     "frequency_for" => "users",
+        //     "week"          => "weekly",
+        //     "daily"         => "thursday",
+        // ];
 
-        $request = new CreateProcessFlowServiceRequest($data);
+        // $request = new CreateProcessFlowServiceRequest($data);
 
-        $service = new ProcessFlowService();
-        // Act
-        $result = $service->createProcessFlow($request);
-        // Assert
-        $this->assertTrue($result);
+        // $service = new ProcessFlowService();
+        // // Act
+        // $result = $service->createProcessFlow($request);
+        // // Assert
+        // $this->assertTrue($result);
+
+        $data = new Request(
+            [
+                "name"          => "Process FLow 1",
+                "start_step_id" => 1,
+                "frequency"     => "daily",
+                "frequency_for" => "users",
+                "week"          => "weekly",
+                "daily"         => "thursday",
+            ]
+        );
+
+
+        $createNewProcessFlowService = new ProcessFlowService();
+        $createNewProcessFlow        = $createNewProcessFlowService->createProcessFlow($data);
+        $this->assertDatabaseHas('process_flows', [
+            [
+                "name"          => "Process FLow 1",
+                "start_step_id" => 1,
+                "frequency"     => "daily",
+                "frequency_for" => "users",
+                "week"          => "weekly",
+                "daily"         => "thursday",
+            ]
+        ]);
+        $this->assertTrue($createNewProcessFlow);
+
 
 
 
