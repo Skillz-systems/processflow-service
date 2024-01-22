@@ -11,7 +11,7 @@ class CreateProcessFlowServiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,16 @@ class CreateProcessFlowServiceRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
-            //
+            'name'          => 'required|string|max:255',
+            'start_step_id' => 'nullable|integer',
+            'frequency'     => 'required|in:daily,weekly,hourly,monthly,yearly,none',
+            'status'        => 'sometimes|boolean',
+            'frequency_for' => 'required|in:users,customers,suppliers,contractors,none',
+            'day'           => 'nullable|string',
+            'week'          => 'nullable|string',
+
         ];
     }
 }
