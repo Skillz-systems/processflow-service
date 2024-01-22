@@ -45,7 +45,7 @@ class ProcessFlowTest extends TestCase
         ]);
         $createNewProcessService = new ProcessFlowService();
         $createNewProcess        = $createNewProcessService->createProcessFlow($data);
-        $this->assertTrue(!$createNewProcess);
+        $this->assertFalse($createNewProcess);
 
     }
 }
