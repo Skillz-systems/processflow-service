@@ -14,7 +14,7 @@ class ProcessFlowTest extends TestCase
     public function test_create_process_flow_with_all_required_fields(): void
     {
 
-        $data                    = new Request([
+        $data = new Request([
             "name"          => "Process FLow 1",
             "start_step_id" => 1,
             "frequency"     => "daily",
@@ -23,29 +23,34 @@ class ProcessFlowTest extends TestCase
             "day"           => "thursday",
             "status"        => true
         ]);
+
         $createNewProcessService = new ProcessFlowService();
-        $createNewProcess        = $createNewProcessService->createProcessFlow($data);
-        $this->assertDatabaseHas('process_flows', [
-            "name"          => "Process FLow 1",
-            "start_step_id" => 1,
-            "frequency"     => "daily",
-            "frequency_for" => "users",
-            "week"          => "weekly",
-            "day"           => "thursday",
-            "status"        => true
-        ]);
-        $this->assertTrue($createNewProcess);
+        $result                  = $createNewProcessService->createProcessFlow($data);
+
+        if (is_array($result)) {
+            // Validation errors occurred
+            $this->fail("Validation errors occurred: " . json_encode($result));
+        } else {
+            // Assert that the database has the created process flow
+            $this->assertDatabaseHas('process_flows', $data->all());
+            $this->assertInstanceOf(\App\Models\ProcessFlow::class, $result);
+        }
     }
 
 
     public function test_to_see_if_an_error_happens_when_creating_a_process(): void
     {
-        $data                    = new Request([
+
+        $data = new Request([
             "name" => "test name 2",
         ]);
+
         $createNewProcessService = new ProcessFlowService();
-        $createNewProcess        = $createNewProcessService->createProcessFlow($data);
-        $this->assertFalse($createNewProcess);
+        $result                  = $createNewProcessService->createProcessFlow($data);
+        $this->assertNotEmpty($result);
+        $this->assertDatabaseMissing('process_flows', [
+            'name' => 'test name 2',
+        ]);
 
     }
 }
