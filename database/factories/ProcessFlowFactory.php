@@ -17,6 +17,9 @@ class ProcessFlowFactory extends Factory
     public function definition(): array
     {
         $startDate = now()->subDays($this->faker->numberBetween(1, 365));
+
+        $week       = $startDate->format('W');
+        $weekString = "Week $week";
         return [
             'name'          => $this->faker->word,
             'start_step_id' => $this->faker->randomNumber(),
@@ -27,9 +30,8 @@ class ProcessFlowFactory extends Factory
             // 'week'          => $this->faker->word,
             // 'day'           => $startDate->dayOfWeek,
             'day'           => $this->faker->dayOfWeek,
-            'week'          => $startDate->weekOfYear,
-            // 'created_at'    => now(),
-            // 'updated_at'    => now(),
+            'week'          => $weekString,
+
         ];
     }
 }

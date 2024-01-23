@@ -12,11 +12,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ProcessFlowTest extends TestCase
 {
     use RefreshDatabase;
-    public function test_create_process_flow_with_all_required_fields(): void
+    public function test_to_see_if_a_processflow_can_be_created(): void
     {
 
         $data = new Request([
-            "name"          => "Process FLow 1",
+            "name"          => "Process Flow 1",
             "start_step_id" => 1,
             "frequency"     => "daily",
             "frequency_for" => "users",
@@ -28,14 +28,8 @@ class ProcessFlowTest extends TestCase
         $createNewProcessService = new ProcessFlowService();
         $result                  = $createNewProcessService->createProcessFlow($data);
 
-        if (is_array($result)) {
-            // Validation errors occurred
-            $this->fail("Validation errors occurred: " . json_encode($result));
-        } else {
-            // Assert that the database has the created process flow
-            $this->assertDatabaseHas('process_flows', $data->all());
-            $this->assertInstanceOf(ProcessFlow::class, $result);
-        }
+        $this->assertDatabaseHas('process_flows', $data->all());
+        $this->assertInstanceOf(ProcessFlow::class, $result);
     }
 
 
@@ -43,15 +37,17 @@ class ProcessFlowTest extends TestCase
     {
 
         $data = new Request([
-            "name" => "test name 2",
+            "name" => "This is new service",
         ]);
 
         $createNewProcessService = new ProcessFlowService();
         $result                  = $createNewProcessService->createProcessFlow($data);
+        $resultArray             = $result->toArray();
         $this->assertNotEmpty($result);
-        $this->assertDatabaseMissing('process_flows', [
-            'name' => 'test name 2',
-        ]);
+        $this->assertIsArray($resultArray);
+        $this->assertArrayHasKey('frequency', $resultArray);
+        $this->assertArrayHasKey('frequency_for', $resultArray);
+
 
     }
 }
