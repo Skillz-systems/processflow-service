@@ -34,9 +34,7 @@ class ProcessFlowService
             return $validator->errors();
         }
         //Create a new process flow and return true if successful, otherwise return false
-        $createdProcessFlow = ProcessFlow::create($request->all());
-
-        return $createdProcessFlow;
+        return ProcessFlow::create($request->all());
 
     }
 }
