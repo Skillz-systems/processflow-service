@@ -17,8 +17,6 @@ class ProcessFlowService
      */
     public function createProcessFlow(Request $request): object
     {
-        // Instantiate a new ProcessFlow model
-        $model = new ProcessFlow();
 
         // Validate the request data
         $validator = Validator::make($request->all(), [

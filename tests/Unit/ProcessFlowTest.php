@@ -3,8 +3,9 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Http\Request;
+use App\Models\ProcessFlow;
 // use PHPUnit\Framework\TestCase;
+use Illuminate\Http\Request;
 use App\Service\ProcessFlowService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -33,7 +34,7 @@ class ProcessFlowTest extends TestCase
         } else {
             // Assert that the database has the created process flow
             $this->assertDatabaseHas('process_flows', $data->all());
-            $this->assertInstanceOf(\App\Models\ProcessFlow::class, $result);
+            $this->assertInstanceOf(ProcessFlow::class, $result);
         }
     }
 
