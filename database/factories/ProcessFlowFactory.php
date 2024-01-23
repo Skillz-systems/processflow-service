@@ -28,8 +28,8 @@ class ProcessFlowFactory extends Factory
             // 'day'           => $startDate->dayOfWeek,
             'day'           => $this->faker->dayOfWeek,
             'week'          => $startDate->weekOfYear,
-            'created_at'    => now(),
-            'updated_at'    => now(),
+            // 'created_at'    => now(),
+            // 'updated_at'    => now(),
         ];
     }
 }
