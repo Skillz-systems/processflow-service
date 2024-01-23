@@ -13,9 +13,9 @@ class ProcessFlowService
      * Create a new process flow.
      *
      * @param  Request  $request
-     * @return bool
+     * @return object|ProcessFlow
      */
-    public function createProcessFlow(Request $request): bool
+    public function createProcessFlow(Request $request): object
     {
         // Instantiate a new ProcessFlow model
         $model = new ProcessFlow();
@@ -33,13 +33,12 @@ class ProcessFlowService
         ]);
         // Return false if validation fails
         if ($validator->fails()) {
-            return false;
+            return $validator->errors();
         }
         //Create a new process flow and return true if successful, otherwise return false
-        if ($model->create($request->all())) {
-            return true;
-        }
-        return false;
+        $createdProcessFlow = ProcessFlow::create($request->all());
+
+        return $createdProcessFlow;
 
     }
 }
