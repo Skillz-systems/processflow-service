@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ProcessFlow;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ProcessFlowSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class ProcessFlowSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        ProcessFlow::factory()->count(20)->create();
     }
 }
