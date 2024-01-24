@@ -55,4 +55,9 @@ class ProcessflowStepService
     {
         return ProcessFlowStep::find($id);
     }
+
+    public function updateProcessFlowStep(Request $request, int $id): object
+    {
+
+    }
 }
