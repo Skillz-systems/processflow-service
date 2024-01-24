@@ -3,7 +3,6 @@ namespace App\Service;
 
 use App\Models\ProcessFlow;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Validator;
 
 class ProcessFlowService
@@ -21,13 +20,13 @@ class ProcessFlowService
         // Validate the request data
         $validator = Validator::make($request->all(), [
 
-            "name"          => "required|string|max:255",
+            "name" => "required|string|max:255",
             "start_step_id" => "nullable|integer",
-            "frequency"     => "required|in:daily,weekly,hourly,monthly,yearly,none",
-            "status"        => "sometimes|boolean",
+            "frequency" => "required|in:daily,weekly,hourly,monthly,yearly,none",
+            "status" => "sometimes|boolean",
             "frequency_for" => "required|in:users,customers,suppliers,contractors,none",
-            "day"           => "nullable|string",
-            "week"          => "nullable|string",
+            "day" => "nullable|string",
+            "week" => "nullable|string",
         ]);
         // Return false if validation fails
         if ($validator->fails()) {
@@ -36,5 +35,18 @@ class ProcessFlowService
         //Create a new process flow and return true if successful, otherwise return false
         return ProcessFlow::create($request->all());
 
+    }
+
+    /**
+     * Retrieve a ProcessFlow by its ID.
+     *
+     * @param int $id The ID of the ProcessFlow to retrieve.
+     *
+     * @return \App\Models\ProcessFlow|null The retrieved ProcessFlow, or null if not found.
+     */
+
+    public function getProcessFlow(int $id): ProcessFlow | null
+    {
+        return ProcessFlow::find($id);
     }
 }
