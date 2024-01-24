@@ -18,7 +18,7 @@ class ProcessflowStepService
      * @throws bool False  has an error.
      */
 
-    public function createProcessFlowStep(Request $request): bool
+    public function createProcessFlowStep(Request $request): object
     {
         $model = new ProcessFlowStep();
 
@@ -38,13 +38,10 @@ class ProcessflowStepService
         ]);
 
         if ($validator->fails()) {
-            return false;
+            return $validator->errors();
         }
 
-        if ($model->create($request->all())) {
-            return true;
-        }
-        return false;
+        return $model->create($request->all());
 
     }
 }

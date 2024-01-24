@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\ProcessFlowStep;
 use App\Service\ProcessflowStepService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -48,7 +49,14 @@ class ProcessFlowStepTest extends TestCase
             "next_step_id" => 2,
             "status" => 1,
         ]);
-        $this->assertTrue($createNewProcessFlowStep);
+
+        $this->assertInstanceOf(ProcessFlowStep::class, $createNewProcessFlowStep);
+
+        $this->assertNotNull($createNewProcessFlowStep->id);
+        $this->assertSame('test name', $createNewProcessFlowStep->name);
+        $this->assertSame('this should be a route', $createNewProcessFlowStep->step_route);
+
+//$this->assertTrue($createNewProcessFlowStep);
 
     }
 
@@ -59,7 +67,11 @@ class ProcessFlowStepTest extends TestCase
         ]);
         $createNewProcessFlowStepService = new ProcessflowStepService();
         $createNewProcessFlowStep = $createNewProcessFlowStepService->createProcessFlowStep($data);
-        $this->assertTrue(!$createNewProcessFlowStep);
+        $resultArray = $createNewProcessFlowStep->toArray();
+        $this->assertNotEmpty($createNewProcessFlowStep);
+        $this->assertIsArray($resultArray);
+        $this->assertArrayHasKey('step_route', $resultArray);
+        $this->assertArrayHasKey('step_type', $resultArray);
 
     }
 }
