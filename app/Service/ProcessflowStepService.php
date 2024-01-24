@@ -44,15 +44,15 @@ class ProcessflowStepService
         return $model->create($request->all());
 
     }
+
     /**
-     * Get a single process flow step by ID and throw an exception if not found
+     * Get a process flow step model by ID.
      *
-     * @param int $id The ID of the process flow step
-     * @return \App\Models\ProcessFlowStep The process flow step model
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param int $id The ID of the process flow step to retrieve.
+     * @return \App\Models\ProcessFlowStep|null The process flow step model if found, null otherwise.
      */
-    public function viewProcessFlowStep(int $id): ProcessFlowStep
+    public function getProcessFlowStep(int $id): ?ProcessFlowStep
     {
-        return ProcessFlowStep::findOrFail($id);
+        return ProcessFlowStep::find($id);
     }
 }

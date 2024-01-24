@@ -2,12 +2,13 @@
 
 namespace Tests\Unit;
 
+use Tests\TestCase;
+use Illuminate\Http\Request;
 use App\Models\ProcessFlowStep;
 use App\Service\ProcessflowStepService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Request;
 //use PHPUnit\Framework\TestCase;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProcessFlowStepTest extends TestCase
 {
@@ -75,10 +76,10 @@ class ProcessFlowStepTest extends TestCase
 
     }
 
-    public function test_to_see_if_processflow_step_can_be_viewed(): void
+    public function test_to_get_a_processflow_step_with_id(): void
     {
         $data    = new Request([
-            "name"                  => "test name",
+            "name"                  => "test name single",
             "step_route"            => "this should be a route",
             "assignee_user_route"   => 1,
             "next_user_designation" => 1,
@@ -96,24 +97,22 @@ class ProcessFlowStepTest extends TestCase
         $result = $service->createProcessFlowStep($data);
 
 
-        $viewStepService = $service->viewProcessFlowStep($result->id);
+        $getStep = $service->getProcessFlowStep($result->id);
         $this->assertDatabaseCount('process_flow_steps', 1);
         $this->assertInstanceOf(ProcessFlowStep::class, $result);
-        $this->assertEquals(1, $result->id);
+        $this->assertEquals($getStep->id, $result->id);
 
 
     }
-    public function test_error_when_invalid_Id_or_error_result(): void
+
+    public function test_to_returns_null_if_not_found_or_invalid_id_for_processflow_step(): void
     {
-        // Non-existent ID
-        $invalidId = 999;
 
-        // Retrieve by invalid ID
-        $service = new ProcessFlowStepService();
-        $result  = $service->viewProcessFlowStep($invalidId);
-
-        // Assertions
-        $this->assertNull($result);
-        $this->assertArrayHasKey('message', $result->errors->toArray());
+        $service   = new ProcessFlowStepService();
+        $foundStep = $service->getProcessFlowStep(999);
+        $this->assertNull($foundStep);
     }
+
+
+
 }
