@@ -4,20 +4,22 @@ namespace App\Service;
 
 use App\Models\ProcessFlowStep;
 use Illuminate\Http\Request;
+// use Exception;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProcessflowStepService
 {
 
-    /**
-     * This Method is used to create a new process flow step in the database .
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return bool True if the process flow step is created successfully, false otherwise.
-     * @throws bool False  has an error.
-     */
 
+
+    /**
+     * Create a new process flow step.
+     *
+     * @param \Illuminate\Http\Request $request The request containing the data for the new process flow step.
+     *
+     * @return \App\Models\ProcessFlowStep The created process flow step model.
+     */
     public function createProcessFlowStep(Request $request): object
     {
         $model = new ProcessFlowStep();
@@ -42,7 +44,6 @@ class ProcessflowStepService
         }
 
         return $model->create($request->all());
-
     }
 
     /**
@@ -56,29 +57,24 @@ class ProcessflowStepService
         return ProcessFlowStep::find($id);
     }
 
-    public function updateProcessFlowStep(Request $request, int $id): ?ProcessFlowStep
+    /**
+     * Update an existing process flow step.
+     *
+     * @param Request $request The request containing the updated data
+     * @param int $id The ID of the process flow step to update
+     * @return object The updated process flow step model
+     * @throws ModelNotFoundException If no process flow step with the given ID is found
+     */
+    public function updateProcessFlowStep(Request $request, int $id): object
     {
         $processFlowStep = $this->getProcessFlowStep($id);
 
         if (!$processFlowStep) {
-            return null;
+
+            throw new ModelNotFoundException("Model with ID $id not found");
         }
 
-        // $processFlow = ProcessFlowStep::find($id);
         $validator = Validator::make($request->all(), [
-
-            // "name"                  => "sometimes|string",
-            // "step_route"            => "sometimes",
-            // "assignee_user_route"   => "sometimes",
-            // "next_user_designation" => "sometimes",
-            // "next_user_department"  => "sometimes",
-            // "next_user_unit"        => "sometimes",
-            // "process_flow_id"       => "sometimes",
-            // "next_user_location"    => "sometimes",
-            // "step_type"             => "sometimes",
-            // "user_type"             => "sometimes",
-            // "next_step_id"          => "sometimes",
-
             'name'                  => 'sometimes|string',
             'step_route'            => 'sometimes|string',
             'assignee_user_route'   => 'sometimes|integer',
@@ -89,16 +85,14 @@ class ProcessflowStepService
             'user_type'             => 'sometimes|in:user,supplier,customer,contractor',
             'status'                => 'sometimes|boolean',
         ]);
-
         if ($validator->fails()) {
-            // return $validator->errors();
-            return null;
+            return $validator->errors();
         }
 
         // $step->update($request->all());
         $processFlowStep->update($request->all());
 
         return $processFlowStep;
-
     }
 }
+

@@ -113,22 +113,9 @@ class ProcessFlowStepTest extends TestCase
         $this->assertNull($foundStep);
     }
 
-    public function test_to_update_a_processflow_step(): void
+    public function test_to_update_a_processflow_step_successfully(): void
     {
-        // $data    = new Request([
-        //     "name"                  => "test name single",
-        //     "step_route"            => "this should be a route",
-        //     "assignee_user_route"   => 1,
-        //     "next_user_designation" => 1,
-        //     "next_user_department"  => 1,
-        //     "next_user_unit"        => 1,
-        //     "process_flow_id"       => 1,
-        //     "next_user_location"    => 1,
-        //     "step_type"             => "create",
-        //     "user_type"             => "customer",
-        //     "next_step_id"          => 2,
-        //     "status"                => 1,
-        // ]);
+
 
         $mock    = ProcessFlowStep::factory()->make();
         $service = new ProcessflowStepService();
@@ -143,19 +130,42 @@ class ProcessFlowStepTest extends TestCase
 
     }
 
-    public function test_to_see_an_error_happens_when_updating_a_processflow_step(): void
+    public function test_to_validation_error_updating_a_processflow_step(): void
     {
 
-        $mock    = ProcessFlowStep::factory()->make();
+
+
         $service = new ProcessflowStepService();
-        $created = $service->createProcessFlowStep(new Request($mock->toArray()));
-        $service = new ProcessFlowStepService();
-        $result  = $service->updateProcessFlowStep(new Request(["name" => ""]), 99);
-        $this->assertNull($result);
-        // $this->assertIsArray($result);
-        // $this->assertArrayHasKey('name', $result);
+        $step    = ProcessFlowStep::factory()->create();
+
+        $invalidRequest = new Request([
+            'name' => '',
+        ]);
+
+        $result      = $service->updateProcessFlowStep($invalidRequest, $step->id);
+        $resultArray = $result->toArray();
+
+        $resultArray = $result->toArray();
+        $this->assertArrayHasKey('name', $resultArray);
 
     }
 
+
+
+    public function test_update_process_flow_step_throws_exception_for_invalid_ID()
+    {
+        // Arrange
+        $request = new Request([
+            'name' => 'Test Step',
+        ]);
+        $id      = 0;
+        $service = new ProcessflowStepService();
+
+        // Assert
+        $this->expectException(ModelNotFoundException::class);
+
+        // Act
+        $service->updateProcessFlowStep($request, $id);
+    }
 
 }
