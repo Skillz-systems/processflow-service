@@ -152,7 +152,7 @@ class ProcessFlowStepTest extends TestCase
 
 
 
-    public function test_update_process_flow_step_throws_exception_for_invalid_ID()
+    public function test_to_update_throws_exception__process_flow_step_for_invalid_ID()
     {
         // Arrange
         $request = new Request([
