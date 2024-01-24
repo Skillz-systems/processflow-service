@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\WorkflowController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
