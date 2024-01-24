@@ -74,4 +74,11 @@ class ProcessFlowStepTest extends TestCase
         $this->assertArrayHasKey('step_type', $resultArray);
 
     }
+
+    public function test_to_see_if_processflow_step_can_be_viewed():void{
+
+    }
+    public function test_to_see_if_processflow_step_return_error_if_ID_not_database():void{
+
+    }
 }

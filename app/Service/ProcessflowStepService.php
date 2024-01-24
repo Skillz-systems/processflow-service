@@ -24,17 +24,17 @@ class ProcessflowStepService
 
         $validator = Validator::make($request->all(), [
 
-            "name" => "required",
-            "step_route" => "required",
-            "assignee_user_route" => "required",
+            "name"                  => "required",
+            "step_route"            => "required",
+            "assignee_user_route"   => "required",
             "next_user_designation" => "required",
-            "next_user_department" => "required",
-            "next_user_unit" => "required",
-            "process_flow_id" => "required",
-            "next_user_location" => "required",
-            "step_type" => "required",
-            "user_type" => "required",
-            "next_step_id" => "required",
+            "next_user_department"  => "required",
+            "next_user_unit"        => "required",
+            "process_flow_id"       => "required",
+            "next_user_location"    => "required",
+            "step_type"             => "required",
+            "user_type"             => "required",
+            "next_step_id"          => "required",
         ]);
 
         if ($validator->fails()) {
@@ -43,5 +43,9 @@ class ProcessflowStepService
 
         return $model->create($request->all());
 
+    }
+
+    public function viewProcessFlowStep(int $id): object
+    {
     }
 }
