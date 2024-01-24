@@ -55,4 +55,32 @@ class WorkflowHistoryTest extends TestCase
         $this->assertNotEmpty($createNewWorkflowHistory);
         $this->assertIsArray($resultArray);
     }
+
+    public function test_to_see_if_a_workflowHistory_can_be_fetched(): void
+    {
+
+        $data = new Request([
+            "user_id" => 1,
+            "task_id" => 1,
+            "step_id" => 1,
+            "process_flow_id" => 1,
+            "status" => 1,
+        ]);
+
+        $createNewWorkflowHistoryService = new WorkflowHistoryService();
+        $result = $createNewWorkflowHistoryService->createWorkflowHistory($data);
+        $fetchService = $createNewWorkflowHistoryService->getWorkflowHistory($result->id);
+        $this->assertEquals($fetchService->id, $result->id);
+        $this->assertInstanceOf(WorkflowHistory::class, $fetchService);
+
+    }
+
+    public function test_to_see_if_workflowHistory_returns_a_content(): void
+    {
+        $createNewWorkflowHistoryService = new WorkflowHistoryService();
+        $fetchService = $createNewWorkflowHistoryService->getWorkflowHistory(1);
+
+        $this->assertNull($fetchService);
+
+    }
 }

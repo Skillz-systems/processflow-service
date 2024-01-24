@@ -16,4 +16,8 @@ class WorkflowHistory extends Model
         'status',
     ];
 
+    protected $casts = [
+        'status' => 'boolean'
+    ];
+
 }
