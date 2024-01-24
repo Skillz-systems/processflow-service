@@ -4,8 +4,9 @@ namespace Tests\Unit;
 
 use App\Http\Controllers\WorkflowController;
 use App\Models\WorkflowHistory;
+use App\Service\WorkflowHistoryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 class WorkflowControllerTest extends TestCase
@@ -17,38 +18,41 @@ class WorkflowControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCreateWorkflowHistory()
+    public function test_to_see_if_the_workflowhistory_was_created(): void
     {
-        // Arrange
-        $requestData = [
-            'user_id' => 1,
-            'task_id' => 1,
-            'step_id' => 1,
-            'process_flow_id' => 1,
-            'status' => 'done',
-            // Add other required data
-        ];
+        $data = new Request([
+            "user_id" => 1,
+            "task_id" => 1,
+            "step_id" => 1,
+            "process_flow_id" => 1,
+            "status" => 1,
+        ]);
+        $createNewWorkflowHistoryService = new WorkflowHistoryService();
+        $createNewWorkflowHistory = $createNewWorkflowHistoryService->createWorkflowHistory($data);
+        $this->assertDatabaseHas('work_flow_history', [
+            "user_id" => 1,
+            "task_id" => 1,
+            "step_id" => 1,
+            "process_flow_id" => 1,
+            "status" => 1,
+        ]);
 
-        // Mock the WorkflowHistory model
-        $mockWorkflowHistory = Mockery::mock(WorkflowHistory::class);
-        $mockWorkflowHistory->shouldReceive('save')->once();
+        $this->assertInstanceOf(WorkflowHistory::class, $createNewWorkflowHistory);
 
-        // Create an instance of the WorkflowController with the mocked model
-        $workflowController = new WorkflowController($mockWorkflowHistory);
-
-        // Act
-        $result = $workflowController->createWorkflowHistory($requestData);
-
-        // Assert
-        $this->assertTrue($result);
+        $this->assertNotNull($createNewWorkflowHistory->id);
+        $this->assertSame('user id', $createNewWorkflowHistory->user_id);
+        $this->assertSame('task id', $createNewWorkflowHistory->task_id);
     }
 
-    /**
-     * Clean up Mockery expectations.
-     */
-    public function tearDown(): void
+    public function test_to_see_if_an_error_happens_when_creating_a_workflowHistory(): void
     {
-        parent::tearDown();
-        Mockery::close();
+        $data = new Request([
+            "user" => 1,
+        ]);
+        $createNewWorkflowHistoryService = new WorkflowHistoryService();
+        $createNewWorkflowHistory = $createNewWorkflowHistoryService->createWorkflowHistory($data);
+        $resultArray = $createNewWorkflowHistory->toArray();
+        $this->assertNotEmpty($createNewWorkflowHistory);
+        $this->assertIsArray($resultArray);
     }
 }
