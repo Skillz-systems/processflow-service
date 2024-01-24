@@ -56,8 +56,49 @@ class ProcessflowStepService
         return ProcessFlowStep::find($id);
     }
 
-    public function updateProcessFlowStep(Request $request, int $id): object
+    public function updateProcessFlowStep(Request $request, int $id): ?ProcessFlowStep
     {
+        $processFlowStep = $this->getProcessFlowStep($id);
+
+        if (!$processFlowStep) {
+            return null;
+        }
+
+        // $processFlow = ProcessFlowStep::find($id);
+        $validator = Validator::make($request->all(), [
+
+            // "name"                  => "sometimes|string",
+            // "step_route"            => "sometimes",
+            // "assignee_user_route"   => "sometimes",
+            // "next_user_designation" => "sometimes",
+            // "next_user_department"  => "sometimes",
+            // "next_user_unit"        => "sometimes",
+            // "process_flow_id"       => "sometimes",
+            // "next_user_location"    => "sometimes",
+            // "step_type"             => "sometimes",
+            // "user_type"             => "sometimes",
+            // "next_step_id"          => "sometimes",
+
+            'name'                  => 'sometimes|string',
+            'step_route'            => 'sometimes|string',
+            'assignee_user_route'   => 'sometimes|integer',
+            'next_user_designation' => 'sometimes|integer',
+            'next_user_department'  => 'sometimes|string',
+            'process_flow_id'       => 'sometimes|integer',
+            'step_type'             => 'sometimes|in:create,delete,update,approve_auto_assign,approve_manual_assign',
+            'user_type'             => 'sometimes|in:user,supplier,customer,contractor',
+            'status'                => 'sometimes|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            // return $validator->errors();
+            return null;
+        }
+
+        // $step->update($request->all());
+        $processFlowStep->update($request->all());
+
+        return $processFlowStep;
 
     }
 }

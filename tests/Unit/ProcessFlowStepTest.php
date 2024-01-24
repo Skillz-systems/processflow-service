@@ -115,11 +115,45 @@ class ProcessFlowStepTest extends TestCase
 
     public function test_to_update_a_processflow_step(): void
     {
+        // $data    = new Request([
+        //     "name"                  => "test name single",
+        //     "step_route"            => "this should be a route",
+        //     "assignee_user_route"   => 1,
+        //     "next_user_designation" => 1,
+        //     "next_user_department"  => 1,
+        //     "next_user_unit"        => 1,
+        //     "process_flow_id"       => 1,
+        //     "next_user_location"    => 1,
+        //     "step_type"             => "create",
+        //     "user_type"             => "customer",
+        //     "next_step_id"          => 2,
+        //     "status"                => 1,
+        // ]);
+
+        $mock    = ProcessFlowStep::factory()->make();
+        $service = new ProcessflowStepService();
+        $create  = $service->createProcessFlowStep(new Request($mock->toArray()));
+        $update  = $service->updateProcessFlowStep(new Request(["name" => "test name updated",]), $create->id);
+
+
+        $this->assertDatabaseHas('process_flow_steps', [
+            "name" => "test name updated",
+        ]);
+        $this->assertInstanceOf(ProcessFlowStep::class, $update);
 
     }
 
     public function test_to_see_an_error_happens_when_updating_a_processflow_step(): void
     {
+
+        $mock    = ProcessFlowStep::factory()->make();
+        $service = new ProcessflowStepService();
+        $created = $service->createProcessFlowStep(new Request($mock->toArray()));
+        $service = new ProcessFlowStepService();
+        $result  = $service->updateProcessFlowStep(new Request(["name" => ""]), 99);
+        $this->assertNull($result);
+        // $this->assertIsArray($result);
+        // $this->assertArrayHasKey('name', $result);
 
     }
 
