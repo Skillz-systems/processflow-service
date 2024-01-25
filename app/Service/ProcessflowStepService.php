@@ -2,10 +2,12 @@
 
 namespace App\Service;
 
-use App\Models\ProcessFlowStep;
+use Exception;
 use Illuminate\Http\Request;
 // use Exception;
+use App\Models\ProcessFlowStep;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProcessflowStepService
@@ -70,12 +72,11 @@ class ProcessflowStepService
         $processFlowStep = $this->getProcessFlowStep($id);
 
         if (!$processFlowStep) {
-
             throw new ModelNotFoundException("Model with ID $id not found");
         }
 
         $validator = Validator::make($request->all(), [
-            'name'                  => 'sometimes|string',
+            'name'                  => 'sometimes|string|min:10',
             'step_route'            => 'sometimes|string',
             'assignee_user_route'   => 'sometimes|integer',
             'next_user_designation' => 'sometimes|integer',
@@ -86,10 +87,8 @@ class ProcessflowStepService
             'status'                => 'sometimes|boolean',
         ]);
         if ($validator->fails()) {
-            return $validator->errors();
+            throw new ValidationException($validator);
         }
-
-        // $step->update($request->all());
         $processFlowStep->update($request->all());
 
         return $processFlowStep;

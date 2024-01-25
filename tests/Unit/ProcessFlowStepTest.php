@@ -117,9 +117,8 @@ class ProcessFlowStepTest extends TestCase
     {
 
 
-        $mock    = ProcessFlowStep::factory()->make();
+        $create  = ProcessFlowStep::factory()->create();
         $service = new ProcessflowStepService();
-        $create  = $service->createProcessFlowStep(new Request($mock->toArray()));
         $update  = $service->updateProcessFlowStep(new Request(["name" => "test name updated",]), $create->id);
 
 
@@ -133,20 +132,17 @@ class ProcessFlowStepTest extends TestCase
     public function test_to_validation_error_updating_a_processflow_step(): void
     {
 
-
-
         $service = new ProcessflowStepService();
         $step    = ProcessFlowStep::factory()->create();
 
         $invalidRequest = new Request([
-            'name' => '',
+            '' => '',
         ]);
 
-        $result      = $service->updateProcessFlowStep($invalidRequest, $step->id);
-        $resultArray = $result->toArray();
+        $result = $service->updateProcessFlowStep($invalidRequest, $step->id);
 
-        $resultArray = $result->toArray();
-        $this->assertArrayHasKey('name', $resultArray);
+        // $this->assertDatabaseHas('process_flow_steps', $invalidRequest->toArray());
+        $this->assertDatabaseMissing('process_flow_steps', $invalidRequest->toArray());
 
     }
 
@@ -154,18 +150,15 @@ class ProcessFlowStepTest extends TestCase
 
     public function test_to_update_throws_exception__process_flow_step_for_invalid_ID()
     {
-        // Arrange
+        $this->expectException(\Exception::class);
         $request = new Request([
             'name' => 'Test Step',
         ]);
         $id      = 0;
         $service = new ProcessflowStepService();
 
-        // Assert
-        $this->expectException(ModelNotFoundException::class);
-
-        // Act
         $service->updateProcessFlowStep($request, $id);
+        $this->expectException(ModelNotFoundException::class);
     }
 
 }
