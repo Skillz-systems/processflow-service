@@ -35,7 +35,7 @@ class WorkflowHistoryService
             return $validator->errors();
         }
 
-        return $model->create($request->all());
+       return $model->create($request->all());
 
     }
 

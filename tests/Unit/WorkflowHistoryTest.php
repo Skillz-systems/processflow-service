@@ -47,7 +47,7 @@ class WorkflowHistoryTest extends TestCase
     public function test_to_see_if_an_error_happens_when_creating_a_workflowHistory(): void
     {
         $data = new Request([
-            "user" => 1,
+            "user_id" => 1,
         ]);
         $createNewWorkflowHistoryService = new WorkflowHistoryService();
         $createNewWorkflowHistory = $createNewWorkflowHistoryService->createWorkflowHistory($data);
