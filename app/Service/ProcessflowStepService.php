@@ -76,7 +76,7 @@ class ProcessflowStepService
         }
 
         $validator = Validator::make($request->all(), [
-            'name'                  => 'sometimes|string|min:10',
+            'name'                  => 'sometimes|string',
             'step_route'            => 'sometimes|string',
             'assignee_user_route'   => 'sometimes|integer',
             'next_user_designation' => 'sometimes|integer',
