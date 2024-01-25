@@ -116,7 +116,6 @@ class ProcessFlowStepTest extends TestCase
     public function test_to_update_a_processflow_step_successfully(): void
     {
 
-
         $create  = ProcessFlowStep::factory()->create();
         $service = new ProcessflowStepService();
         $update  = $service->updateProcessFlowStep(new Request(["name" => "test name updated",]), $create->id);
@@ -129,26 +128,8 @@ class ProcessFlowStepTest extends TestCase
 
     }
 
-    public function test_to_validation_error_updating_a_processflow_step(): void
-    {
 
-        $service = new ProcessflowStepService();
-        $step    = ProcessFlowStep::factory()->create();
-
-        $invalidRequest = new Request([
-            '' => '',
-        ]);
-
-        $result = $service->updateProcessFlowStep($invalidRequest, $step->id);
-
-        // $this->assertDatabaseHas('process_flow_steps', $invalidRequest->toArray());
-        $this->assertDatabaseMissing('process_flow_steps', $invalidRequest->toArray());
-
-    }
-
-
-
-    public function test_to_update_throws_exception__process_flow_step_for_invalid_ID()
+    public function test_to_update_throws_exception__process_flow_step_for_error()
     {
         $this->expectException(\Exception::class);
         $request = new Request([

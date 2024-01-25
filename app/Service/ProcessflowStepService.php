@@ -67,7 +67,7 @@ class ProcessflowStepService
      * @return object The updated process flow step model
      * @throws ModelNotFoundException If no process flow step with the given ID is found
      */
-    public function updateProcessFlowStep(Request $request, int $id): object
+    public function updateProcessFlowStep(Request $request, int $id): ProcessFlowStep
     {
         $processFlowStep = $this->getProcessFlowStep($id);
 
@@ -86,6 +86,9 @@ class ProcessflowStepService
             'user_type'             => 'sometimes|in:user,supplier,customer,contractor',
             'status'                => 'sometimes|boolean',
         ]);
+
+
+
         if ($validator->fails()) {
             throw new ValidationException($validator);
         }
