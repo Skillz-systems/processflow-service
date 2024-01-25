@@ -49,4 +49,44 @@ class ProcessFlowService
     {
         return ProcessFlow::find($id);
     }
+
+    /**
+     * Update an existing ProcessFlow.
+     *
+     * @param int $id The ID of the ProcessFlow to update.
+     * @param \Illuminate\Http\Request $request The HTTP request containing the updated data.
+     *
+     * @return \App\Models\ProcessFlow The updated ProcessFlow instance.
+     *
+     * @throws \Exception If validation fails or if an error occurs during the update.
+     */
+
+    public function updateProcessflow(int $id, Request $request): ProcessFlow
+    {
+        $model = ProcessFlow::find($id);
+        // validation
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|nullable',
+            "start_step_id" => "sometimes|nullable|integer",
+            "frequency" => "sometimes|nullable|in:daily,weekly,hourly,monthly,yearly,none",
+            "status" => "sometimes|nullable|boolean",
+            "frequency_for" => "sometimes|nullable|in:users,customers,suppliers,contractors,none",
+            "day" => "sometimes|nullable|string",
+            "week" => "sometimes|nullable|string",
+
+        ]);
+        if ($validator->fails()) {
+            throw new \Exception($validator->errors());
+        }
+
+        if ($model) {
+            if ($model->update($request->all())) {
+                return $model;
+            }
+            throw new \Exception('Something went wrong.');
+
+        }
+        throw new \Exception('Something went wrong.');
+
+    }
 }
