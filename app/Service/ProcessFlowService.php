@@ -89,4 +89,26 @@ class ProcessFlowService
         throw new \Exception('Something went wrong.');
 
     }
+
+    /**
+     * Delete a ProcessFlow by its ID.
+     *
+     * @param int $id The ID of the ProcessFlow to delete.
+     *
+     * @return bool True if the deletion is successful, false otherwise.
+     */
+
+    public function deleteProcessflow(int $id): bool
+    {
+        $model = ProcessFlow::find($id);
+        if ($model) {
+            if ($model->delete()) {
+                return true;
+
+            }
+
+        }
+        return false;
+
+    }
 }
