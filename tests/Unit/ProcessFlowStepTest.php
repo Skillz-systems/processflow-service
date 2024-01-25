@@ -153,9 +153,12 @@ class ProcessFlowStepTest extends TestCase
 
     }
 
-    public function test_to_throw_exception_or_error_if_processflow_step_not_found_or_invalid_id_for_processflow_step(): void
+    public function test_to_throw_exception_or_error_if_processflow_step_not_found_or_invalid_id(): void
     {
 
+        $service = new ProcessflowStepService();
+        $delete  = $service->deleteProcessFlowStep(0);
+        $this->assertFalse($delete);
     }
 
 }

@@ -96,5 +96,21 @@ class ProcessflowStepService
 
         return $processFlowStep;
     }
+
+    /**
+     * Delete a process flow step by ID.
+     *
+     * @param int $id The ID of the process flow step to delete.
+     * @return bool True if the process flow step was deleted, false otherwise.
+     */
+    public function deleteProcessFlowStep(int $id): bool
+    {
+        $processFlowStep = $this->getProcessFlowStep($id);
+        if (!$processFlowStep) {
+            return false;
+        }
+        $processFlowStep->delete();
+        return true;
+    }
 }
 
