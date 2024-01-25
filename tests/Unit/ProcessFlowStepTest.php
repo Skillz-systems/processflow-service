@@ -129,7 +129,7 @@ class ProcessFlowStepTest extends TestCase
     }
 
 
-    public function test_to_update_throws_exception__process_flow_step_for_error()
+    public function test_to_update_throws_exception__process_flow_step_for_error(): void
     {
         $this->expectException(\Exception::class);
         $request = new Request([
@@ -140,6 +140,22 @@ class ProcessFlowStepTest extends TestCase
 
         $service->updateProcessFlowStep($request, $id);
         $this->expectException(ModelNotFoundException::class);
+    }
+
+    public function test_to_delete_a_processflow_step_successfully(): void
+    {
+        $create  = ProcessFlowStep::factory()->create();
+        $service = new ProcessflowStepService();
+        $delete  = $service->deleteProcessFlowStep($create->id);
+
+        $this->assertDatabaseCount('process_flow_steps', 0);
+        $this->assertTrue($delete);
+
+    }
+
+    public function test_to_throw_exception_or_error_if_processflow_step_not_found_or_invalid_id_for_processflow_step(): void
+    {
+
     }
 
 }
