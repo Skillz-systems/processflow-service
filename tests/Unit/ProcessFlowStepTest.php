@@ -113,6 +113,33 @@ class ProcessFlowStepTest extends TestCase
         $this->assertNull($foundStep);
     }
 
+    public function test_to_update_a_processflow_step_successfully(): void
+    {
 
+        $create  = ProcessFlowStep::factory()->create();
+        $service = new ProcessflowStepService();
+        $update  = $service->updateProcessFlowStep(new Request(["name" => "test name updated",]), $create->id);
+
+
+        $this->assertDatabaseHas('process_flow_steps', [
+            "name" => "test name updated",
+        ]);
+        $this->assertInstanceOf(ProcessFlowStep::class, $update);
+
+    }
+
+
+    public function test_to_update_throws_exception__process_flow_step_for_error()
+    {
+        $this->expectException(\Exception::class);
+        $request = new Request([
+            'name' => 'Test Step',
+        ]);
+        $id      = 0;
+        $service = new ProcessflowStepService();
+
+        $service->updateProcessFlowStep($request, $id);
+        $this->expectException(ModelNotFoundException::class);
+    }
 
 }
