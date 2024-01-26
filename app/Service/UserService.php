@@ -13,9 +13,9 @@ class UserService
     /**
      * Create a new user.
      *
-     * @param \Illuminate\Http\Request $request The request containing the data for the new process flow step.
+     * @param \Illuminate\Http\Request $request The request containing the data for the new user.
      *
-     * @return \App\Models\User The created process flow step model & object when there is an error.
+     * @return \App\Models\User \ Illuminate\Support\MessageBag The created user model & MessageBag when there is an error.
      */
     public function createUser(Request $request): User | MessageBag
     {
