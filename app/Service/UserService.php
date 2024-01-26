@@ -2,18 +2,13 @@
 
 namespace App\Service;
 
-use Exception;
-use Illuminate\Http\Request;
-// use Exception;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\MessageBag;
 
 class UserService
 {
-
-
 
     /**
      * Create a new user.
@@ -22,14 +17,14 @@ class UserService
      *
      * @return \App\Models\User The created process flow step model & object when there is an error.
      */
-    public function createUser(Request $request): ?User
+    public function createUser(Request $request): User | MessageBag
     {
         $model = new User();
 
         $validator = Validator::make($request->all(), [
-            "name"                  => "required",
-            "id"            => "required",
-            "email"   => "required",
+            "name" => "required",
+            "id" => "required",
+            "email" => "required",
         ]);
 
         if ($validator->fails()) {
@@ -39,6 +34,4 @@ class UserService
         return $model->create($request->all());
     }
 
-   
-
-   }
+}
