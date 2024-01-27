@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,6 +12,7 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_create_new_process_flow_with_steps_controller(): void
     {
+        $user = User::factory()->create();
 
         $processFlowData = [
             'name' => 'Test Process Flow',
@@ -49,7 +51,7 @@ class ProcessFlowTest extends TestCase
             ],
         ];
 
-        $response = $this->postJson('/api/processflows', $processFlowData);
+        $response = $this->actingAs($user)->postJson('/api/processflows', $processFlowData);
 
         $response->assertJsonStructure([
             'data' => [
@@ -87,6 +89,26 @@ class ProcessFlowTest extends TestCase
     }
     public function test_to_create_new_process_flow_without_steps_controller(): void
     {
+        $user = User::factory()->create();
+
+        $processFlowData = [
+            'name' => 'Test Process Flow',
+            'start_step_id' => 3,
+            'frequency' => 'weekly',
+            'status' => true,
+            'frequency_for' => 'users',
+            'day' => null,
+            'week' => 'monday',
+        ];
+
+        $response = $this->actingAs($user)->postJson('/api/processflows', $processFlowData);
+
+        $this->assertDatabaseHas('process_flows', $processFlowData);
+        $response->assertStatus(201);
+
+    }
+    public function test_to_failed_when_unautheticated_try_to_access_process_flow_route(): void
+    {
 
         $processFlowData = [
             'name' => 'Test Process Flow',
@@ -99,19 +121,19 @@ class ProcessFlowTest extends TestCase
         ];
 
         $response = $this->postJson('/api/processflows', $processFlowData);
-
-        $this->assertDatabaseHas('process_flows', $processFlowData);
-        $response->assertStatus(201);
+        $response->assertStatus(401);
 
     }
 
     public function test_to_create_process_flow_controller_returns_validation_errors_for_invalid_data(): void
     {
+        $user = User::factory()->create();
+
         $invalidData = [
             'name' => '',
             'frequency' => 'invalid',
         ];
-        $response = $this->postJson('/api/processflows', $invalidData);
+        $response = $this->actingAs($user)->postJson('/api/processflows', $invalidData);
 
         $response->assertJsonValidationErrors(['name', 'frequency']);
         $response->assertStatus(422);
