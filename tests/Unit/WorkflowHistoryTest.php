@@ -44,16 +44,20 @@ class WorkflowHistoryTest extends TestCase
         $this->assertSame(1, $createNewWorkflowHistory->task_id);
     }
 
-    public function test_to_see_if_an_error_happens_when_creating_a_workflowHistory(): void
+   public function test_to_see_if_an_error_happens_when_creating_a_workflowHistory(): void
     {
         $data = new Request([
             "user_id" => 1,
+            "step_id" => 1,
+            "process_flow_id" => 1,
+            "status" => 1,
         ]);
         $createNewWorkflowHistoryService = new WorkflowHistoryService();
         $createNewWorkflowHistory = $createNewWorkflowHistoryService->createWorkflowHistory($data);
         $resultArray = $createNewWorkflowHistory->toArray();
         $this->assertNotEmpty($createNewWorkflowHistory);
         $this->assertIsArray($resultArray);
+        $this->assertArrayHasKey('task_id', $resultArray);
     }
 
     public function test_to_see_if_a_workflowHistory_can_be_fetched(): void
