@@ -44,9 +44,9 @@ class ProcessFlowController extends Controller
      */
     public function store(StoreProcessFlowRequest $request)
     {
-
+        // transaction for data integrity
         return DB::transaction(function () use ($request) {
-
+            //track important IDs
             $firstStepId = null;
             $previousStepId = null;
             $processFlowId = null;
@@ -54,30 +54,42 @@ class ProcessFlowController extends Controller
             if ($request->has('steps')) {
 
                 $steps = $request->steps;
-
+                //loop through steps and create them
                 foreach ($steps as $index => $step) {
 
                     if ($previousStepId !== null) {
+                        // set next_step_id on previous step,
+                        // added + 1 to get the next step id
                         $step['next_step_id'] = $previousStepId + 1;
                         $step['process_flow_id'] = $processFlowId;
                     }
+                    //create step
                     $createdStep = $this->processflowStepService->createProcessFlowStep(new Request($step));
+                    //set previous step id
                     $previousStepId = $createdStep->id;
 
                     if ($index === 0) {
+                        //set start step id, first step is the start step
+                        //run only once
                         $firstStepId = $createdStep->id;
                         $request['start_step_id'] = $firstStepId;
+                        //create processflow, since the start_step_id is set or known
                         $storedProcessFlow = $this->processFlowService->createProcessFlow($request);
                         $processFlowId = $storedProcessFlow->id;
+
+                        //update the first step_id with processflow_id created above
                         $this->processflowStepService->updateProcessFlowStep(new Request(['process_flow_id' => $storedProcessFlow->id, 'next_step_id' => $firstStepId + 1]), $firstStepId);
 
                     }
                     if ($index === count($steps) - 1) {
+                        //update the last step_id created with null
                         $this->processflowStepService->updateProcessFlowStep(new Request(['next_step_id' => null]), $createdStep->id);
                     }
                 }
 
             } else {
+
+                //only run if there are no steps
                 $storedProcessFlow = $this->processFlowService->createProcessFlow($request);
             }
 
