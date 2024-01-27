@@ -7,6 +7,7 @@ use App\Http\Resources\ProcessFlowResource;
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProcessFlowController extends Controller
 {
@@ -44,48 +45,44 @@ class ProcessFlowController extends Controller
     public function store(StoreProcessFlowRequest $request)
     {
 
-        // $user = Auth::user();
-        // $token = $request->bearerToken();
+        return DB::transaction(function () use ($request) {
 
-        // if (!$user || !$token) {
-        //     return response()->json(['error' => 'Unauthorized'], 401);
-        // }
+            $firstStepId = null;
+            $previousStepId = null;
+            $processFlowId = null;
 
-        $firstStepId = null;
-        $previousStepId = null;
-        $processFlowId = null;
+            if ($request->has('steps')) {
 
-        if ($request->has('steps')) {
+                $steps = $request->steps;
 
-            $steps = $request->steps;
+                foreach ($steps as $index => $step) {
 
-            foreach ($steps as $index => $step) {
+                    if ($previousStepId !== null) {
+                        $step['next_step_id'] = $previousStepId + 1;
+                        $step['process_flow_id'] = $processFlowId;
+                    }
+                    $createdStep = $this->processflowStepService->createProcessFlowStep(new Request($step));
+                    $previousStepId = $createdStep->id;
 
-                if ($previousStepId !== null) {
-                    $step['next_step_id'] = $previousStepId + 1;
-                    $step['process_flow_id'] = $processFlowId;
+                    if ($index === 0) {
+                        $firstStepId = $createdStep->id;
+                        $request['start_step_id'] = $firstStepId;
+                        $storedProcessFlow = $this->processFlowService->createProcessFlow($request);
+                        $processFlowId = $storedProcessFlow->id;
+                        $this->processflowStepService->updateProcessFlowStep(new Request(['process_flow_id' => $storedProcessFlow->id, 'next_step_id' => $firstStepId + 1]), $firstStepId);
+
+                    }
+                    if ($index === count($steps) - 1) {
+                        $this->processflowStepService->updateProcessFlowStep(new Request(['next_step_id' => null]), $createdStep->id);
+                    }
                 }
-                $createdStep = $this->processflowStepService->createProcessFlowStep(new Request($step));
-                $previousStepId = $createdStep->id;
 
-                if ($index === 0) {
-                    $firstStepId = $createdStep->id;
-                    $request['start_step_id'] = $firstStepId;
-                    $storedProcessFlow = $this->processFlowService->createProcessFlow($request);
-                    $processFlowId = $storedProcessFlow->id;
-                    $this->processflowStepService->updateProcessFlowStep(new Request(['process_flow_id' => $storedProcessFlow->id, 'next_step_id' => $firstStepId + 1]), $firstStepId);
-
-                }
-                if ($index === count($steps) - 1) {
-                    $this->processflowStepService->updateProcessFlowStep(new Request(['next_step_id' => null]), $createdStep->id);
-                }
+            } else {
+                $storedProcessFlow = $this->processFlowService->createProcessFlow($request);
             }
 
-        } else {
-            $storedProcessFlow = $this->processFlowService->createProcessFlow($request);
-        }
-
-        return new ProcessFlowResource($storedProcessFlow);
+            return new ProcessFlowResource($storedProcessFlow);
+        });
     }
 
     /**
