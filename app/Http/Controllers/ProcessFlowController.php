@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProcessFlowResource;
 use Illuminate\Http\Request;
 use App\Service\ProcessFlowService;
+use App\Service\ProcessflowStepService;
+use App\Http\Resources\ProcessFlowResource;
 use App\Http\Requests\StoreProcessFlowRequest;
 
 class ProcessFlowController extends Controller
@@ -15,11 +16,12 @@ class ProcessFlowController extends Controller
      * The constructor injects the service into the controller so it can be used
      * in the controller methods.
      */
-    protected $processFlowService;
+    protected $processFlowService, $processflowStepService;
 
-    public function __construct(ProcessFlowService $processFlowService)
+    public function __construct(ProcessFlowService $processFlowService, ProcessflowStepService $processflowStepService)
     {
         $this->processFlowService = $processFlowService;
+        $this->processFlowStepService = $processflowStepService;
     }
     /**
      * Display a listing of the resource.
@@ -37,7 +39,7 @@ class ProcessFlowController extends Controller
      * @param StoreProcessFlowRequest $request The request containing the process flow data.
      * @return ProcessFlowResource The created process flow resource.
      */
-    public function store(StoreProcessFlowRequest $request)
+   public function store(StoreProcessFlowRequest $request)
     {
         $storedProcessFlow = $this->processFlowService->createProcessFlow($request);
         return new ProcessFlowResource($storedProcessFlow);

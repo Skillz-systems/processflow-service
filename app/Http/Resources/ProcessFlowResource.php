@@ -23,6 +23,7 @@ class ProcessFlowResource extends JsonResource
             'frequency_for' => $this->frequency_for,
             'day' => $this->day,
             'week' => $this->week,
+            'steps' => ProcessFlowStepResource::collection($this->whenLoaded('steps')),
         ];
     }
 }
