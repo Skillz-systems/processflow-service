@@ -14,8 +14,8 @@ class ProcessFlowStepResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-         return [
-            'id' =>(string) $this->id,
+        return [
+            'id' => $this->id,
             'name' => $this->name,
             'step_route' => $this->step_route,
             'assignee_user_route' => $this->assignee_user_route,
@@ -27,7 +27,7 @@ class ProcessFlowStepResource extends JsonResource
             'step_type' => $this->step_type,
             'user_type' => $this->user_type,
             'next_step_id' => $this->next_step_id,
-            'status' =>(boolean) $this->status,
+            'status' => $this->status,
 
         ];
     }

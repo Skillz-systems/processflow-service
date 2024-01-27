@@ -2,18 +2,16 @@
 
 namespace App\Service;
 
-use Exception;
-use Illuminate\Http\Request;
-// use Exception;
 use App\Models\ProcessFlowStep;
+use Exception;
+// use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProcessflowStepService
 {
-
-
 
     /**
      * Create a new process flow step.
@@ -28,17 +26,17 @@ class ProcessflowStepService
 
         $validator = Validator::make($request->all(), [
 
-            "name"                  => "required",
-            "step_route"            => "required",
-            "assignee_user_route"   => "required",
+            "name" => "required",
+            "step_route" => "required",
+            "assignee_user_route" => "required",
             "next_user_designation" => "required",
-            "next_user_department"  => "required",
-            "next_user_unit"        => "required",
-            "process_flow_id"       => "required",
-            "next_user_location"    => "required",
-            "step_type"             => "required",
-            "user_type"             => "required",
-            "next_step_id"          => "required",
+            "next_user_department" => "required",
+            "next_user_unit" => "required",
+            "process_flow_id" => "nullable|integer",
+            "next_user_location" => "required",
+            "step_type" => "required",
+            "user_type" => "required",
+            "next_step_id" => "nullable|integer",
         ]);
 
         if ($validator->fails()) {
@@ -76,18 +74,16 @@ class ProcessflowStepService
         }
 
         $validator = Validator::make($request->all(), [
-            'name'                  => 'sometimes|string',
-            'step_route'            => 'sometimes|string',
-            'assignee_user_route'   => 'sometimes|integer',
+            'name' => 'sometimes|string',
+            'step_route' => 'sometimes|string',
+            'assignee_user_route' => 'sometimes|integer',
             'next_user_designation' => 'sometimes|integer',
-            'next_user_department'  => 'sometimes|string',
-            'process_flow_id'       => 'sometimes|integer',
-            'step_type'             => 'sometimes|in:create,delete,update,approve_auto_assign,approve_manual_assign',
-            'user_type'             => 'sometimes|in:user,supplier,customer,contractor',
-            'status'                => 'sometimes|boolean',
+            'next_user_department' => 'sometimes|string',
+            'process_flow_id' => 'sometimes|integer',
+            'step_type' => 'sometimes|in:create,delete,update,approve_auto_assign,approve_manual_assign',
+            'user_type' => 'sometimes|in:user,supplier,customer,contractor',
+            'status' => 'sometimes|boolean',
         ]);
-
-
 
         if ($validator->fails()) {
             throw new ValidationException($validator);
@@ -113,4 +109,3 @@ class ProcessflowStepService
         return true;
     }
 }
-

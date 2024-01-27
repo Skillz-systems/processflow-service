@@ -28,7 +28,7 @@ class StoreProcessFlowRequest extends FormRequest
             'status' => 'sometimes|boolean',
             'frequency_for' => 'required|in:users,customers,suppliers,contractors,none',
             'day' => 'nullable|string',
-            'week' => 'nullable|string'
+            'week' => 'nullable|string',
         ];
     }
 }
