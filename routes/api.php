@@ -1,6 +1,5 @@
 <?php
 use App\Http\Controllers\ProcessFlowController;
-use App\Http\Controllers\WorkflowController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::apiResource('processflows', ProcessFlowController::class);
+Route::apiResource('processflows', ProcessFlowController::class);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

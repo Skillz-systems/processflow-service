@@ -9,7 +9,7 @@ class ProcessFlowTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_to_store_creates_a_new_process_flow():void
+    public function test_to_create_a_new_process_flow_in_controller():void
     {
 
         $processFlowData = [
@@ -24,11 +24,12 @@ class ProcessFlowTest extends TestCase
 
         $response = $this->postJson('/api/processflows', $processFlowData);
 
+        $this->assertDatabaseHas('process_flows', $processFlowData);
         $response->assertStatus(201);
 
     }
 
-    public function test_to_store_returns_validation_errors_for_invalid_data():void
+    public function test_to_create_process_flow_controller_returns_validation_errors_for_invalid_data():void
     {
         $invalidData = [
             'name' => '',
@@ -36,7 +37,7 @@ class ProcessFlowTest extends TestCase
         ];
         $response = $this->postJson('/api/processflows', $invalidData);
 
-        $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name', 'frequency']);
+        $response->assertStatus(422);
     }
 }
