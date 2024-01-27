@@ -35,7 +35,20 @@ class WorkflowHistoryService
             return $validator->errors();
         }
 
-        return $model->create($request->all());
+       return $model->create($request->all());
 
     }
+
+    /**
+     * Retrieve a WorkflowHistory by its ID.
+     *
+     * @param int $id The ID of the WorkflowHistory to retrieve.
+     *
+     * @return \App\Models\WorkflowHistory|null The retrieved WorkflowHistory, or null if not found.
+     */
+
+     public function getWorkflowHistory(int $id): WorkflowHistory | null
+     {
+         return WorkflowHistory::find($id);
+     }
 }
