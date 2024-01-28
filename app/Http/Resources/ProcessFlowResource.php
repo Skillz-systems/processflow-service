@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\ProcessFlowStep;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProcessFlowResource extends JsonResource
@@ -25,7 +24,7 @@ class ProcessFlowResource extends JsonResource
             'day' => $this->day,
             'week' => $this->week,
             'steps' => ProcessFlowStepResource::collection(
-                ProcessFlowStep::where('process_flow_id', $this->id)->get()
+                $this->steps
             ),
         ];
     }
