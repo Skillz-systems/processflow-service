@@ -75,11 +75,15 @@ class ProcessFlowController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get the specified process flow.
+     *
+     * @param string $id The ID of the process flow to retrieve.
+     * @return ProcessFlowResource The process flow resource.
      */
     public function show(string $id)
     {
-        //
+        $processFlow = $this->processFlowService->getProcessFlow($id);
+        return new ProcessFlowResource($processFlow);
     }
 
     /**

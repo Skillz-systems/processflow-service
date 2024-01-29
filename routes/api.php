@@ -18,7 +18,13 @@ use Illuminate\Support\Facades\Route;
  * Stores a new process flow.
  */
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('processflows', [ProcessFlowController::class, 'store']);
+    // Route::post('processflows', [ProcessFlowController::class, 'store']);
+
+    // Route::get('processflows/:id', [ProcessFlowController::class, 'show']);
+
+    Route::post('/processflows', [ProcessFlowController::class, 'store']);
+    Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
+
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

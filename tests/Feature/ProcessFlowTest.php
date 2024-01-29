@@ -211,16 +211,15 @@ class ProcessFlowTest extends TestCase
         ]);
 
     }
-    public function test_to_return_error_when_trying_to_view_none_existent_process_flow(): void
+    public function test_to_return_error_when_trying_to_view_nonexistent_process_flow(): void
     {
         $user = User::factory()->create();
         $id = 9999;
 
-        $response = $this->actingAs($user)->getJson('/api/processflows' . $id);
-        $response->assertJsonValidationErrors(['id']);
-        $response->assertStatus(422);
-
+        $response = $this->actingAs($user)->getJson('/api/processflows/' . $id);
+        $response->assertStatus(404);
     }
+
     public function test_to_verify_only_logged_in_users_can_view_a_process_flow(): void
     {
         $user = User::factory()->create();
@@ -234,10 +233,29 @@ class ProcessFlowTest extends TestCase
             'day' => null,
             'week' => 'monday',
         ];
+
         $response = $this->actingAs($user)->postJson('/api/processflows', $processFlowData);
         $response->assertStatus(201);
-        $this->getJson('/api/processflows' . $response->json('data.id'))->assertStatus(401);
+        $processFlowId = $response->json('data.id');
 
+        $this->getJson('/api/processflows/' . $processFlowId)->assertStatus(200);
     }
 
+    public function test_to_verify_unauthenticated_users_cannot_view_a_process_flow(): void
+    {
+        $processFlowData = [
+            'name' => 'Test Process Flow',
+            'start_step_id' => 3,
+            'frequency' => 'weekly',
+            'status' => true,
+            'frequency_for' => 'users',
+            'day' => null,
+            'week' => 'monday',
+        ];
+
+        $response = $this->postJson('/api/processflows', $processFlowData);
+        $response->assertStatus(401);
+
+        $this->getJson('/api/processflows/1')->assertStatus(401);
+    }
 }
