@@ -1,6 +1,5 @@
 <?php
-use App\Http\Controllers\WorkflowController;
-
+use App\Http\Controllers\ProcessFlowController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +12,14 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
 |
-*/
+ */
+
+/**
+ * Stores a new process flow.
+ */
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('processflows', [ProcessFlowController::class, 'store']);
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

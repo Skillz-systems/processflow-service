@@ -13,19 +13,20 @@ return new class extends Migration
     {
         Schema::create('process_flow_steps', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->comment();
-            $table->string("step_route")->comment();
-            $table->string("assignee_user_route")->comment();
-            $table->integer("next_user_designation")->comment()->nullable();
-            $table->integer("next_user_department")->comment()->nullable();
-            $table->integer("next_user_unit")->comment()->nullable();
-            $table->integer("process_flow_id")->comment()->nullable();
-            $table->integer("next_user_location")->comment()->nullable();
-            $table->enum("step_type", ['create', 'delete', 'update', 'approve_auto_assign', 'approve_manual_assign'])->comment()->default("approve_auto_assign");
-            $table->enum("user_type", ['user', 'supplier', 'customer', 'contractor'])->comment()->default("customer");
-            $table->integer("next_step_id")->comment()->nullable();
-            $table->boolean("status")->comment()->default(1);
+            $table->string("name")->comment('name of the step ');
+            $table->string("step_route")->comment('step route ');
+            $table->string("assignee_user_route")->comment('assignee user route ');
+            $table->integer("next_user_designation")->comment('next user designation ')->nullable();
+            $table->integer("next_user_department")->comment('next user department')->nullable();
+            $table->integer("next_user_unit")->comment('next user unit ')->nullable();
+            $table->integer("process_flow_id")->comment('process flow id ')->nullable();
+            $table->integer("next_user_location")->comment('next user location ')->nullable();
+            $table->enum("step_type", ['create', 'delete', 'update', 'approve_auto_assign', 'approve_manual_assign'])->comment('step type ')->default("approve_auto_assign");
+            $table->enum("user_type", ['user', 'supplier', 'customer', 'contractor'])->comment('user type ')->default("customer");
+            $table->integer("next_step_id")->comment('next step id column')->nullable();
+            $table->boolean("status")->comment('')->default(1);
             $table->timestamps();
+
         });
     }
 

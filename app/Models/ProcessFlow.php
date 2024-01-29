@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\ProcessFlowStep;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProcessFlow extends Model
 {
@@ -18,6 +20,12 @@ class ProcessFlow extends Model
         'week',
     ];
     protected $casts = [
-        'status' => 'boolean'
+        'status' => 'boolean',
     ];
+
+    public function steps(): HasMany
+    {
+        return $this->hasMany(ProcessFlowStep::class)->orderBy('id');
+    }
+
 }
