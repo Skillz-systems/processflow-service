@@ -139,4 +139,105 @@ class ProcessFlowTest extends TestCase
         $response->assertStatus(422);
     }
 
+    public function test_to_view_process_flow_with_valid_id_successfully(): void
+    {
+        $user = User::factory()->create();
+
+        $processFlowData = [
+            'name' => 'Test Process Flow',
+            'frequency' => 'weekly',
+            'status' => true,
+            'frequency_for' => 'users',
+            'day' => null,
+            'week' => 'monday',
+            'steps' => [
+                [
+
+                    'name' => 'test name single test',
+                    'step_route' => 'this should be a route',
+                    'assignee_user_route' => 1,
+                    'next_user_designation' => 1,
+                    'next_user_department' => 1,
+                    'next_user_unit' => 1,
+                    'next_user_location' => 1,
+                    'step_type' => 'create',
+                    'user_type' => 'customer',
+                    'status' => 1,
+                ],
+                [
+
+                    'name' => 'test name single two test',
+                    'step_route' => 'this should be a route',
+                    'assignee_user_route' => 1,
+                    'next_user_designation' => 1,
+                    'next_user_department' => 1,
+                    'next_user_unit' => 1,
+                    'next_user_location' => 1,
+                    'step_type' => 'create',
+                    'user_type' => 'customer',
+                    'status' => 1,
+                ],
+            ],
+        ];
+        $response = $this->actingAs($user)->postJson('/api/processflows', $processFlowData);
+        $response->assertStatus(201);
+
+        $processFlowId = $response->json('data.id');
+        $this->actingAs($user)->getJson('/api/processflows/' . $processFlowId)->assertStatus(200)->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'frequency',
+                'status',
+                'frequency_for',
+                'day',
+                'week',
+                'steps' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'step_route',
+                        'assignee_user_route',
+                        'next_user_designation',
+                        'next_user_department',
+                        'next_user_unit',
+                        'next_user_location',
+                        'step_type',
+                        'user_type',
+                        'status',
+                    ],
+                ],
+            ],
+        ]);
+
+    }
+    public function test_to_return_error_when_trying_to_view_none_existent_process_flow(): void
+    {
+        $user = User::factory()->create();
+        $id = 9999;
+
+        $response = $this->actingAs($user)->getJson('/api/processflows' . $id);
+        $response->assertJsonValidationErrors(['id']);
+        $response->assertStatus(422);
+
+    }
+    public function test_to_verify_only_logged_in_users_can_view_a_process_flow(): void
+    {
+        $user = User::factory()->create();
+
+        $processFlowData = [
+            'name' => 'Test Process Flow',
+            'start_step_id' => 3,
+            'frequency' => 'weekly',
+            'status' => true,
+            'frequency_for' => 'users',
+            'day' => null,
+            'week' => 'monday',
+        ];
+        $response = $this->actingAs($user)->postJson('/api/processflows', $processFlowData);
+        $response->assertStatus(201);
+        $this->getJson('/api/processflows' . $response->json('data.id'))->assertStatus(401);
+
+    }
+
 }
