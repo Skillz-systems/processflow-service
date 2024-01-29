@@ -87,4 +87,32 @@ class WorkflowHistoryTest extends TestCase
         $this->assertNull($fetchService);
 
     }
+
+    public function test_to_update_a_workflowHistory_successfully(): void
+    {
+
+        $create  = WorkflowHistory::factory()->create();
+        $service = new WorkflowHistoryService();
+        $update  = $service->updateWorkflowHistory(new Request(["status" => 1,]), $create->id);
+
+
+        $this->assertDatabaseHas('workflow_histories', [
+            "status" => 1,
+        ]);
+        $this->assertInstanceOf(WorkflowHistory::class, $update);
+
+    }
+
+    public function test_to_update_throws_exception_workflowHistory_for_error(): void
+    {
+        $this->expectException(\Exception::class);
+        $request = new Request([
+            'status' => 1,
+        ]);
+        $id      = 0;
+        $service = new WorkflowHistoryService();
+
+        $service->updateWorkflowHistory($request, $id);
+        $this->expectException(ModelNotFoundException::class);
+    }
 }
