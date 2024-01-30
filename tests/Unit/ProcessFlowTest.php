@@ -49,6 +49,66 @@ class ProcessFlowTest extends TestCase
 
     }
 
+    public function test_to_see_if_a_processflow_can_be_fetched(): void
+    {
+
+        $data = new Request([
+            "name" => "Process Flow 1",
+            "start_step_id" => 1,
+            "frequency" => "daily",
+            "frequency_for" => "users",
+            "week" => "weekly",
+            "day" => "thursday",
+            "status" => true,
+        ]);
+
+        $createNewProcessService = new ProcessFlowService();
+        $result = $createNewProcessService->createProcessFlow($data);
+        $fetchService = $createNewProcessService->getProcessFlow($result->id);
+        $this->assertEquals($fetchService->id, $result->id);
+        $this->assertInstanceOf(ProcessFlow::class, $fetchService);
+
+    }
+
+    public function test_to_see_if_processflow_returns_a_content(): void
+    {
+        $createNewProcessService = new ProcessFlowService();
+        $fetchService = $createNewProcessService->getProcessFlow(5);
+
+        $this->assertNull($fetchService);
+
+    }
+
+    public function test_to_see_if_an_existing_processflow_can_be_updated(): void
+    {
+
+        ProcessFlow::factory(5)->create();
+        $createNewProcessService = new ProcessFlowService();
+        $fetchService = $createNewProcessService->getProcessFlow(1);
+        $this->assertDatabaseCount("process_flows", 5);
+        $data = new Request([
+            "name" => "Process Flow 1",
+            "start_step_id" => 1,
+
+        ]);
+        $createNewProcessService->updateProcessflow($fetchService->id, $data);
+        $this->assertDatabaseHas('process_flows', $data->all());
+    }
+
+    public function test_to_see_if_exception_would_be_thrown_if_there_is_an_error(): void
+    {
+        $this->expectException(\Exception::class);
+        $createNewProcessService = new ProcessFlowService();
+        $data = new Request([
+            "name" => "Process Flow 1",
+            "start_step_id" => 1,
+        ]);
+
+        $createNewProcessService->updateProcessflow(1, $data);
+        $this->expectExceptionMessage('Something went wrong.');
+
+    }
+
     public function test_to_if_a_processflow_can_be_deleted()
     {
         $data = new Request([
