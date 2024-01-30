@@ -34,4 +34,17 @@ class UserService
         return $model->create($request->all());
     }
 
+    /**
+     * Retrieve a ProcessFlow by its ID.
+     *
+     * @param int $id The ID of the ProcessFlow to retrieve.
+     *
+     * @return \App\Models\User|null The retrieved ProcessFlow, or null if not found.
+     */
+
+    public function getUser(int $id): User | null
+    {
+        return User::find($id);
+    }
+
 }

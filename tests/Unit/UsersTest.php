@@ -49,4 +49,30 @@ class UsersTest extends TestCase
         $this->assertArrayHasKey('email', $resultArray);
 
     }
+
+    public function test_to_see_if_a_user_can_be_fetched(): void
+    {
+
+        $data = new Request([
+            "id" => 1,
+            "name" => "Process Flow 1",
+            "email" => "example@test.com",
+        ]);
+
+        $user = new UserService();
+        $result = $user->createUser($data);
+        $fetchService = $user->getUser($result->id);
+        $this->assertEquals($fetchService->id, $result->id);
+        $this->assertInstanceOf(User::class, $fetchService);
+
+    }
+
+    public function test_to_see_if_user_returns_a_content(): void
+    {
+        $user = new UserService();
+        $fetchService = $user->getUser(5);
+
+        $this->assertNull($fetchService);
+
+    }
 }
