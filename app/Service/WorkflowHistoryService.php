@@ -87,4 +87,23 @@ class WorkflowHistoryService
 
         return $workflowHistory;
     }
+
+        /**
+     * Delete a WorkflowHistory by its ID.
+     *
+     * @param int $id The ID of the WorkflowHistory to delete.
+     *
+     * @return bool True if the deletion is successful, false otherwise.
+     */
+
+     public function deleteWorkflowHistory(int $id): bool
+     {
+         $model = WorkflowHistory::find($id);
+         if ($model) {
+             if ($model->delete()) {
+                 return true;
+              }
+         }
+         return false;
+     }
 }
