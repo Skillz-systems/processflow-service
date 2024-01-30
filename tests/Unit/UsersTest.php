@@ -18,14 +18,14 @@ class UsersTest extends TestCase
     public function test_to_see_if_a_new_user_can_be_created(): void
     {
         $data = new Request([
-            "name" => "Process Flow 1",
+            "name" => "john doe",
             "id" => 1,
             "email" => "test@nnpc.com",
 
         ]);
 
-        $createNewProcessService = new UserService();
-        $result = $createNewProcessService->createUser($data);
+        $user = new UserService();
+        $result = $user->createUser($data);
 
         $this->assertDatabaseHas('users', $data->all());
         $this->assertInstanceOf(User::class, $result);
@@ -35,13 +35,13 @@ class UsersTest extends TestCase
     public function test_to_see_if_validation_error_is_sent_when_an_error_occurs_while_creating_a_new_user(): void
     {
         $data = new Request([
-            "name" => "Process Flow 1",
+            "name" => "john doe",
             "id" => 1,
 
         ]);
 
-        $createNewProcessService = new UserService();
-        $result = $createNewProcessService->createUser($data);
+        $user = new UserService();
+        $result = $user->createUser($data);
 
         $resultArray = $result->toArray();
         $this->assertNotEmpty($result);
@@ -55,7 +55,7 @@ class UsersTest extends TestCase
 
         $data = new Request([
             "id" => 1,
-            "name" => "Process Flow 1",
+            "name" => "john doe",
             "email" => "example@test.com",
         ]);
 
@@ -76,7 +76,7 @@ class UsersTest extends TestCase
 
     }
 
-    public function test_to_see_if_an_existing_processflow_can_be_updated(): void
+    public function test_to_see_if_an_existing_user_can_be_updated(): void
     {
 
         User::factory(5)->create();
@@ -103,6 +103,32 @@ class UsersTest extends TestCase
 
         $user->updateUser(1, $data);
         $this->expectExceptionMessage('Something went wrong.');
+
+    }
+
+    public function test_to_if_a_user_can_be_deleted()
+    {
+        $data = new Request([
+            "name" => "john doe",
+            "id" => 1,
+            "email" => "daily@nnpc.com",
+        ]);
+
+        $user = new UserService();
+        $data = $user->createUser($data);
+        $this->assertDatabaseCount("users", 1);
+        $delete = $user->deleteUser($data->id);
+        // check ifit was removed fromthe db
+        $this->assertDatabaseMissing("users", ["name" => "john doe"]);
+        $this->assertTrue($delete);
+
+    }
+
+    public function test_to_see_if_there_is_no_record_with_the_provided_id()
+    {
+        $user = new UserService();
+        $delete = $user->deleteUser(5);
+        $this->assertFalse($delete);
 
     }
 }

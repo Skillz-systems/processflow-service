@@ -84,4 +84,26 @@ class UserService
 
     }
 
+    /**
+     * Delete a User by its ID.
+     *
+     * @param int $id The ID of the User to delete.
+     *
+     * @return bool True if the deletion is successful, false otherwise.
+     */
+
+    public function deleteUser(int $id): bool
+    {
+        $model = User::find($id);
+        if ($model) {
+            if ($model->delete()) {
+                return true;
+
+            }
+
+        }
+        return false;
+
+    }
+
 }
