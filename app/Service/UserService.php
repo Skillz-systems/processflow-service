@@ -35,11 +35,11 @@ class UserService
     }
 
     /**
-     * Retrieve a ProcessFlow by its ID.
+     * Retrieve a Puder by its ID.
      *
-     * @param int $id The ID of the ProcessFlow to retrieve.
+     * @param int $id The ID of the user to retrieve.
      *
-     * @return \App\Models\User|null The retrieved ProcessFlow, or null if not found.
+     * @return \App\Models\User|null The retrieved user, or null if not found.
      */
 
     public function getUser(int $id): User | null
@@ -48,17 +48,17 @@ class UserService
     }
 
     /**
-     * Update an existing ProcessFlow.
+     * Update an existing user.
      *
-     * @param int $id The ID of the ProcessFlow to update.
+     * @param int $id The ID of the user to update.
      * @param \Illuminate\Http\Request $request The HTTP request containing the updated data.
      *
-     * @return \App\Models\ProcessFlow The updated ProcessFlow instance.
+     * @return \App\Models\User The updated user instance.
      *
      * @throws \Exception If validation fails or if an error occurs during the update.
      */
 
-    public function updateProcessflow(int $id, Request $request): User
+    public function updateUser(int $id, Request $request): User
     {
         $model = User::find($id);
         // validation
@@ -66,7 +66,7 @@ class UserService
         $validator = Validator::make($request->all(), [
             "name" => "sometimes",
             "id" => "sometimes",
-            "email" => "sometimes|email|unique:users",
+            "email" => "sometimes|email|unique:users|",
         ]);
 
         if ($validator->fails()) {
