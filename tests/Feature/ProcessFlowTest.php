@@ -4,21 +4,11 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class ProcessFlowTest extends TestCase
 {
     use RefreshDatabase;
-
-    public function userCreate()
-    {
-        return Sanctum::actingAs(
-            User::factory()->create(),
-            ['*']
-        );
-
-    }
 
     private function actingAsTestUser()
     {
