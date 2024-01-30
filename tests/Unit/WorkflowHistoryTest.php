@@ -115,4 +115,31 @@ class WorkflowHistoryTest extends TestCase
         $service->updateWorkflowHistory($request, $id);
         $this->expectException(ModelNotFoundException::class);
     }
+
+    public function test_to_if_a_workflowhistory_can_be_deleted()
+    {
+        $data = new Request([
+            "user_id" => 1,
+            "task_id" => 1,
+            "step_id" => 1,
+            "process_flow_id" => 1,
+            "status" => 1,
+        ]);
+
+        $createNewWorkflowHistoryService = new WorkflowHistoryService();
+        $data = $createNewWorkflowHistoryService->createWorkflowHistory($data);
+        $this->assertDatabaseCount("workflow_histories", 1);
+        $delete = $createNewWorkflowHistoryService->deleteWorkflowHistory($data->id);
+        $this->assertDatabaseMissing("workflow_histories", ["task_id" => 1]);
+        $this->assertTrue($delete);
+
+    }
+
+    public function test_to_see_if_there_is_no_record_with_the_provided_id()
+    {
+        $createNewWorkflowHistoryService = new WorkflowHistoryService();
+        $delete = $createNewWorkflowHistoryService->deleteWorkflowHistory(1);
+        $this->assertFalse($delete);
+
+    }
 }
