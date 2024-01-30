@@ -20,7 +20,7 @@ class UsersTest extends TestCase
         $data = new Request([
             "name" => "Process Flow 1",
             "id" => 1,
-            "email" => "test.nnpc.com",
+            "email" => "test@nnpc.com",
 
         ]);
 
@@ -73,6 +73,36 @@ class UsersTest extends TestCase
         $fetchService = $user->getUser(5);
 
         $this->assertNull($fetchService);
+
+    }
+
+    public function test_to_see_if_an_existing_processflow_can_be_updated(): void
+    {
+
+        User::factory(5)->create();
+        $user = new UserService();
+        $fetchService = $user->getUser(1);
+        $this->assertDatabaseCount("users", 5);
+        $data = new Request([
+            "name" => "john doe",
+            "email" => "test@nnpc.com",
+
+        ]);
+        $user->updateUser($fetchService->id, $data);
+        $this->assertDatabaseHas('users', $data->all());
+    }
+
+    public function test_to_see_if_exception_would_be_thrown_if_there_is_an_error(): void
+    {
+        $this->expectException(\Exception::class);
+        $user = new UserService();
+        $data = new Request([
+            "name" => "john doe",
+            "email" => 1,
+        ]);
+
+        $user->updateUser(1, $data);
+        $this->expectExceptionMessage('Something went wrong.');
 
     }
 }

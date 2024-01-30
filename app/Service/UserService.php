@@ -24,7 +24,7 @@ class UserService
         $validator = Validator::make($request->all(), [
             "name" => "required",
             "id" => "required",
-            "email" => "required",
+            "email" => "required|email|unique:users",
         ]);
 
         if ($validator->fails()) {
@@ -35,16 +35,53 @@ class UserService
     }
 
     /**
-     * Retrieve a ProcessFlow by its ID.
+     * Retrieve a Puder by its ID.
      *
-     * @param int $id The ID of the ProcessFlow to retrieve.
+     * @param int $id The ID of the user to retrieve.
      *
-     * @return \App\Models\User|null The retrieved ProcessFlow, or null if not found.
+     * @return \App\Models\User|null The retrieved user, or null if not found.
      */
 
     public function getUser(int $id): User | null
     {
         return User::find($id);
+    }
+
+    /**
+     * Update an existing user.
+     *
+     * @param int $id The ID of the user to update.
+     * @param \Illuminate\Http\Request $request The HTTP request containing the updated data.
+     *
+     * @return \App\Models\User The updated user instance.
+     *
+     * @throws \Exception If validation fails or if an error occurs during the update.
+     */
+
+    public function updateUser(int $id, Request $request): User
+    {
+        $model = User::find($id);
+        // validation
+
+        $validator = Validator::make($request->all(), [
+            "name" => "sometimes",
+            "id" => "sometimes",
+            "email" => "sometimes|email|unique:users|",
+        ]);
+
+        if ($validator->fails()) {
+            throw new \Exception($validator->errors());
+        }
+
+        if ($model) {
+            if ($model->update($request->all())) {
+                return $model;
+            }
+            throw new \Exception('Something went wrong.');
+
+        }
+        throw new \Exception('Something went wrong.');
+
     }
 
 }
