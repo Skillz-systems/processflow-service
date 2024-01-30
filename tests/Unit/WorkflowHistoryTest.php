@@ -44,7 +44,7 @@ class WorkflowHistoryTest extends TestCase
         $this->assertSame(1, $createNewWorkflowHistory->task_id);
     }
 
-   public function test_to_see_if_an_error_happens_when_creating_a_workflowHistory(): void
+   public function test_to_see_if_an_error_happens_when_creating_a_workflowhistory(): void
     {
         $data = new Request([
             "user_id" => 1,
@@ -60,7 +60,7 @@ class WorkflowHistoryTest extends TestCase
         $this->assertArrayHasKey('task_id', $resultArray);
     }
 
-    public function test_to_see_if_a_workflowHistory_can_be_fetched(): void
+    public function test_to_see_if_a_workflowhistory_can_be_fetched(): void
     {
 
         $data = new Request([
@@ -79,12 +79,67 @@ class WorkflowHistoryTest extends TestCase
 
     }
 
-    public function test_to_see_if_workflowHistory_returns_a_content(): void
+    public function test_to_see_if_workflowhistory_returns_a_content(): void
     {
         $createNewWorkflowHistoryService = new WorkflowHistoryService();
         $fetchService = $createNewWorkflowHistoryService->getWorkflowHistory(1);
 
         $this->assertNull($fetchService);
+
+    }
+
+    public function test_to_update_a_workflowhistory_successfully(): void
+    {
+
+        $create  = WorkflowHistory::factory()->create();
+        $service = new WorkflowHistoryService();
+        $update  = $service->updateWorkflowHistory(new Request(["status" => 1,]), $create->id);
+
+
+        $this->assertDatabaseHas('workflow_histories', [
+            "status" => 1,
+        ]);
+        $this->assertInstanceOf(WorkflowHistory::class, $update);
+
+    }
+
+    public function test_to_update_throws_exception_workflowhistory_for_error(): void
+    {
+        $this->expectException(\Exception::class);
+        $request = new Request([
+            'status' => 1,
+        ]);
+        $id      = 0;
+        $service = new WorkflowHistoryService();
+
+        $service->updateWorkflowHistory($request, $id);
+        $this->expectException(ModelNotFoundException::class);
+    }
+
+    public function test_to_if_a_workflowhistory_can_be_deleted()
+    {
+        $data = new Request([
+            "user_id" => 1,
+            "task_id" => 1,
+            "step_id" => 1,
+            "process_flow_id" => 1,
+            "status" => 1,
+        ]);
+
+        $createNewWorkflowHistoryService = new WorkflowHistoryService();
+        $data = $createNewWorkflowHistoryService->createWorkflowHistory($data);
+        $this->assertDatabaseCount("workflow_histories", 1);
+        $delete = $createNewWorkflowHistoryService->deleteWorkflowHistory($data->id);
+        $this->assertDatabaseMissing("workflow_histories", ["task_id" => 1]);
+        $this->assertTrue($delete);
+
+    }
+
+    public function test_to_see_if_there_is_no_record_with_the_provided_id()
+    {
+        $createNewWorkflowHistoryService = new WorkflowHistoryService();
+        $delete = $createNewWorkflowHistoryService->deleteWorkflowHistory(1);
+        $this->assertFalse($delete);
 
     }
 }
