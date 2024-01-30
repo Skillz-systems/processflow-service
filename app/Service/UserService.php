@@ -34,4 +34,9 @@ class UserService
         return $model->create($request->all());
     }
 
+    public function getUser(int $id): User | null
+    {
+        return User::find($id);
+    }
+
 }
