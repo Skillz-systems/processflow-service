@@ -107,7 +107,7 @@ class WorkflowHistoryTest extends TestCase
     {
         $this->expectException(\Exception::class);
         $request = new Request([
-            'status' => 1,
+            "status" => 1,
         ]);
         $id      = 0;
         $service = new WorkflowHistoryService();
