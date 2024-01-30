@@ -24,7 +24,7 @@ class UserService
         $validator = Validator::make($request->all(), [
             "name" => "required",
             "id" => "required",
-            "email" => "required",
+            "email" => "required|email|unique:users",
         ]);
 
         if ($validator->fails()) {
@@ -45,6 +45,43 @@ class UserService
     public function getUser(int $id): User | null
     {
         return User::find($id);
+    }
+
+    /**
+     * Update an existing ProcessFlow.
+     *
+     * @param int $id The ID of the ProcessFlow to update.
+     * @param \Illuminate\Http\Request $request The HTTP request containing the updated data.
+     *
+     * @return \App\Models\ProcessFlow The updated ProcessFlow instance.
+     *
+     * @throws \Exception If validation fails or if an error occurs during the update.
+     */
+
+    public function updateProcessflow(int $id, Request $request): User
+    {
+        $model = User::find($id);
+        // validation
+
+        $validator = Validator::make($request->all(), [
+            "name" => "sometimes",
+            "id" => "sometimes",
+            "email" => "sometimes|email|unique:users",
+        ]);
+
+        if ($validator->fails()) {
+            throw new \Exception($validator->errors());
+        }
+
+        if ($model) {
+            if ($model->update($request->all())) {
+                return $model;
+            }
+            throw new \Exception('Something went wrong.');
+
+        }
+        throw new \Exception('Something went wrong.');
+
     }
 
 }
