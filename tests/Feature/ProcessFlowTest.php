@@ -4,15 +4,30 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class ProcessFlowTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_to_create_new_process_flow_with_steps_controller(): void
+    public function userCreate()
+    {
+        return Sanctum::actingAs(
+            User::factory()->create(),
+            ['*']
+        );
+
+    }
+
+    private function actingAsTestUser()
     {
         $user = User::factory()->create();
+        return $this->actingAs($user);
+    }
+
+    public function test_to_create_new_process_flow_with_steps_controller(): void
+    {
 
         $processFlowData = [
             'name' => 'Test Process Flow',
@@ -51,7 +66,7 @@ class ProcessFlowTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($user)->postJson('/api/processflows', $processFlowData);
+        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
 
         $response->assertJsonStructure([
             'data' => [
@@ -89,7 +104,6 @@ class ProcessFlowTest extends TestCase
     }
     public function test_to_create_new_process_flow_without_steps_controller(): void
     {
-        $user = User::factory()->create();
 
         $processFlowData = [
             'name' => 'Test Process Flow',
@@ -101,7 +115,7 @@ class ProcessFlowTest extends TestCase
             'week' => 'monday',
         ];
 
-        $response = $this->actingAs($user)->postJson('/api/processflows', $processFlowData);
+        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
 
         $this->assertDatabaseHas('process_flows', $processFlowData);
         $response->assertStatus(201);
@@ -127,13 +141,12 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_create_process_flow_controller_returns_validation_errors_for_invalid_data(): void
     {
-        $user = User::factory()->create();
 
         $invalidData = [
             'name' => '',
             'frequency' => 'invalid',
         ];
-        $response = $this->actingAs($user)->postJson('/api/processflows', $invalidData);
+        $response = $this->actingAsTestUser()->postJson('/api/processflows', $invalidData);
 
         $response->assertJsonValidationErrors(['name', 'frequency']);
         $response->assertStatus(422);
@@ -141,7 +154,6 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_view_process_flow_with_valid_id_successfully(): void
     {
-        $user = User::factory()->create();
 
         $processFlowData = [
             'name' => 'Test Process Flow',
@@ -179,11 +191,11 @@ class ProcessFlowTest extends TestCase
                 ],
             ],
         ];
-        $response = $this->actingAs($user)->postJson('/api/processflows', $processFlowData);
+        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
         $response->assertStatus(201);
 
         $processFlowId = $response->json('data.id');
-        $this->actingAs($user)->getJson('/api/processflows/' . $processFlowId)->assertStatus(200)->assertJsonStructure([
+        $this->actingAsTestUser()->getJson('/api/processflows/' . $processFlowId)->assertStatus(200)->assertJsonStructure([
             'data' => [
                 'id',
                 'name',
@@ -213,16 +225,15 @@ class ProcessFlowTest extends TestCase
     }
     public function test_to_return_error_when_trying_to_view_nonexistent_process_flow(): void
     {
-        $user = User::factory()->create();
+
         $id = 9999;
 
-        $response = $this->actingAs($user)->getJson('/api/processflows/' . $id);
+        $response = $this->actingAsTestUser()->getJson('/api/processflows/' . $id);
         $response->assertStatus(404);
     }
 
     public function test_to_verify_only_logged_in_users_can_view_a_process_flow(): void
     {
-        $user = User::factory()->create();
 
         $processFlowData = [
             'name' => 'Test Process Flow',
@@ -234,7 +245,7 @@ class ProcessFlowTest extends TestCase
             'week' => 'monday',
         ];
 
-        $response = $this->actingAs($user)->postJson('/api/processflows', $processFlowData);
+        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
         $response->assertStatus(201);
         $processFlowId = $response->json('data.id');
 
