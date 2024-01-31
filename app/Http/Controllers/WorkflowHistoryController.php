@@ -41,10 +41,11 @@ class WorkflowHistoryController extends Controller
 
     public function store(StoreWorkflowHistoryRequest $request)
     {
-        $validated = $request->validated();
-        //$storedWorkflowHistory = Auth::user()->workflowHistoryService()->createWorkflowHistory($validated);
-        $storedWorkflowHistory = $this->workflowHistoryService->createWorkflowHistory($validated);
-        return new WorkflowHistoryResource($storedWorkflowHistory);    
+        return DB::transaction(function () use ($request) 
+        {
+            $storedWorkflowHistory = $this->workflowHistoryService->createWorkflowHistory($request);
+            return new WorkflowHistoryResource($storedWorkflowHistory); 
+        }, 5);   
     }
 
     /**
