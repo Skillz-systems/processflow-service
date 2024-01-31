@@ -63,7 +63,7 @@ class ProcessFlowService
 
     public function updateProcessflow(int $id, Request $request): ProcessFlow
     {
-        $model = ProcessFlow::find($id);
+        $model = ProcessFlow::findOrFail($id);
         // validation
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|nullable',
