@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * File: ProcessFlowObserver.php
  * Namespace: App\Observers
@@ -63,4 +64,12 @@ class ProcessFlowObserver
         // }
 
     }
+=======
+
+namespace App\Observers;
+
+class ProcessFlowObserver
+{
+    //
+>>>>>>> c717375 (added test)
 }
