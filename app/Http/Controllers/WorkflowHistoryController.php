@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WorkflowHistory;
 use App\Http\Requests\StoreWorkflowHistoryRequest;
 use App\Http\Resources\WorkflowHistoryResource;
+use App\Http\Resources\WorkflowHistoryCollection;
 use App\Service\WorkflowHistoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Spatie\QueryBuilder\QueryBuilder;
 class WorkflowHistoryController extends Controller
 {
  /**
@@ -23,13 +25,18 @@ class WorkflowHistoryController extends Controller
         $this->workflowHistoryService = $workflowHistoryService;
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of all the workflow history resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $workflowhistories = QueryBuilder::for(WorkflowHistory::class)  
+            ->allowedFilters('status')
+            ->defaultSort('-user_id')
+            ->allowedSorts(['processflow_id', 'status', 'user_id', 'task_id'])
+            ->paginate();
 
+            return new WorkflowHistoryCollection($workflowhistories);
+    }
     /**
      * Store a new workflow history.
      *

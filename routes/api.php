@@ -33,5 +33,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
+    Route::post('/workflowhistory', [WorkflowHistoryController::class, 'store']);
+    Route::get('/workflowhistory', [WorkflowHistoryController::class, 'index']);
 });
