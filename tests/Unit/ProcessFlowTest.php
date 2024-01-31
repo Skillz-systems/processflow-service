@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\ProcessFlow;
 use App\Service\ProcessFlowService;
 // use PHPUnit\Framework\TestCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
@@ -72,10 +73,13 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_see_if_processflow_returns_a_content(): void
     {
-        $createNewProcessService = new ProcessFlowService();
-        $fetchService = $createNewProcessService->getProcessFlow(5);
+        $this->expectException(\Exception::class);
 
-        $this->assertNull($fetchService);
+        $createNewProcessService = new ProcessFlowService();
+        $id = 999;
+        $createNewProcessService->getProcessFlow($id);
+
+        $this->expectException(ModelNotFoundException::class);
 
     }
 
