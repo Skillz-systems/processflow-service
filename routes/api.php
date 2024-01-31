@@ -32,8 +32,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
 <<<<<<< HEAD
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
+<<<<<<< HEAD
     Route::delete('/processflows/{id}', [ProcessFlowController::class, 'destroy']);
 
+=======
+<<<<<<< HEAD
+>>>>>>> caac2f3 (route)
     Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
     Route::post('processflowstep/create/{id}', [ProcessflowStepController::class, 'store']);
     Route::delete('processflowstep/delete/{id}', [ProcessflowStepController::class, 'destroy']);
@@ -43,9 +47,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 =======
+<<<<<<< HEAD
     Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
     Route::post('processflowstep/create/{id}', [ProcessflowStepController::class, 'store']);
 >>>>>>> 6ecc84c (wip)
+=======
+>>>>>>> 7a6950d (route)
+>>>>>>> caac2f3 (route)
 
 });
 
