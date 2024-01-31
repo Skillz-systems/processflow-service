@@ -199,7 +199,10 @@ class ProcessFlowController extends Controller
      *
      * )
      */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 63b2932 (update observer)
     public function update(UpdateProcessFlowRequest $request, int $id)
     {
         return DB::transaction(function () use ($request, $id) {
