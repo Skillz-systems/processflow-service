@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+<<<<<<< HEAD
 /**
  * Stores a new process flow.
  */
@@ -28,9 +29,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Route::post('processflows', [ProcessFlowController::class, 'store']);
 =======
 >>>>>>> 63b2932 (update observer)
+=======
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Route::post('processflows', [ProcessFlowController::class, 'store']);
+>>>>>>> 8462c4e (update processflow with or without steps)
 
-// Route::get('processflows/:id', [ProcessFlowController::class, 'show']);
+    // Route::get('processflows/:id', [ProcessFlowController::class, 'show']);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
@@ -48,8 +54,13 @@ Route::post('/processflows', [ProcessFlowController::class, 'store']);
 Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
 Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 >>>>>>> 63b2932 (update observer)
+=======
+    Route::post('/processflows', [ProcessFlowController::class, 'store']);
+    Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
+    Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
+>>>>>>> 8462c4e (update processflow with or without steps)
 
-// });
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
