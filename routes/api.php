@@ -47,3 +47,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+<<<<<<< HEAD
+=======
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/workflowhistory', [WorkflowHistoryController::class, 'store']);
+    Route::get('/workflowhistory', [WorkflowHistoryController::class, 'index']);
+});
+>>>>>>> d58c8d8 (method to get all workflow history)
