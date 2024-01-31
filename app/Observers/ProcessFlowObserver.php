@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
  * File: ProcessFlowObserver.php
  * Namespace: App\Observers
@@ -154,5 +155,16 @@ class ProcessFlowObserver
 
     }
 >>>>>>> 63b2932 (update observer)
+<<<<<<< HEAD
 >>>>>>> 56b5cde (update observer)
+=======
+=======
+
+namespace App\Observers;
+
+class ProcessFlowObserver
+{
+    //
+>>>>>>> e033fda (added test)
+>>>>>>> f35e6ff (added test)
 }

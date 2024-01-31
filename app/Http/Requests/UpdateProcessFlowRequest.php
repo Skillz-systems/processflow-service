@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
  * @OA\Schema(
  *     title="UpdateProcessFlowRequest",
@@ -132,12 +133,17 @@ class UpdateProcessFlowRequest extends FormRequest
 {
 
 =======
+=======
+>>>>>>> e033fda (added test)
 class UpdateProcessFlowRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
+<<<<<<< HEAD
 >>>>>>> c717375 (added test)
+=======
+>>>>>>> e033fda (added test)
     public function authorize(): bool
     {
         return true;
@@ -151,6 +157,7 @@ class UpdateProcessFlowRequest extends FormRequest
     public function rules(): array
     {
         return [
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -172,6 +179,8 @@ class UpdateProcessFlowRequest extends FormRequest
             "week" => "sometimes|nullable|string",
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> e033fda (added test)
             'name' => 'sometimes|string|max:255|unique:process_flows,name',
             'start_step_id' => 'sometimes',
             'frequency' => 'sometimes|in:daily,weekly,hourly,monthly,yearly,none',
@@ -179,9 +188,12 @@ class UpdateProcessFlowRequest extends FormRequest
             'frequency_for' => 'sometimes|in:users,customers,suppliers,contractors,none',
             'day' => 'nullable|string',
             'week' => 'nullable|string',
+<<<<<<< HEAD
 >>>>>>> c717375 (added test)
 =======
 >>>>>>> 63b2932 (update observer)
+=======
+>>>>>>> e033fda (added test)
         ];
     }
 }

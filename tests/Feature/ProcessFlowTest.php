@@ -5,11 +5,17 @@ namespace Tests\Feature;
 <<<<<<< HEAD
 use App\Models\ProcessFlow;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+<<<<<<< HEAD
 >>>>>>> 6ecc84c (wip)
 =======
 <<<<<<< HEAD
 =======
+=======
+=======
+>>>>>>> e033fda (added test)
+>>>>>>> f35e6ff (added test)
 use App\Models\User;
 >>>>>>> c717375 (added test)
 >>>>>>> cedd4fa (added test)
@@ -314,6 +320,7 @@ class ProcessFlowTest extends TestCase
         ])
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             ->assertStatus(200)->assertJsonStructure([
 =======
             ->assertStatus(201)->assertJsonStructure([
@@ -321,6 +328,9 @@ class ProcessFlowTest extends TestCase
 =======
             ->assertStatus(200)->assertJsonStructure([
 >>>>>>> 63b2932 (update observer)
+=======
+            ->assertStatus(201)->assertJsonStructure([
+>>>>>>> e033fda (added test)
             'data' => [
                 'id',
                 'name',
@@ -358,18 +368,24 @@ class ProcessFlowTest extends TestCase
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(200);
         $this->assertDatabaseHas('process_flows', $data);
 =======
+=======
+>>>>>>> e033fda (added test)
         $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(201)->assertDataBaseHas('process_flows', $data)
             ->assertJson([
                 'name' => 'Updated Process Flow Name',
             ]);
+<<<<<<< HEAD
 >>>>>>> c717375 (added test)
 =======
         $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(200);
         $this->assertDatabaseHas('process_flows', $data);
 >>>>>>> 63b2932 (update observer)
+=======
+>>>>>>> e033fda (added test)
 
     }
     public function test_to_unauthorized_cannot_update_process_flow_(): void
