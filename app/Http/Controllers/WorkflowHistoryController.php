@@ -25,6 +25,7 @@ class WorkflowHistoryController extends Controller
         $this->workflowHistoryService = $workflowHistoryService;
     }
     /**
+<<<<<<< HEAD
      * @OA\Get(
      *      path="/api/workflow-histories",
      *      operationId="getWorkflowHistories",
@@ -74,6 +75,13 @@ class WorkflowHistoryController extends Controller
     public function index(Request $request)
     {
         $workflowhistories = $this->workflowHistoryService->getWorkflowHistories($request)  
+=======
+     * Display a listing of all the workflow history resource.
+     */
+    public function index(Request $request)
+    {
+        $workflowhistories = QueryBuilder::for(WorkflowHistory::class)  
+>>>>>>> 50bb724 (method to get all workflow history)
             ->allowedFilters('status')
             ->defaultSort('-user_id')
             ->allowedSorts(['processflow_id', 'status', 'user_id', 'task_id'])
