@@ -22,13 +22,21 @@ class UpdateProcessFlowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255|unique:process_flows,name',
-            'start_step_id' => 'sometimes',
-            'frequency' => 'sometimes|in:daily,weekly,hourly,monthly,yearly,none',
-            'status' => 'sometimes|boolean',
-            'frequency_for' => 'sometimes|in:users,customers,suppliers,contractors,none',
-            'day' => 'nullable|string',
-            'week' => 'nullable|string',
+            // 'name' => 'sometimes|string|max:255|unique:process_flows,name',
+            // 'start_step_id' => 'sometimes',
+            // 'frequency' => 'sometimes|in:daily,weekly,hourly,monthly,yearly,none',
+            // 'status' => 'sometimes|boolean',
+            // 'frequency_for' => 'sometimes|in:users,customers,suppliers,contractors,none',
+            // 'day' => 'nullable|string',
+            // 'week' => 'nullable|string',
+
+            'name' => 'sometimes|nullable',
+            "start_step_id" => "sometimes|nullable|integer",
+            "frequency" => "sometimes|nullable|in:daily,weekly,hourly,monthly,yearly,none",
+            "status" => "sometimes|nullable|boolean",
+            "frequency_for" => "sometimes|nullable|in:users,customers,suppliers,contractors,none",
+            "day" => "sometimes|nullable|string",
+            "week" => "sometimes|nullable|string",
         ];
     }
 }
