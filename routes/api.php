@@ -77,9 +77,12 @@ Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 =======
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
+<<<<<<< HEAD
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 >>>>>>> 8462c4e (update processflow with or without steps)
 >>>>>>> 366a88d (update processflow with or without steps)
+=======
+>>>>>>> b4b611f (route)
 
 });
 
