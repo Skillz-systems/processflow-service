@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * File: ProcessFlowObserver.php
  * Namespace: App\Observers
@@ -67,6 +68,7 @@ class ProcessFlowObserver
         // }
 
     }
+<<<<<<< HEAD
 
     /**
      * Handle the deleted event for a ProcessFlow.
@@ -91,4 +93,14 @@ class ProcessFlowObserver
         }
 
     }
+=======
+=======
+
+namespace App\Observers;
+
+class ProcessFlowObserver
+{
+    //
+>>>>>>> c717375 (added test)
+>>>>>>> cedd4fa (added test)
 }

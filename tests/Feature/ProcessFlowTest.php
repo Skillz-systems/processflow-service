@@ -4,8 +4,15 @@ namespace Tests\Feature;
 
 <<<<<<< HEAD
 use App\Models\ProcessFlow;
+<<<<<<< HEAD
 =======
 >>>>>>> 6ecc84c (wip)
+=======
+<<<<<<< HEAD
+=======
+use App\Models\User;
+>>>>>>> c717375 (added test)
+>>>>>>> cedd4fa (added test)
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -305,7 +312,11 @@ class ProcessFlowTest extends TestCase
         $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, [
             'name' => 'Test Process Flow Updated',
         ])
+<<<<<<< HEAD
             ->assertStatus(200)->assertJsonStructure([
+=======
+            ->assertStatus(201)->assertJsonStructure([
+>>>>>>> c717375 (added test)
             'data' => [
                 'id',
                 'name',
@@ -341,8 +352,15 @@ class ProcessFlowTest extends TestCase
             'name' => 'Updated Process Flow Name',
         ];
 
+<<<<<<< HEAD
         $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(200);
         $this->assertDatabaseHas('process_flows', $data);
+=======
+        $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(201)->assertDataBaseHas('process_flows', $data)
+            ->assertJson([
+                'name' => 'Updated Process Flow Name',
+            ]);
+>>>>>>> c717375 (added test)
 
     }
     public function test_to_unauthorized_cannot_update_process_flow_(): void
