@@ -312,6 +312,7 @@ class ProcessFlowTest extends TestCase
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             ->assertStatus(200)->assertJsonStructure([
 =======
             ->assertStatus(201)->assertJsonStructure([
@@ -322,6 +323,9 @@ class ProcessFlowTest extends TestCase
 =======
             ->assertStatus(201)->assertJsonStructure([
 >>>>>>> e033fda (added test)
+=======
+            ->assertStatus(200)->assertJsonStructure([
+>>>>>>> 3447248 (update observer)
             'data' => [
                 'id',
                 'name',
@@ -360,6 +364,7 @@ class ProcessFlowTest extends TestCase
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(200);
         $this->assertDatabaseHas('process_flows', $data);
 =======
@@ -377,6 +382,10 @@ class ProcessFlowTest extends TestCase
 >>>>>>> 63b2932 (update observer)
 =======
 >>>>>>> e033fda (added test)
+=======
+        $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(200);
+        $this->assertDatabaseHas('process_flows', $data);
+>>>>>>> 3447248 (update observer)
 
     }
     public function test_to_unauthorized_cannot_update_process_flow_(): void
