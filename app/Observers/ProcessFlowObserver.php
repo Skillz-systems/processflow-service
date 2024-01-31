@@ -172,22 +172,11 @@ class ProcessFlowObserver
         if (request()->has('steps')) {
 
             $steps = request()->input('steps');
-            // $steps = $processFlow->steps;
-            $updatedSteps = [];
 
-            foreach ($steps as $index => $step) {
-                $step = $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
-
-                // if ($index === 0) {
-                //     $this->processFlowService->updateProcessFlow(['start_step_id' => $step->id], $processFlow->id);
-                // }
-                $updatedSteps[] = $step;
+            foreach ($steps as $step) {
+                $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
             }
 
-            foreach ($updatedSteps as $index => $step) {
-                $next_step_id = $index === count($updatedSteps) - 1 ? null : $updatedSteps[$index + 1]->id;
-                $this->processflowStepService->updateProcessFlowStep(new Request(['next_step_id' => $next_step_id]), $step->id);
-            }
         }
 
         // if (request()->has('steps')) {
