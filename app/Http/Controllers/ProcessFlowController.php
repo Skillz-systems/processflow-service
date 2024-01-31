@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProcessFlowRequest;
+use App\Http\Requests\UpdateProcessFlowRequest;
 use App\Http\Resources\ProcessFlowResource;
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
@@ -89,9 +90,12 @@ class ProcessFlowController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProcessFlowRequest $request, int $id)
     {
-        //
+        return DB::transaction(function () use ($request, $id) {
+            $storedProcessFlow = $this->processFlowService->updateProcessFlow($id, $request);
+            return new ProcessFlowResource($storedProcessFlow);
+        }, 5);
     }
 
     /**
