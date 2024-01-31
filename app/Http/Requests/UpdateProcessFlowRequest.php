@@ -160,7 +160,10 @@ class UpdateProcessFlowRequest extends FormRequest
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 3447248 (update observer)
             // 'name' => 'sometimes|string|max:255|unique:process_flows,name',
             // 'start_step_id' => 'sometimes',
             // 'frequency' => 'sometimes|in:daily,weekly,hourly,monthly,yearly,none',
@@ -169,7 +172,10 @@ class UpdateProcessFlowRequest extends FormRequest
             // 'day' => 'nullable|string',
             // 'week' => 'nullable|string',
 
+<<<<<<< HEAD
 >>>>>>> 63b2932 (update observer)
+=======
+>>>>>>> 3447248 (update observer)
             'name' => 'sometimes|nullable',
             "start_step_id" => "sometimes|nullable|integer",
             "frequency" => "sometimes|nullable|in:daily,weekly,hourly,monthly,yearly,none",
@@ -177,6 +183,7 @@ class UpdateProcessFlowRequest extends FormRequest
             "frequency_for" => "sometimes|nullable|in:users,customers,suppliers,contractors,none",
             "day" => "sometimes|nullable|string",
             "week" => "sometimes|nullable|string",
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -194,6 +201,8 @@ class UpdateProcessFlowRequest extends FormRequest
 >>>>>>> 63b2932 (update observer)
 =======
 >>>>>>> e033fda (added test)
+=======
+>>>>>>> 3447248 (update observer)
         ];
     }
 }
