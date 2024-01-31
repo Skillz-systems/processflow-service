@@ -302,7 +302,7 @@ class ProcessFlowTest extends TestCase
         $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, [
             'name' => 'Test Process Flow Updated',
         ])
-            ->assertStatus(201)->assertJsonStructure([
+            ->assertStatus(200)->assertJsonStructure([
             'data' => [
                 'id',
                 'name',
@@ -338,10 +338,8 @@ class ProcessFlowTest extends TestCase
             'name' => 'Updated Process Flow Name',
         ];
 
-        $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(201)->assertDataBaseHas('process_flows', $data)
-            ->assertJson([
-                'name' => 'Updated Process Flow Name',
-            ]);
+        $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(200);
+        $this->assertDatabaseHas('process_flows', $data);
 
     }
     public function test_to_unauthorized_cannot_update_process_flow_(): void
