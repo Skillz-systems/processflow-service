@@ -31,14 +31,12 @@ class WorkflowHistoryController extends Controller
     }
 
     /**
-     * Store a new process flow and its steps(optional).
+     * Store a new workflow history.
      *
-     * This method takes a request with steps data and creates a new process flow and its associated steps.
-     * It handles setting up the relationships between the steps like next_step_id and process_flow_id.
-     * It also handles setting the start_step_id on the process flow.
+     * This method takes a request and creates a new workflow history.
      *
-     * @param StoreWorkflowHistoryRequest $request The request containing the process flow data.
-     * @return WorkflowHistoryResource The created process flow resource.
+     * @param StoreWorkflowHistoryRequest $request The request containing the workflow history data.
+     * @return WorkflowHistoryResource The created workflow history resource.
      */
 
     public function store(StoreWorkflowHistoryRequest $request)
