@@ -2,19 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ProcessFlowTest extends TestCase
 {
     use RefreshDatabase;
-
-    private function actingAsTestUser()
-    {
-        $user = User::factory()->create();
-        return $this->actingAs($user);
-    }
 
     public function test_to_create_new_process_flow_with_steps_controller(): void
     {

@@ -47,7 +47,7 @@ class ProcessFlowService
 
     public function getProcessFlow(int $id): ProcessFlow | null
     {
-        return ProcessFlow::findOrFail($id);
+        return ProcessFlow::with('steps')->findOrFail($id);
     }
 
     /**
