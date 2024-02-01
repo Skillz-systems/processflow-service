@@ -47,6 +47,7 @@ class ProcessFlowService
 
     public function getProcessFlow(int $id): ProcessFlow
     {
+<<<<<<< HEAD
 
         try {
             return ProcessFlow::with(['steps'])->findOrFail($id);
@@ -56,6 +57,9 @@ class ProcessFlowService
             throw $e;
         }
 
+=======
+        return ProcessFlow::with('steps')->findOrFail($id);
+>>>>>>> 6ecc84c (wip)
     }
 
     /**

@@ -3,8 +3,11 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\ProcessFlow;
+<<<<<<< HEAD
 use App\Models\ProcessFlowStep;
 use App\Service\ProcessFlowService;
+=======
+>>>>>>> 6ecc84c (wip)
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -64,6 +67,7 @@ class ProcessflowStepControllerTest extends TestCase
         $response = $this->actingAsTestUser()->postJson('api/processflowstep/create/1', $data);
         $this->assertDatabaseCount("process_flows", 2);
         $this->assertDatabaseCount("process_flow_steps", 2);
+<<<<<<< HEAD
         $this->assertDatabaseHas("process_flow_steps", [
             "name" => "test name",
             "step_route" => "this should be a route",
@@ -77,6 +81,21 @@ class ProcessflowStepControllerTest extends TestCase
             "user_type" => "customer",
             "status" => 1,
         ], );
+=======
+        $this->assertDatabaseHas("process_flow_steps",[
+                    "name" => "test name",
+                    "step_route" => "this should be a route",
+                    "assignee_user_route" => 1,
+                    "next_user_designation" => 1,
+                    "next_user_department" => 1,
+                    "next_user_unit" => 1,
+                    "process_flow_id" => 1,
+                    "next_user_location" => 1,
+                    "step_type" => "create",
+                    "user_type" => "customer",
+                    "status" => 1,
+                ],);
+>>>>>>> 6ecc84c (wip)
         $response->assertJsonStructure([
             'data' => [
                 'id',
@@ -103,6 +122,11 @@ class ProcessflowStepControllerTest extends TestCase
                 ],
             ],
         ]);
+<<<<<<< HEAD
+=======
+
+        //$response->assertJsonStructure();
+>>>>>>> 6ecc84c (wip)
         $response->assertStatus(200);
     }
 
@@ -132,6 +156,7 @@ class ProcessflowStepControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
+<<<<<<< HEAD
     public function test_to_see_if_we_can_create_a_new_process_flow_steps_for_a_process_flow_that_already_has_a_start_step_id()
     {
 
@@ -483,5 +508,10 @@ class ProcessflowStepControllerTest extends TestCase
         $response = $this->actingAsTestUser()->postJson('api/processflowstep/create/1', $data);
         return $response;
 
+=======
+    private function createProcessflow(int $quantity = 1): void
+    {
+        ProcessFlow::factory($quantity)->create();
+>>>>>>> 6ecc84c (wip)
     }
 }

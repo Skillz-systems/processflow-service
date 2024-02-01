@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+<<<<<<< HEAD
 use App\Models\ProcessFlow;
+=======
+>>>>>>> 6ecc84c (wip)
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
+<<<<<<< HEAD
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
     Route::delete('/processflows/{id}', [ProcessFlowController::class, 'destroy']);
 
@@ -41,6 +42,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
+=======
+    Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
+    Route::post('processflowstep/create/{id}', [ProcessflowStepController::class, 'store']);
+>>>>>>> 6ecc84c (wip)
 
 });
 
@@ -51,7 +56,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 =======
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/workflowhistory', [WorkflowHistoryController::class, 'store']);
-    Route::get('/workflowhistory', [WorkflowHistoryController::class, 'index']);
+    Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
 });
 >>>>>>> d58c8d8 (method to get all workflow history)

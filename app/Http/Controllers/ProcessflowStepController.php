@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProcessFlowStepRequest;
 use App\Http\Resources\ProcessFlowResource;
+<<<<<<< HEAD
 use App\Http\Resources\ProcessFlowStepResource;
 use App\Models\ProcessFlowStep;
+=======
+>>>>>>> 6ecc84c (wip)
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
 use Illuminate\Http\Request;
@@ -90,12 +93,16 @@ class ProcessflowStepController extends Controller
      *     ),
      * )
      */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6ecc84c (wip)
     public function store($id, StoreProcessFlowStepRequest $request)
     {
         $getProcessflow = $this->processFlowService->getProcessFlow($id);
         $steps = $request->steps;
         $createdStepsId = [];
+<<<<<<< HEAD
         DB::beginTransaction();
 
         try {
@@ -139,6 +146,34 @@ class ProcessflowStepController extends Controller
 
         }
 
+=======
+        foreach ($steps as $key => $value) {
+            // create a new step
+            $requestData = new Request($value);
+
+            if ($createdStep = $this->processflowStepService->createProcessFlowStep($requestData)
+            ) {
+                array_push($createdStepsId, $createdStep->id);
+
+            }
+
+        }
+
+        if ($getProcessflow->start_step_id < 1) {
+            // update processflow start step if here
+            $processflowData = new Request(["start_step_id" => $createdStepsId[0]]);
+        } else {
+            // take the last step id and update the first one created
+        }
+        $this->processFlowService->updateProcessflow($id, $processflowData);
+        for ($i = 1; $i < count($createdStepsId) - 1; $i++) {
+            $nextStep = new Request(["next_step" => $createdStepsId[$i + 1]]);
+            $this->processflowStepService->updateProcessFlowStep($nextStep, $createdStepsId[$i]);
+        }
+        $result = $this->processFlowService->getProcessFlow($id);
+        return new ProcessFlowResource($result);
+
+>>>>>>> 6ecc84c (wip)
     }
 
     /**
