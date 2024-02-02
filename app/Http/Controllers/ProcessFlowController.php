@@ -9,6 +9,15 @@ use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Info(
+ *     title="Process Flow Controller",
+ *     version="1.0",
+ *     description="This is the documentation for the Process Flow Service API routes",
+ * )
+ */
 
 /**
  * @OA\Tag(name="Process Flows")
