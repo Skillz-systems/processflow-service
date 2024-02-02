@@ -1,6 +1,4 @@
 <?php
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
  * File: ProcessFlowObserver.php
  * Namespace: App\Observers
@@ -48,57 +46,6 @@ class ProcessFlowObserver
          * @var array $steps An array containing the updated steps.
          */
 
-        if (request()->has('steps')) {
-
-            $steps = request()->input('steps');
-
-            foreach ($steps as $step) {
-                $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
-            }
-
-        }
-
-        // if ($processFlow->steps) {
-        //     foreach ($processFlow->steps as $step) {
-        //         $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
-        //     }
-        // }
-
-    }
-=======
-
-namespace App\Observers;
-
-use App\Models\ProcessFlow;
-use App\Service\ProcessflowStepService;
-use Illuminate\Http\Request;
-
-class ProcessFlowObserver
-{
-<<<<<<< HEAD
-<<<<<<< HEAD
-    //
->>>>>>> c717375 (added test)
-=======
-    protected $processFlowService, $processflowStepService;
-=======
-    protected $processflowStepService;
->>>>>>> 8462c4e (update processflow with or without steps)
-
-    public function __construct(ProcessflowStepService $processflowStepService)
-    {
-        $this->processflowStepService = $processflowStepService;
-    }
-
-    public function updating(ProcessFlow $processFlow)
-    {
-        // Add logic to run before the process flow is updated
-
-    }
-
-    public function updated(ProcessFlow $processFlow)
-    {
-        // Add logic to run after the process flow is updated
         if (request()->has('steps')) {
 
             $steps = request()->input('steps');
