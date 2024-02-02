@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 namespace Tests\Feature;
@@ -138,3 +139,5 @@ class ProcessFlowObserverTest extends TestCase
     }
 
 }
+=======
+>>>>>>> b292480 (processflow observer test file)
