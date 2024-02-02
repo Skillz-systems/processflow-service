@@ -5,6 +5,25 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *     schema="ProcessFlowStepResource",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="step_route", type="string"),
+ *     @OA\Property(property="assignee_user_route", type="integer"),
+ *     @OA\Property(property="next_user_designation", type="integer"),
+ *     @OA\Property(property="next_user_department", type="integer"),
+ *     @OA\Property(property="next_user_unit", type="integer"),
+ *     @OA\Property(property="process_flow_id", type="integer"),
+ *     @OA\Property(property="next_user_location", type="integer"),
+ *     @OA\Property(property="step_type", type="string"),
+ *     @OA\Property(property="user_type", type="string"),
+ *     @OA\Property(property="next_step_id", type="integer"),
+ *     @OA\Property(property="status", type="integer"),
+ * )
+ */
+
 class ProcessFlowStepResource extends JsonResource
 {
     /**
