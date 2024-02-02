@@ -6,6 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c0348c4 (swagger documentation)
 /**
  * @OA\Schema(
  *     title="UpdateProcessFlowRequest",
@@ -17,43 +20,62 @@ use Illuminate\Foundation\Http\FormRequest;
  *         type="string",
  *         maxLength=255,
  *         description="The name of the process flow",
+<<<<<<< HEAD
  *         example="Sample Process Flow"
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="start_step_id",
  *         type="integer",
  *         nullable=true,
  *         description="ID of the starting step (if applicable)",
+<<<<<<< HEAD
  *         example=1
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="frequency",
  *         description="Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
+<<<<<<< HEAD
  *         example="daily"
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="status",
  *         type="boolean",
  *         description="Status of the process flow (active/inactive)",
+<<<<<<< HEAD
  *         example=true
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="frequency_for",
  *         description="Frequency for specific entities (users, customers, suppliers, contractors, none)",
+<<<<<<< HEAD
  *         example="users"
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="day",
  *         type="string",
  *         nullable=true,
  *         description="Day of the week (if applicable)",
+<<<<<<< HEAD
  *         example="Monday"
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="week",
  *         type="string",
  *         nullable=true,
  *         description="Week of the month (if applicable)",
+<<<<<<< HEAD
  *         example="first"
  *     ),
  *     @OA\Property(
@@ -144,6 +166,14 @@ class UpdateProcessFlowRequest extends FormRequest
 >>>>>>> c717375 (added test)
 =======
 >>>>>>> e033fda (added test)
+=======
+ *     ),
+ * )
+ */
+class UpdateProcessFlowRequest extends FormRequest
+{
+
+>>>>>>> c0348c4 (swagger documentation)
     public function authorize(): bool
     {
         return true;
@@ -157,6 +187,7 @@ class UpdateProcessFlowRequest extends FormRequest
     public function rules(): array
     {
         return [
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -176,6 +207,8 @@ class UpdateProcessFlowRequest extends FormRequest
 >>>>>>> 63b2932 (update observer)
 =======
 >>>>>>> 3447248 (update observer)
+=======
+>>>>>>> c0348c4 (swagger documentation)
             'name' => 'sometimes|nullable',
             "start_step_id" => "sometimes|nullable|integer",
             "frequency" => "sometimes|nullable|in:daily,weekly,hourly,monthly,yearly,none",

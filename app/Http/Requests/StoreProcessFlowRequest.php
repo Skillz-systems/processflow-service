@@ -15,36 +15,58 @@ use Illuminate\Foundation\Http\FormRequest;
  *         type="string",
  *         maxLength=255,
  *         description="The name of the process flow",
+<<<<<<< HEAD
  *         example="Sample Process Flow"
+=======
+ *     ),
+ *     @OA\Property(
+ *         property="start_step_id",
+ *         type="integer",
+ *         nullable=true,
+ *         description="ID of the starting step (if applicable)",
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="frequency",
  *         description="Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
+<<<<<<< HEAD
  *         example="daily"
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="status",
  *         type="boolean",
  *         description="Status of the process flow (active/inactive)",
+<<<<<<< HEAD
  *         example=true
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="frequency_for",
  *         description="Frequency for specific entities (users, customers, suppliers, contractors, none)",
+<<<<<<< HEAD
  *         example="users"
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="day",
  *         type="string",
  *         nullable=true,
  *         description="Day of the week (if applicable)",
+<<<<<<< HEAD
  *         example="Monday"
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="week",
  *         type="string",
  *         nullable=true,
  *         description="Week of the month (if applicable)",
+<<<<<<< HEAD
  *         example="first"
  *     ),
  *     @OA\Property(
@@ -116,6 +138,8 @@ use Illuminate\Foundation\Http\FormRequest;
  *                 example="active"
  *             ),
  *         ),
+=======
+>>>>>>> c0348c4 (swagger documentation)
  *     ),
  * )
  */

@@ -13,6 +13,7 @@ use OpenApi\Annotations as OA;
 
 /**
 <<<<<<< HEAD
+<<<<<<< HEAD
  * @OA\Tag(name="Process Flows")
 =======
  * @OA\Info(
@@ -24,6 +25,8 @@ use OpenApi\Annotations as OA;
  */
 
 /**
+=======
+>>>>>>> c0348c4 (swagger documentation)
  * @OA\Tag(name="Process Flows")
  */
 
@@ -62,6 +65,9 @@ class ProcessFlowController extends Controller
      */
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c0348c4 (swagger documentation)
 /**
  * @OA\Post(
  *     path="/process-flows",
@@ -94,6 +100,7 @@ class ProcessFlowController extends Controller
  *     }
  * )
  */
+<<<<<<< HEAD
 =======
     /**
      * @OA\Post(
@@ -113,6 +120,8 @@ class ProcessFlowController extends Controller
      * )
      */
 >>>>>>> 2186dbc (swagger documentation)
+=======
+>>>>>>> c0348c4 (swagger documentation)
 
     public function store(StoreProcessFlowRequest $request)
     {
@@ -170,6 +179,9 @@ class ProcessFlowController extends Controller
      *         description="Process Flow found",
      *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c0348c4 (swagger documentation)
      *     ),
      * @OA\Response(
      *          response=400,
@@ -183,9 +195,12 @@ class ProcessFlowController extends Controller
      *          response=404,
      *          description="Not Found",
      *      ),
+<<<<<<< HEAD
 =======
      *     )
 >>>>>>> 2186dbc (swagger documentation)
+=======
+>>>>>>> c0348c4 (swagger documentation)
      * )
      */
     public function show(string $id)
