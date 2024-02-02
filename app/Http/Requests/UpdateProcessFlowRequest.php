@@ -4,11 +4,54 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     title="UpdateProcessFlowRequest",
+ *     description="update process flow request body data",
+ *     type="object",
+ *     required={"name", "frequency", "frequency_for"},
+ *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *         maxLength=255,
+ *         description="The name of the process flow",
+ *     ),
+ *     @OA\Property(
+ *         property="start_step_id",
+ *         type="integer",
+ *         nullable=true,
+ *         description="ID of the starting step (if applicable)",
+ *     ),
+ *     @OA\Property(
+ *         property="frequency",
+ *         description="Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
+ *     ),
+ *     @OA\Property(
+ *         property="status",
+ *         type="boolean",
+ *         description="Status of the process flow (active/inactive)",
+ *     ),
+ *     @OA\Property(
+ *         property="frequency_for",
+ *         description="Frequency for specific entities (users, customers, suppliers, contractors, none)",
+ *     ),
+ *     @OA\Property(
+ *         property="day",
+ *         type="string",
+ *         nullable=true,
+ *         description="Day of the week (if applicable)",
+ *     ),
+ *     @OA\Property(
+ *         property="week",
+ *         type="string",
+ *         nullable=true,
+ *         description="Week of the month (if applicable)",
+ *     ),
+ * )
+ */
 class UpdateProcessFlowRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
         return true;
@@ -22,14 +65,6 @@ class UpdateProcessFlowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'name' => 'sometimes|string|max:255|unique:process_flows,name',
-            // 'start_step_id' => 'sometimes',
-            // 'frequency' => 'sometimes|in:daily,weekly,hourly,monthly,yearly,none',
-            // 'status' => 'sometimes|boolean',
-            // 'frequency_for' => 'sometimes|in:users,customers,suppliers,contractors,none',
-            // 'day' => 'nullable|string',
-            // 'week' => 'nullable|string',
-
             'name' => 'sometimes|nullable',
             "start_step_id" => "sometimes|nullable|integer",
             "frequency" => "sometimes|nullable|in:daily,weekly,hourly,monthly,yearly,none",
