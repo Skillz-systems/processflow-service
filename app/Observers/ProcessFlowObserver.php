@@ -1,6 +1,4 @@
 <?php
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
  * File: ProcessFlowObserver.php
  * Namespace: App\Observers
@@ -69,6 +67,7 @@ class ProcessFlowObserver
         // }
 
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     /**
@@ -160,6 +159,8 @@ class ProcessFlowObserver
         // }
 
     }
+=======
+>>>>>>> 4c20092 (document observer)
 >>>>>>> 63b2932 (update observer)
 <<<<<<< HEAD
 >>>>>>> 56b5cde (update observer)
