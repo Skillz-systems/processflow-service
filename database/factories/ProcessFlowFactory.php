@@ -18,19 +18,19 @@ class ProcessFlowFactory extends Factory
     {
         $startDate = now()->subDays($this->faker->numberBetween(1, 365));
 
-        $week       = $startDate->format('W');
+        $week = $startDate->format('W');
         $weekString = "Week $week";
         return [
-            'name'          => $this->faker->word,
-            'start_step_id' => $this->faker->randomNumber(),
-            'frequency'     => $this->faker->randomElement(['daily', 'weekly', 'hourly', 'monthly', 'yearly', 'none']),
-            'status'        => $this->faker->boolean,
+            'name' => $this->faker->word,
+            'start_step_id' => 0,
+            'frequency' => $this->faker->randomElement(['daily', 'weekly', 'hourly', 'monthly', 'yearly', 'none']),
+            'status' => $this->faker->boolean,
             'frequency_for' => $this->faker->randomElement(['users', 'customers', 'suppliers', 'contractors', 'none']),
             // 'day'           => $this->faker->word,
             // 'week'          => $this->faker->word,
             // 'day'           => $startDate->dayOfWeek,
-            'day'           => $this->faker->dayOfWeek,
-            'week'          => $weekString,
+            'day' => $this->faker->dayOfWeek,
+            'week' => $weekString,
 
         ];
     }

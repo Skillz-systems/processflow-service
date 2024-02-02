@@ -12,6 +12,26 @@ class ProcessFlowResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+
+    /**
+     * @OA\Schema(
+     *     schema="ProcessFlowResource",
+     *     @OA\Property(property="id", type="string"),
+     *     @OA\Property(property="name", type="string"),
+     *     @OA\Property(property="start_step_id", type="integer"),
+     *     @OA\Property(property="frequency", type="string"),
+     *     @OA\Property(property="status", type="boolean"),
+     *     @OA\Property(property="frequency_for", type="string"),
+     *     @OA\Property(property="day", type="string"),
+     *     @OA\Property(property="week", type="string"),
+     *     @OA\Property(
+     *         property="steps",
+     *         type="array",
+     *         @OA\Items(ref="#/components/schemas/ProcessFlowStepResource"),
+     *     ),
+     * )
+     */
+
     public function toArray($request): array
     {
         return [

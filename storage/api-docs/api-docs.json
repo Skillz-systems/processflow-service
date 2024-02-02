@@ -1,0 +1,221 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My First API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/processflowstep/create/{id}": {
+            "post": {
+                "tags": [
+                    "Process Flow Steps"
+                ],
+                "summary": "Create Process Flow Steps",
+                "operationId": "c6e7113252c55f472c9d6913eb1cc287",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the process flow",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Array of steps",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "steps"
+                                ],
+                                "properties": {
+                                    "steps": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "name",
+                                                "step_route",
+                                                "assignee_user_route",
+                                                "next_user_designation",
+                                                "next_user_department",
+                                                "next_user_unit",
+                                                "process_flow_id",
+                                                "next_user_location",
+                                                "step_type",
+                                                "user_type",
+                                                "status"
+                                            ],
+                                            "properties": {
+                                                "name": {
+                                                    "description": "Step name",
+                                                    "type": "string"
+                                                },
+                                                "step_route": {
+                                                    "description": "Step route",
+                                                    "type": "string"
+                                                },
+                                                "assignee_user_route": {
+                                                    "description": "Assignee user route",
+                                                    "type": "integer"
+                                                },
+                                                "next_user_designation": {
+                                                    "description": "Next user designation",
+                                                    "type": "integer"
+                                                },
+                                                "next_user_department": {
+                                                    "description": "Next user department",
+                                                    "type": "integer"
+                                                },
+                                                "next_user_unit": {
+                                                    "description": "Next user unit",
+                                                    "type": "integer"
+                                                },
+                                                "process_flow_id": {
+                                                    "description": "Process flow ID",
+                                                    "type": "integer"
+                                                },
+                                                "next_user_location": {
+                                                    "description": "Next user location",
+                                                    "type": "integer"
+                                                },
+                                                "step_type": {
+                                                    "description": "Step type",
+                                                    "type": "string"
+                                                },
+                                                "user_type": {
+                                                    "description": "User type",
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "description": "Status",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Process Flow created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProcessFlowResource"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ProcessFlowResource": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "start_step_id": {
+                        "type": "integer"
+                    },
+                    "frequency": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "frequency_for": {
+                        "type": "string"
+                    },
+                    "day": {
+                        "type": "string"
+                    },
+                    "week": {
+                        "type": "string"
+                    },
+                    "steps": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProcessFlowStepResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ProcessFlowStepResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "step_route": {
+                        "type": "string"
+                    },
+                    "assignee_user_route": {
+                        "type": "integer"
+                    },
+                    "next_user_designation": {
+                        "type": "integer"
+                    },
+                    "next_user_department": {
+                        "type": "integer"
+                    },
+                    "next_user_unit": {
+                        "type": "integer"
+                    },
+                    "process_flow_id": {
+                        "type": "integer"
+                    },
+                    "next_user_location": {
+                        "type": "integer"
+                    },
+                    "step_type": {
+                        "type": "string"
+                    },
+                    "user_type": {
+                        "type": "string"
+                    },
+                    "next_step_id": {
+                        "type": "integer"
+                    },
+                    "status": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
