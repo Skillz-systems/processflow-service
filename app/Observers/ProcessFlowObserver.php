@@ -34,5 +34,11 @@ class ProcessFlowObserver
 
         }
 
+        // if ($processFlow->steps) {
+        //     foreach ($processFlow->steps as $step) {
+        //         $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
+        //     }
+        // }
+
     }
 }
