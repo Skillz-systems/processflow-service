@@ -153,6 +153,12 @@ class ProcessFlowObserver
             }
         }
 
+        // if ($processFlow->steps) {
+        //     foreach ($processFlow->steps as $step) {
+        //         $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
+        //     }
+        // }
+
     }
 >>>>>>> 63b2932 (update observer)
 <<<<<<< HEAD
