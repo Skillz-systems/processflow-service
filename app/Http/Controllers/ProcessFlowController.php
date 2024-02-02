@@ -12,7 +12,15 @@ use Illuminate\Support\Facades\DB;
 use OpenApi\Annotations as OA;
 
 /**
+<<<<<<< HEAD
  * @OA\Tag(name="Process Flows")
+=======
+ * @OA\Info(
+ *     title="Process Flow Controller",
+ *     version="1.0",
+ *     description="This is the documentation for the Process Flow Service API routes",
+ * )
+>>>>>>> 5072849 (observer test)
  */
 
 /**
