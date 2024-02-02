@@ -4,11 +4,55 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     title="StoreProcessFlowRequest",
+ *     description="Store process flow request body data",
+ *     type="object",
+ *     required={"name", "frequency", "frequency_for"},
+ *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *         maxLength=255,
+ *         description="The name of the process flow",
+ *     ),
+ *     @OA\Property(
+ *         property="start_step_id",
+ *         type="integer",
+ *         nullable=true,
+ *         description="ID of the starting step (if applicable)",
+ *     ),
+ *     @OA\Property(
+ *         property="frequency",
+ *         description="Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
+ *     ),
+ *     @OA\Property(
+ *         property="status",
+ *         type="boolean",
+ *         description="Status of the process flow (active/inactive)",
+ *     ),
+ *     @OA\Property(
+ *         property="frequency_for",
+ *         description="Frequency for specific entities (users, customers, suppliers, contractors, none)",
+ *     ),
+ *     @OA\Property(
+ *         property="day",
+ *         type="string",
+ *         nullable=true,
+ *         description="Day of the week (if applicable)",
+ *     ),
+ *     @OA\Property(
+ *         property="week",
+ *         type="string",
+ *         nullable=true,
+ *         description="Week of the month (if applicable)",
+ *     ),
+ * )
+ */
+
 class StoreProcessFlowRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
         return true;

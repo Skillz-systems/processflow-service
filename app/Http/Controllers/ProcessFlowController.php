@@ -12,14 +12,6 @@ use Illuminate\Support\Facades\DB;
 use OpenApi\Annotations as OA;
 
 /**
- * @OA\Info(
- *     title="Process Flow Controller",
- *     version="1.0",
- *     description="This is the documentation for the Process Flow Service API routes",
- * )
- */
-
-/**
  * @OA\Tag(name="Process Flows")
  */
 
@@ -57,23 +49,38 @@ class ProcessFlowController extends Controller
      * @return ProcessFlowResource The created process flow resource.
      */
 
-    /**
-     * @OA\Post(
-     *     path="/process-flows",
-     *     tags={"Process Flows"},
-     *     summary="Store a new process flow ",
-     *     description="Stores a new process flow and associated steps if available",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/StoreProcessFlowRequest")
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Process Flow created",
-     *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
-     *     )
-     * )
-     */
+/**
+ * @OA\Post(
+ *     path="/process-flows",
+ *     summary="Creates a new process flow",
+ *     tags={"Process Flows"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="Process flow creation request",
+ *         @OA\JsonContent(ref="#/components/schemas/StoreProcessFlowRequest")
+ *     ),
+ *     @OA\Response(
+ *         response="201",
+ *         description="Process flow created successfully",
+ *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
+ *     ),
+ *      @OA\Response(
+ *          response=400,
+ *          description="Bad Request"
+ *      ),
+ *      @OA\Response(
+ *          response=401,
+ *          description="Unauthenticated",
+ *      ),
+ *    @OA\Response(
+ * response="422",
+ * description="Validation errors"),
+ *
+ *     security={
+ *         {"BearerAuth": {}}
+ *     }
+ * )
+ */
 
     public function store(StoreProcessFlowRequest $request)
     {
@@ -130,7 +137,19 @@ class ProcessFlowController extends Controller
      *         response=200,
      *         description="Process Flow found",
      *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
-     *     )
+     *     ),
+     * @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     * @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=404,
+     *          description="Not Found",
+     *      ),
      * )
      */
     public function show(string $id)
