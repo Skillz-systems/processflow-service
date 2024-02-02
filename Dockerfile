@@ -1,4 +1,4 @@
-FROM php:8.1.0
+FROM php:8.2.0
 
 # Update package lists and install required dependencies
 RUN apt-get update && \
@@ -15,7 +15,7 @@ COPY . /app
 
 # Install application dependencies
 
-RUN composer install 
+RUN composer install
 
 # Expose the port and start the PHP server
 EXPOSE $PORT
