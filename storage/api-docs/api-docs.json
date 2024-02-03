@@ -283,6 +283,7 @@
                         "maxLength": 255,
                         "example": "Sample Process Flow"
                     },
+<<<<<<< HEAD
                     "frequency": {
                         "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
                         "example": "daily"
@@ -308,6 +309,8 @@
                         "example": 1,
                         "nullable": true
                     },
+=======
+>>>>>>> 84654f6 (wip swagger)
                     "frequency": {
                         "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
                         "example": "daily"
@@ -443,15 +446,21 @@
                         "description": "The name of the process flow",
                         "type": "string",
 <<<<<<< HEAD
+<<<<<<< HEAD
                         "maxLength": 255,
                         "example": "Sample Process Flow"
 =======
                         "maxLength": 255
 >>>>>>> c0348c4 (swagger documentation)
+=======
+                        "maxLength": 255,
+                        "example": "Sample Process Flow"
+>>>>>>> 84654f6 (wip swagger)
                     },
                     "start_step_id": {
                         "description": "ID of the starting step (if applicable)",
                         "type": "integer",
+<<<<<<< HEAD
 <<<<<<< HEAD
                         "example": 1,
                         "nullable": true
@@ -469,32 +478,49 @@
                         "description": "Frequency for specific entities (users, customers, suppliers, contractors, none)",
                         "example": "users"
 =======
+=======
+                        "example": 1,
+>>>>>>> 84654f6 (wip swagger)
                         "nullable": true
                     },
                     "frequency": {
-                        "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)"
+                        "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
+                        "example": "daily"
                     },
                     "status": {
                         "description": "Status of the process flow (active/inactive)",
-                        "type": "boolean"
+                        "type": "boolean",
+                        "example": true
                     },
                     "frequency_for": {
+<<<<<<< HEAD
                         "description": "Frequency for specific entities (users, customers, suppliers, contractors, none)"
 >>>>>>> c0348c4 (swagger documentation)
+=======
+                        "description": "Frequency for specific entities (users, customers, suppliers, contractors, none)",
+                        "example": "users"
+>>>>>>> 84654f6 (wip swagger)
                     },
                     "day": {
                         "description": "Day of the week (if applicable)",
                         "type": "string",
 <<<<<<< HEAD
+<<<<<<< HEAD
                         "example": "Monday",
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+                        "example": "Monday",
+>>>>>>> 84654f6 (wip swagger)
                         "nullable": true
                     },
                     "week": {
                         "description": "Week of the month (if applicable)",
                         "type": "string",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 84654f6 (wip swagger)
                         "example": "first",
                         "nullable": true
                     },
@@ -569,8 +595,11 @@
                             },
                             "type": "object"
                         },
+<<<<<<< HEAD
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+>>>>>>> 84654f6 (wip swagger)
                         "nullable": true
                     }
                 },
