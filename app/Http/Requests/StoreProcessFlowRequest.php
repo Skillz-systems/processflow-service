@@ -24,6 +24,7 @@ use Illuminate\Foundation\Http\FormRequest;
 >>>>>>> 5403df7 (swagger documentation)
  *     ),
  *     @OA\Property(
+<<<<<<< HEAD
  *         property="start_step_id",
  *         type="integer",
  *         nullable=true,
@@ -35,6 +36,8 @@ use Illuminate\Foundation\Http\FormRequest;
 >>>>>>> 5403df7 (swagger documentation)
  *     ),
  *     @OA\Property(
+=======
+>>>>>>> 8142ce7 (update documentation)
  *         property="frequency",
  *         description="Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
 <<<<<<< HEAD
