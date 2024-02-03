@@ -16,40 +16,60 @@ use Illuminate\Foundation\Http\FormRequest;
  *         maxLength=255,
  *         description="The name of the process flow",
 <<<<<<< HEAD
+<<<<<<< HEAD
  *         example="Sample Process Flow"
 =======
+=======
+ *         example="Sample Process Flow"
+>>>>>>> 5403df7 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="start_step_id",
  *         type="integer",
  *         nullable=true,
  *         description="ID of the starting step (if applicable)",
+<<<<<<< HEAD
 >>>>>>> c0348c4 (swagger documentation)
+=======
+ *         example=1
+>>>>>>> 5403df7 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="frequency",
  *         description="Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
 <<<<<<< HEAD
+<<<<<<< HEAD
  *         example="daily"
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+ *         example="daily"
+>>>>>>> 5403df7 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="status",
  *         type="boolean",
  *         description="Status of the process flow (active/inactive)",
 <<<<<<< HEAD
+<<<<<<< HEAD
  *         example=true
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+ *         example=true
+>>>>>>> 5403df7 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="frequency_for",
  *         description="Frequency for specific entities (users, customers, suppliers, contractors, none)",
 <<<<<<< HEAD
+<<<<<<< HEAD
  *         example="users"
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+ *         example="users"
+>>>>>>> 5403df7 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="day",
@@ -57,9 +77,13 @@ use Illuminate\Foundation\Http\FormRequest;
  *         nullable=true,
  *         description="Day of the week (if applicable)",
 <<<<<<< HEAD
+<<<<<<< HEAD
  *         example="Monday"
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+ *         example="Monday"
+>>>>>>> 5403df7 (swagger documentation)
  *     ),
  *     @OA\Property(
  *         property="week",
@@ -67,6 +91,9 @@ use Illuminate\Foundation\Http\FormRequest;
  *         nullable=true,
  *         description="Week of the month (if applicable)",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5403df7 (swagger documentation)
  *         example="first"
  *     ),
  *     @OA\Property(
@@ -138,8 +165,11 @@ use Illuminate\Foundation\Http\FormRequest;
  *                 example="active"
  *             ),
  *         ),
+<<<<<<< HEAD
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+>>>>>>> 5403df7 (swagger documentation)
  *     ),
  * )
  */

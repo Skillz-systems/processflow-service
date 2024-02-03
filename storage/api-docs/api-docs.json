@@ -614,6 +614,7 @@
                         "description": "The name of the process flow",
                         "type": "string",
 <<<<<<< HEAD
+<<<<<<< HEAD
                         "maxLength": 255,
                         "example": "Sample Process Flow"
                     },
@@ -631,36 +632,55 @@
                         "example": "users"
 =======
                         "maxLength": 255
+=======
+                        "maxLength": 255,
+                        "example": "Sample Process Flow"
+>>>>>>> 5403df7 (swagger documentation)
                     },
                     "start_step_id": {
                         "description": "ID of the starting step (if applicable)",
                         "type": "integer",
+                        "example": 1,
                         "nullable": true
                     },
                     "frequency": {
-                        "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)"
+                        "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
+                        "example": "daily"
                     },
                     "status": {
                         "description": "Status of the process flow (active/inactive)",
-                        "type": "boolean"
+                        "type": "boolean",
+                        "example": true
                     },
                     "frequency_for": {
+<<<<<<< HEAD
                         "description": "Frequency for specific entities (users, customers, suppliers, contractors, none)"
 >>>>>>> c0348c4 (swagger documentation)
+=======
+                        "description": "Frequency for specific entities (users, customers, suppliers, contractors, none)",
+                        "example": "users"
+>>>>>>> 5403df7 (swagger documentation)
                     },
                     "day": {
                         "description": "Day of the week (if applicable)",
                         "type": "string",
 <<<<<<< HEAD
+<<<<<<< HEAD
                         "example": "Monday",
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+                        "example": "Monday",
+>>>>>>> 5403df7 (swagger documentation)
                         "nullable": true
                     },
                     "week": {
                         "description": "Week of the month (if applicable)",
                         "type": "string",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5403df7 (swagger documentation)
                         "example": "first",
                         "nullable": true
                     },
@@ -735,8 +755,11 @@
                             },
                             "type": "object"
                         },
+<<<<<<< HEAD
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+>>>>>>> 5403df7 (swagger documentation)
                         "nullable": true
                     }
                 },
