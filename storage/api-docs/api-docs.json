@@ -281,12 +281,6 @@
                         "maxLength": 255,
                         "example": "Sample Process Flow"
                     },
-                    "start_step_id": {
-                        "description": "ID of the starting step (if applicable)",
-                        "type": "integer",
-                        "example": 1,
-                        "nullable": true
-                    },
                     "frequency": {
                         "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
                         "example": "daily"
@@ -400,31 +394,111 @@
                     "name": {
                         "description": "The name of the process flow",
                         "type": "string",
-                        "maxLength": 255
+                        "maxLength": 255,
+                        "example": "Sample Process Flow"
                     },
                     "start_step_id": {
                         "description": "ID of the starting step (if applicable)",
                         "type": "integer",
+                        "example": 1,
                         "nullable": true
                     },
                     "frequency": {
-                        "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)"
+                        "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
+                        "example": "daily"
                     },
                     "status": {
                         "description": "Status of the process flow (active/inactive)",
-                        "type": "boolean"
+                        "type": "boolean",
+                        "example": true
                     },
                     "frequency_for": {
-                        "description": "Frequency for specific entities (users, customers, suppliers, contractors, none)"
+                        "description": "Frequency for specific entities (users, customers, suppliers, contractors, none)",
+                        "example": "users"
                     },
                     "day": {
                         "description": "Day of the week (if applicable)",
                         "type": "string",
+                        "example": "Monday",
                         "nullable": true
                     },
                     "week": {
                         "description": "Week of the month (if applicable)",
                         "type": "string",
+                        "example": "first",
+                        "nullable": true
+                    },
+                    "steps": {
+                        "description": "List of all the steps for the process flow",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "name",
+                                "step_route",
+                                "assignee_user_route",
+                                "next_user_designation",
+                                "next_user_department",
+                                "next_user_unit",
+                                "process_flow_id",
+                                "next_user_location",
+                                "step_type",
+                                "user_type",
+                                "status"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "description": "Description",
+                                    "type": "string",
+                                    "example": "Step 1"
+                                },
+                                "step_route": {
+                                    "description": "Step route",
+                                    "type": "string",
+                                    "example": "/step1"
+                                },
+                                "assignee_user_route": {
+                                    "description": "Assignee user route",
+                                    "type": "string",
+                                    "example": "/assignee1"
+                                },
+                                "next_user_designation": {
+                                    "description": "Next user designation",
+                                    "type": "string",
+                                    "example": "Manager"
+                                },
+                                "next_user_department": {
+                                    "description": "Next user Department",
+                                    "type": "string",
+                                    "example": "HR"
+                                },
+                                "next_user_unit": {
+                                    "description": "Next user unit",
+                                    "type": "string",
+                                    "example": "Finance"
+                                },
+                                "process_flow_id": {
+                                    "description": "Process flow ID, should be nullable",
+                                    "type": "integer",
+                                    "example": 123
+                                },
+                                "next_user_location": {
+                                    "description": "next_user_location",
+                                    "type": "string",
+                                    "example": "Office A"
+                                },
+                                "step_type": {
+                                    "description": "step_type",
+                                    "type": "string",
+                                    "example": "Approval"
+                                },
+                                "status": {
+                                    "description": "status",
+                                    "type": "boolean",
+                                    "example": "active"
+                                }
+                            },
+                            "type": "object"
+                        },
                         "nullable": true
                     }
                 },
