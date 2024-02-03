@@ -18,13 +18,6 @@ use Illuminate\Foundation\Http\FormRequest;
  *         example="Sample Process Flow"
  *     ),
  *     @OA\Property(
- *         property="start_step_id",
- *         type="integer",
- *         nullable=true,
- *         description="ID of the starting step (if applicable)",
- *         example=1
- *     ),
- *     @OA\Property(
  *         property="frequency",
  *         description="Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
  *         example="daily"
