@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\Route;
  */
 // Route::middleware(['auth:sanctum'])->group(function () {
 // Route::post('processflows', [ProcessFlowController::class, 'store']);
-Route::middleware(['auth:sanctum'])->group(function () {
-    // Route::post('processflows', [ProcessFlowController::class, 'store']);
+// Route::middleware(['auth:sanctum'])->group(function () {
+// Route::post('processflows', [ProcessFlowController::class, 'store']);
 Route::middleware(['auth:sanctum'])->group(function () {
     // Route::post('processflows', [ProcessFlowController::class, 'store']);
 
