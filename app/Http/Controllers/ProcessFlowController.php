@@ -257,8 +257,8 @@ class ProcessFlowController extends Controller
      *
      * @OA\Delete(
      *     path="/api/process-flows/{id}",
-     *     summary="Delete a ProcessFlow with its associative steps",
      *     tags={"Process Flows"},
+     *     summary="Delete a ProcessFlow with its associative steps",
      *     @OA\Parameter(
      *         description="ID of the ProcessFlow to delete with its associative steps",
      *         in="path",
@@ -287,6 +287,9 @@ class ProcessFlowController extends Controller
      *     )
      * )
      *
+     */
+    /**
+     *
      *  Deletes the specified process flow.
      *
      * @param int $id ID of the process flow to delete
@@ -294,6 +297,7 @@ class ProcessFlowController extends Controller
      */
 
     /**
+     *
      * Deletes the process flow with the given ID.
      *
      * This runs in a database transaction to ensure the process flow is deleted atomically.
