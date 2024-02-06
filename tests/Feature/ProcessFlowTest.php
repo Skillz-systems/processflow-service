@@ -480,7 +480,7 @@ class ProcessFlowTest extends TestCase
         $response = $this->deleteJson('/api/processflows/' . $processFlowId);
         $response->assertStatus(401);
     }
-    public function test_to_invalid_processflow_IDs_throws_error(): void
+    public function test_to_invalid_processflow_id_throws_error(): void
     {
         $processFlowId = 99999;
         $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);

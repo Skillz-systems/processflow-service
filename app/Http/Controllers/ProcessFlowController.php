@@ -259,7 +259,9 @@ class ProcessFlowController extends Controller
      *      tags={"Process Flows"},
      *      summary="Delete a process flow and its steps",
      *      description="Deletes a process flow identified by ID along with all associated steps.",
-     *      security={{"api_key": {}}},
+     *      security={
+     *         {"BearerAuth": {}}
+     *     },
      *      @OA\Parameter(
      *          name="processFlowId",
      *          description="ID of the process flow to delete",
