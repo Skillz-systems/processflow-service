@@ -90,4 +90,51 @@ class ProcessFlowObserverTest extends TestCase
         $this->assertNull($result);
     }
 
+    public function test_to_see_observer_is_called_when_deleting(): void
+    {
+
+        $processFlowData = [
+            'name' => 'Test Process Flow',
+            'frequency' => 'weekly',
+            'status' => true,
+            'frequency_for' => 'users',
+            'day' => null,
+            'week' => 'monday',
+            'steps' => [
+                [
+
+                    'name' => 'test name single test',
+                    'step_route' => 'this should be a route',
+                    'assignee_user_route' => 1,
+                    'next_user_designation' => 1,
+                    'next_user_department' => 1,
+                    'next_user_unit' => 1,
+                    'next_user_location' => 1,
+                    'step_type' => 'create',
+                    'user_type' => 'customer',
+                    'status' => 1,
+                ],
+                [
+
+                    'name' => 'test name single two test',
+                    'step_route' => 'this should be a route',
+                    'assignee_user_route' => 1,
+                    'next_user_designation' => 1,
+                    'next_user_department' => 1,
+                    'next_user_unit' => 1,
+                    'next_user_location' => 1,
+                    'step_type' => 'create',
+                    'user_type' => 'customer',
+                    'status' => 1,
+                ],
+            ],
+        ];
+        $stepService = new ProcessflowStepService();
+        $processFlow = new ProcessFlow($processFlowData);
+        $observer = new ProcessFlowObserver($stepService);
+        $observer->deleting($processFlow);
+        $this->assertNull($observer->deleting($processFlow));
+
+    }
+
 }
