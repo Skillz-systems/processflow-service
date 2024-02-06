@@ -233,17 +233,31 @@ class ProcessFlowObserver
 =======
 =======
 
-    // public function deleted(ProcessFlow $processFlow)
-    // {
-    //     if ($processFlow->steps) {
-    //         foreach ($processFlow->steps as $step) {
-    //             $this->processflowStepService->deleteProcessFlowStep($step['id']);
-    //         }
-    //     }
+    /**
+     * Handle the deleted event for a ProcessFlow.
+     *
+     * Delete all the steps associated with the deleted ProcessFlow.
+     *
+     * @param \App\Models\ProcessFlow $processFlow The deleted ProcessFlow instance.
+     *
+     * @return void
+     */
+    public function deleting(ProcessFlow $processFlow)
+    {
+        if ($processFlow->steps()->count() > 0) {
+            $steps = ProcessFlowStep::where('process_flow_id', $processFlow->id)->get();
 
+<<<<<<< HEAD
     //     // Add logic to run after the process flow is deleted
     //     // $this->processflowStepService->deleteProcessFlowStep($processFlow->id);
     // }
 >>>>>>> 3edf406 (first code draft)
 >>>>>>> b4d02d3 (first code draft)
+=======
+            foreach ($steps as $step) {
+                $step->delete();
+            }
+        }
+    }
+>>>>>>> 744c314 (observer code added)
 }

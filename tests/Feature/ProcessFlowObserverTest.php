@@ -144,6 +144,7 @@ class ProcessFlowObserverTest extends TestCase
         $observer = new ProcessFlowObserver($stepService);
         $observer->deleting($processFlow);
         $this->assertNull($observer->deleting($processFlow));
+<<<<<<< HEAD
 =======
     // Use the real ProcessflowStepService
 
@@ -268,6 +269,8 @@ class ProcessFlowObserverTest extends TestCase
             'id' => $step->id,
             'name' => 'test name single test updated',
         ]);
+=======
+>>>>>>> 744c314 (observer code added)
 
     }
 

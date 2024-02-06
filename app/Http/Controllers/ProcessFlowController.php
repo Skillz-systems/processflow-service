@@ -7,9 +7,12 @@ use App\Http\Requests\UpdateProcessFlowRequest;
 use App\Http\Resources\ProcessFlowResource;
 use App\Models\ProcessFlow;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 use App\Models\ProcessFlowStep;
 >>>>>>> b4d02d3 (first code draft)
+=======
+>>>>>>> 744c314 (observer code added)
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
 use Illuminate\Http\Request;
@@ -413,8 +416,18 @@ class ProcessFlowController extends Controller
      * @param int $id ID of the process flow to delete
      * @return \Illuminate\Http\Response No content response if deleted successfull
      */
+
+    /**
+     * Deletes the process flow with the given ID.
+     *
+     * This runs in a database transaction to ensure the process flow is deleted atomically.
+     * If any error occurs, the transaction will be rolled back.
+     *
+     * Returns a 204 No Content response if deleted successfully.
+     */
     public function destroy(int $id)
     {
+<<<<<<< HEAD
         return DB::transaction(function () use ($id) {
             $processFlow = ProcessFlow::findOrFail($id);
 
@@ -432,6 +445,22 @@ class ProcessFlowController extends Controller
 
 
 >>>>>>> b4d02d3 (first code draft)
+=======
+        try {
+            return DB::transaction(function () use ($id) {
+                $processFlow = ProcessFlow::findOrFail($id);
+                $processFlow->delete();
+
+                return response()->noContent();
+            }, 5); // Setting 5 seconds timeout
+        } catch (\Throwable $e) {
+
+            throw $e;
+            // Handle any exceptions
+
+            // return response()->json(['error' => 'Failed to delete process flow'], 500);
+        }
+>>>>>>> 744c314 (observer code added)
 
     }
 }
