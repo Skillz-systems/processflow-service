@@ -465,10 +465,10 @@ class ProcessFlowTest extends TestCase
         ];
 
         $createdProcessFlow = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
-        $processFlowId = $createdProcessFlow->id;
+        $processFlowId = $createdProcessFlow->json('data.id');
         $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('process_flows', $createdProcessFlow->toArray());
+        // $this->assertDatabaseMissing('process_flows', $createdProcessFlow->toArray());
         $this->assertDatabaseCount('process_flows', 0);
 
     }
@@ -482,8 +482,8 @@ class ProcessFlowTest extends TestCase
     }
     public function test_to_invalid_processflow_IDs_throws_error(): void
     {
-        $processFlowId = 999;
-        $response =  $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
+        $processFlowId = 99999;
+        $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
         $response->assertStatus(404);
     }
 }

@@ -31,6 +31,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
+<<<<<<< HEAD
+=======
+    Route::delete('/processflows/{id}', [ProcessFlowController::class, 'destroy']);
+
+    Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
+    Route::post('processflowstep/create/{id}', [ProcessflowStepController::class, 'store']);
+    Route::post('/processflows', [ProcessFlowController::class, 'store']);
+    Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
+    Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
+>>>>>>> 3edf406 (first code draft)
 
 });
 

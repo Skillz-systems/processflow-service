@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProcessFlowRequest;
 use App\Http\Requests\UpdateProcessFlowRequest;
 use App\Http\Resources\ProcessFlowResource;
+use App\Models\ProcessFlow;
+use App\Models\ProcessFlowStep;
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
 use Illuminate\Http\Request;
@@ -253,10 +255,62 @@ class ProcessFlowController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     *
+     * @OA\Delete(
+     *     path="/api/process-flows/{id}",
+     *     summary="Delete a ProcessFlow with its associative steps",
+     *     tags={"Process Flows"},
+     *     @OA\Parameter(
+     *         description="ID of the ProcessFlow to delete with its associative steps",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found",
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error",
+     *     )
+     * )
+     *
+     *  Deletes the specified process flow.
+     *
+     * @param int $id ID of the process flow to delete
+     * @return \Illuminate\Http\Response No content response if deleted successfull
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        return DB::transaction(function () use ($id) {
+            $processFlow = ProcessFlow::findOrFail($id);
+
+            if ($processFlow['steps']->count() > 0) {
+                $steps = ProcessFlowStep::where('process_flow_id', $id)->get();
+
+                foreach ($steps as $step) {
+                    $this->processflowStepService->deleteProcessFlowStep($step['id']);
+                }
+            }
+            $processFlow->delete();
+
+            return response()->noContent();
+        }, 5);
+
+
+
     }
 }
