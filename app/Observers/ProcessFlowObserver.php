@@ -51,9 +51,12 @@ class ProcessFlowObserver
             $steps = request()->input('steps');
 
             foreach ($steps as $step) {
-                $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
-            }
 
+                if (isset($step['id'])) {
+                    $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
+                }
+                // $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
+            }
         }
 
         // if ($processFlow->steps) {
