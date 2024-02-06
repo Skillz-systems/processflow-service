@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 /**
  * Stores a new process flow.
  */
+// Route::middleware(['auth:sanctum'])->group(function () {
+// Route::post('processflows', [ProcessFlowController::class, 'store']);
+// Route::middleware(['auth:sanctum'])->group(function () {
+// Route::post('processflows', [ProcessFlowController::class, 'store']);
 Route::middleware(['auth:sanctum'])->group(function () {
     // Route::post('processflows', [ProcessFlowController::class, 'store']);
 
@@ -26,8 +30,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
+    Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
     Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
     Route::post('processflowstep/create/{id}', [ProcessflowStepController::class, 'store']);
+    Route::post('/processflows', [ProcessFlowController::class, 'store']);
+    Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
+    Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 
 });
 

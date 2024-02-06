@@ -5,6 +5,135 @@
         "version": "0.1"
     },
     "paths": {
+        "/process-flows": {
+            "post": {
+                "tags": [
+                    "Process Flows"
+                ],
+                "summary": "Creates a new process flow",
+                "operationId": "5c8f61303d7e9c6c53c8abd895017b86",
+                "requestBody": {
+                    "description": "Process flow creation request",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreProcessFlowRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Process flow created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProcessFlowResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/process-flows/{id}": {
+            "get": {
+                "tags": [
+                    "Process Flows"
+                ],
+                "summary": "Get a process flow",
+                "description": "Returns the details of a single process flow with its associated steps",
+                "operationId": "4ca8514903c12b5ac618910affed3cda",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the process flow",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Process Flow found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProcessFlowResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Process Flows"
+                ],
+                "summary": "Update a process flow",
+                "description": "Updates the details of an existing process flow with it's associated steps if provided",
+                "operationId": "0bf7a90d300c6fb58881da51642a68fe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the process flow to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProcessFlowRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Process Flow updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProcessFlowResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/processflowstep/create/{id}": {
             "post": {
                 "tags": [
@@ -137,6 +266,244 @@
     },
     "components": {
         "schemas": {
+            "StoreProcessFlowRequest": {
+                "title": "StoreProcessFlowRequest",
+                "description": "Store process flow request body data",
+                "required": [
+                    "name",
+                    "frequency",
+                    "frequency_for"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "The name of the process flow",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Sample Process Flow"
+                    },
+                    "frequency": {
+                        "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
+                        "example": "daily"
+                    },
+                    "status": {
+                        "description": "Status of the process flow (active/inactive)",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "frequency_for": {
+                        "description": "Frequency for specific entities (users, customers, suppliers, contractors, none)",
+                        "example": "users"
+                    },
+                    "day": {
+                        "description": "Day of the week (if applicable)",
+                        "type": "string",
+                        "example": "Monday",
+                        "nullable": true
+                    },
+                    "week": {
+                        "description": "Week of the month (if applicable)",
+                        "type": "string",
+                        "example": "first",
+                        "nullable": true
+                    },
+                    "steps": {
+                        "description": "List of all the steps for the process flow",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "name",
+                                "step_route",
+                                "assignee_user_route",
+                                "next_user_designation",
+                                "next_user_department",
+                                "next_user_unit",
+                                "process_flow_id",
+                                "next_user_location",
+                                "step_type",
+                                "user_type",
+                                "status"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "description": "Description",
+                                    "type": "string",
+                                    "example": "Step 1"
+                                },
+                                "step_route": {
+                                    "description": "Step route",
+                                    "type": "string",
+                                    "example": "/step1"
+                                },
+                                "assignee_user_route": {
+                                    "description": "Assignee user route",
+                                    "type": "string",
+                                    "example": "/assignee1"
+                                },
+                                "next_user_designation": {
+                                    "description": "Next user designation",
+                                    "type": "string",
+                                    "example": "Manager"
+                                },
+                                "next_user_department": {
+                                    "description": "Next user Department",
+                                    "type": "string",
+                                    "example": "HR"
+                                },
+                                "next_user_unit": {
+                                    "description": "Next user unit",
+                                    "type": "string",
+                                    "example": "Finance"
+                                },
+                                "process_flow_id": {
+                                    "description": "Process flow ID, should be nullable",
+                                    "type": "integer",
+                                    "example": 123
+                                },
+                                "next_user_location": {
+                                    "description": "next_user_location",
+                                    "type": "string",
+                                    "example": "Office A"
+                                },
+                                "step_type": {
+                                    "description": "step_type",
+                                    "type": "string",
+                                    "example": "Approval"
+                                },
+                                "status": {
+                                    "description": "status",
+                                    "type": "boolean",
+                                    "example": "active"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateProcessFlowRequest": {
+                "title": "UpdateProcessFlowRequest",
+                "description": "update process flow request body data",
+                "required": [
+                    "name",
+                    "frequency",
+                    "frequency_for"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "The name of the process flow",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Sample Process Flow"
+                    },
+                    "start_step_id": {
+                        "description": "ID of the starting step (if applicable)",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "frequency": {
+                        "description": "Frequency of the process flow (daily, weekly, hourly, monthly, yearly, none)",
+                        "example": "daily"
+                    },
+                    "status": {
+                        "description": "Status of the process flow (active/inactive)",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "frequency_for": {
+                        "description": "Frequency for specific entities (users, customers, suppliers, contractors, none)",
+                        "example": "users"
+                    },
+                    "day": {
+                        "description": "Day of the week (if applicable)",
+                        "type": "string",
+                        "example": "Monday",
+                        "nullable": true
+                    },
+                    "week": {
+                        "description": "Week of the month (if applicable)",
+                        "type": "string",
+                        "example": "first",
+                        "nullable": true
+                    },
+                    "steps": {
+                        "description": "List of all the steps for the process flow",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "name",
+                                "step_route",
+                                "assignee_user_route",
+                                "next_user_designation",
+                                "next_user_department",
+                                "next_user_unit",
+                                "process_flow_id",
+                                "next_user_location",
+                                "step_type",
+                                "user_type",
+                                "status"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "description": "Description",
+                                    "type": "string",
+                                    "example": "Step 1"
+                                },
+                                "step_route": {
+                                    "description": "Step route",
+                                    "type": "string",
+                                    "example": "/step1"
+                                },
+                                "assignee_user_route": {
+                                    "description": "Assignee user route",
+                                    "type": "string",
+                                    "example": "/assignee1"
+                                },
+                                "next_user_designation": {
+                                    "description": "Next user designation",
+                                    "type": "string",
+                                    "example": "Manager"
+                                },
+                                "next_user_department": {
+                                    "description": "Next user Department",
+                                    "type": "string",
+                                    "example": "HR"
+                                },
+                                "next_user_unit": {
+                                    "description": "Next user unit",
+                                    "type": "string",
+                                    "example": "Finance"
+                                },
+                                "process_flow_id": {
+                                    "description": "Process flow ID, should be nullable",
+                                    "type": "integer",
+                                    "example": 123
+                                },
+                                "next_user_location": {
+                                    "description": "next_user_location",
+                                    "type": "string",
+                                    "example": "Office A"
+                                },
+                                "step_type": {
+                                    "description": "step_type",
+                                    "type": "string",
+                                    "example": "Approval"
+                                },
+                                "status": {
+                                    "description": "status",
+                                    "type": "boolean",
+                                    "example": "active"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
             "ProcessFlowResource": {
                 "properties": {
                     "id": {
@@ -217,5 +584,10 @@
                 "type": "object"
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Process Flows"
+        }
+    ]
 }

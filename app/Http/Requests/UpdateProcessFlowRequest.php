@@ -6,8 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @OA\Schema(
- *     title="StoreProcessFlowRequest",
- *     description="Store process flow request body data",
+ *     title="UpdateProcessFlowRequest",
+ *     description="update process flow request body data",
  *     type="object",
  *     required={"name", "frequency", "frequency_for"},
  *     @OA\Property(
@@ -16,6 +16,13 @@ use Illuminate\Foundation\Http\FormRequest;
  *         maxLength=255,
  *         description="The name of the process flow",
  *         example="Sample Process Flow"
+ *     ),
+ *     @OA\Property(
+ *         property="start_step_id",
+ *         type="integer",
+ *         nullable=true,
+ *         description="ID of the starting step (if applicable)",
+ *         example=1
  *     ),
  *     @OA\Property(
  *         property="frequency",
@@ -120,7 +127,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * )
  */
 
-class StoreProcessFlowRequest extends FormRequest
+class UpdateProcessFlowRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -136,13 +143,13 @@ class StoreProcessFlowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:process_flows,name',
-            'start_step_id' => 'nullable|integer',
-            'frequency' => 'required|in:daily,weekly,hourly,monthly,yearly,none',
-            'status' => 'sometimes|boolean',
-            'frequency_for' => 'required|in:users,customers,suppliers,contractors,none',
-            'day' => 'nullable|string',
-            'week' => 'nullable|string',
+            'name' => 'sometimes|nullable',
+            "start_step_id" => "sometimes|nullable|integer",
+            "frequency" => "sometimes|nullable|in:daily,weekly,hourly,monthly,yearly,none",
+            "status" => "sometimes|nullable|boolean",
+            "frequency_for" => "sometimes|nullable|in:users,customers,suppliers,contractors,none",
+            "day" => "sometimes|nullable|string",
+            "week" => "sometimes|nullable|string",
         ];
     }
 }
