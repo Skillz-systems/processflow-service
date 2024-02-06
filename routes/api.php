@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     Route::delete('/processflows/{id}', [ProcessFlowController::class, 'destroy']);
 
 =======
@@ -76,6 +77,17 @@ Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 >>>>>>> b4b611f (route)
 =======
 >>>>>>> 974e109 (update observer)
+=======
+=======
+    Route::delete('/processflows/{id}', [ProcessFlowController::class, 'destroy']);
+
+    Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
+    Route::post('processflowstep/create/{id}', [ProcessflowStepController::class, 'store']);
+    Route::post('/processflows', [ProcessFlowController::class, 'store']);
+    Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
+    Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
+>>>>>>> 3edf406 (first code draft)
+>>>>>>> b4d02d3 (first code draft)
 
 });
 

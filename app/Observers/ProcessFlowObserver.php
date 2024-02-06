@@ -69,6 +69,7 @@ class ProcessFlowObserver
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     /**
      * Handle the deleted event for a ProcessFlow.
@@ -161,6 +162,8 @@ class ProcessFlowObserver
     }
 =======
 >>>>>>> 4c20092 (document observer)
+=======
+>>>>>>> b4d02d3 (first code draft)
 >>>>>>> 63b2932 (update observer)
 <<<<<<< HEAD
 >>>>>>> 56b5cde (update observer)
@@ -225,5 +228,22 @@ class ProcessFlowObserver
 
     }
 >>>>>>> 3447248 (update observer)
+<<<<<<< HEAD
 >>>>>>> 974e109 (update observer)
+=======
+=======
+
+    // public function deleted(ProcessFlow $processFlow)
+    // {
+    //     if ($processFlow->steps) {
+    //         foreach ($processFlow->steps as $step) {
+    //             $this->processflowStepService->deleteProcessFlowStep($step['id']);
+    //         }
+    //     }
+
+    //     // Add logic to run after the process flow is deleted
+    //     // $this->processflowStepService->deleteProcessFlowStep($processFlow->id);
+    // }
+>>>>>>> 3edf406 (first code draft)
+>>>>>>> b4d02d3 (first code draft)
 }
