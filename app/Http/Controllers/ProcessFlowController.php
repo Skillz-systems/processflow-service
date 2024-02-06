@@ -193,40 +193,34 @@ class ProcessFlowController extends Controller
     }
 
     /**
-     *
      * @OA\Delete(
-     *     path="/api/process-flows/{id}",
-     *     tags={"Process Flows"},
-     *     summary="Delete a ProcessFlow with its associative steps",
-     *     @OA\Parameter(
-     *         description="ID of the ProcessFlow to delete with its associative steps",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="No content",
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Not found",
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized",
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Server error",
-     *     )
+     *      path="/api/process-flows/{processFlowId}",
+     *      tags={"Process Flows"},
+     *      summary="Delete a process flow and its steps",
+     *      description="Deletes a process flow identified by ID along with all associated steps.",
+     *      security={{"api_key": {}}},
+     *      @OA\Parameter(
+     *          name="processFlowId",
+     *          description="ID of the process flow to delete",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *      ),
+     *      @OA\Response(response=204, description="No content"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=403, description="Forbidden"),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found",
+     *          @OA\JsonContent(ref="#/components/schemas/NotFoundError")
+     *      ),
+     *      @OA\Response(response=500, description="Server error")
      * )
-     *
-     */
+
+
     /**
      *
      *  Deletes the specified process flow.
