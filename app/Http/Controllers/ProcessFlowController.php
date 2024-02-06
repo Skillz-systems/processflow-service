@@ -234,22 +234,26 @@ class ProcessFlowController extends Controller
      */
     public function destroy(int $id)
     {
-        return DB::transaction(function () use ($id) {
-            $processFlow = ProcessFlow::findOrFail($id);
+        try {
+            return DB::transaction(function () use ($id) {
+                $processFlow = ProcessFlow::findOrFail($id);
 
-            if ($processFlow['steps']->count() > 0) {
-                $steps = ProcessFlowStep::where('process_flow_id', $id)->get();
+                if ($processFlow->steps()->count() > 0) {
+                    $steps = ProcessFlowStep::where('process_flow_id', $id)->get();
 
-                foreach ($steps as $step) {
-                    $this->processflowStepService->deleteProcessFlowStep($step['id']);
+                    foreach ($steps as $step) {
+                        $this->processflowStepService->deleteProcessFlowStep($step->id);
+                    }
                 }
-            }
-            $processFlow->delete();
 
-            return response()->noContent();
-        }, 5);
+                $processFlow->delete();
 
+                return response()->noContent();
+            }, 5); // Setting 5 seconds timeout
+        } catch (\Throwable $err) {
 
+            throw $err;
+        }
 
     }
 }
