@@ -365,4 +365,81 @@ class ProcessFlowTest extends TestCase
         $response = $this->actingAsTestUser()->putJson('/api/processflows/' . $id, $data);
         $response->assertStatus(404);
     }
+
+    //DELETE
+
+    public function test_to_delete_a_processflow_successfully(): void
+    {
+        $processFlowData = ProcessFlow::factory()->create();
+        $processFlowId = $processFlowData->id;
+        $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('process_flows', $processFlowData->toArray());
+        $this->assertDatabaseCount('process_flows', 0);
+
+    }
+    public function test_to_delete_a_processflow_and_associative_steps_successfully(): void
+    {
+
+        $processFlowData = [
+            'name' => 'Test Process Flow',
+            'frequency' => 'weekly',
+            'status' => true,
+            'frequency_for' => 'users',
+            'day' => null,
+            'week' => 'monday',
+            'steps' => [
+                [
+
+                    'name' => 'test name single test',
+                    'step_route' => 'this should be a route',
+                    'assignee_user_route' => 1,
+                    'next_user_designation' => 1,
+                    'next_user_department' => 1,
+                    'next_user_unit' => 1,
+                    'next_user_location' => 1,
+                    'step_type' => 'create',
+                    'user_type' => 'customer',
+                    'status' => 1,
+                ],
+                [
+
+                    'name' => 'test name single two test',
+                    'step_route' => 'this should be a route',
+                    'assignee_user_route' => 1,
+                    'next_user_designation' => 1,
+                    'next_user_department' => 1,
+                    'next_user_unit' => 1,
+                    'next_user_location' => 1,
+                    'step_type' => 'create',
+                    'user_type' => 'customer',
+                    'status' => 1,
+                ],
+            ],
+        ];
+
+        $createdProcessFlow = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $processFlowId = $createdProcessFlow->json('data.id');
+        $this->assertDatabaseHas('process_flow_steps', ['name' => 'test name single two test']);
+
+        $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('process_flow_steps', ['name' => 'test name single two test']);
+        $this->assertDatabaseCount('process_flows', 0);
+
+    }
+
+    public function test_to_unauthorized_users_cannot_delete_a_processflow(): void
+    {
+        $processFlowData = ProcessFlow::factory()->create();
+        $processFlowId = $processFlowData->id;
+        $response = $this->deleteJson('/api/processflows/' . $processFlowId);
+        $response->assertStatus(401);
+    }
+    public function test_to_invalid_processflow_id_throws_error(): void
+    {
+        $processFlowId = 99999;
+        $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
+        $response->assertStatus(404);
+    }
 }

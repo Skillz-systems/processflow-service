@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProcessFlowRequest;
 use App\Http\Requests\UpdateProcessFlowRequest;
 use App\Http\Resources\ProcessFlowResource;
+use App\Models\ProcessFlow;
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
 use Illuminate\Http\Request;
@@ -49,38 +50,44 @@ class ProcessFlowController extends Controller
      * @return ProcessFlowResource The created process flow resource.
      */
 
-/**
- * @OA\Post(
- *     path="/process-flows",
- *     summary="Creates a new process flow",
- *     tags={"Process Flows"},
- *     @OA\RequestBody(
- *         required=true,
- *         description="Process flow creation request",
- *         @OA\JsonContent(ref="#/components/schemas/StoreProcessFlowRequest")
- *     ),
- *     @OA\Response(
- *         response="201",
- *         description="Process flow created successfully",
- *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
- *     ),
- *      @OA\Response(
- *          response=400,
- *          description="Bad Request"
- *      ),
- *      @OA\Response(
- *          response=401,
- *          description="Unauthenticated",
- *      ),
- *    @OA\Response(
- * response="422",
- * description="Validation errors"),
- *
- *     security={
- *         {"BearerAuth": {}}
- *     }
- * )
- */
+    /**
+     * @OA\Post(
+     *     path="/process-flows",
+     *     summary="Creates a new process flow",
+     *     tags={"Process Flows"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Process flow creation request",
+     *         @OA\JsonContent(ref="#/components/schemas/StoreProcessFlowRequest")
+     *     ),
+     *     @OA\Response(
+     *         response="201",
+     *         description="Process flow created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
+     *     ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *    @OA\Response(
+     * response="422",
+     * description="Validation errors"),
+     *    @OA\Response(
+     * response="404",
+     * description="Not Found"),
+     *    @OA\Response(
+     * response="500",
+     * description="Server Error"),
+     *
+     *     security={
+     *         {"BearerAuth": {}}
+     *     }
+     * )
+     */
 
     public function store(StoreProcessFlowRequest $request)
     {
@@ -150,6 +157,10 @@ class ProcessFlowController extends Controller
      *          response=404,
      *          description="Not Found",
      *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error",
+     *      ),
      * )
      */
     public function show(string $id)
@@ -178,8 +189,14 @@ class ProcessFlowController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Process Flow updated",
-     *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
-     *     )
+     *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")),
+     *     @OA\Response(response=400, description="Bad request"),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=403, description="Forbidden"),
+     *     @OA\Response(response="422",description="Validation errors"),
+     *     @OA\Response(response=404,description="Not found"),
+     *     @OA\Response(response=500, description="Server error"),
+     *
      * )
      */
 
@@ -192,10 +209,56 @@ class ProcessFlowController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/process-flows/{id}",
+     *      tags={"Process Flows"},
+     *      summary="Delete a process flow and its steps",
+     *      description="Deletes a process flow identified by ID along with all associated steps.",
+     *      security={
+     *         {"BearerAuth": {}}
+     *     },
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID of the process flow to delete",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *      ),
+     *      @OA\Response(response=204, description="No content"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=403, description="Forbidden"),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found",
+     *         ),
+     *      @OA\Response(response=500, description="Server error")
+     *      ),
+     * )
+     *
      */
-    public function destroy(string $id)
+
+    public function destroy(int $id)
     {
-        //
+        try {
+
+            return DB::transaction(function () use ($id) {
+
+                if ($this->processFlowService->getProcessFlow($id)) {
+                    $this->processFlowService->deleteProcessflow($id);
+                    return response()->noContent();
+                }
+            }, 5); // Setting 5 seconds timeout
+        } catch (\Throwable $e) {
+
+            throw $e;
+            // Handle any exceptions
+
+            // return response()->json(['error' => 'Failed to delete process flow'], 500);
+        }
+
     }
 }
