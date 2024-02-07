@@ -128,15 +128,6 @@ class ProcessFlowObserver
      */
     public function deleting(ProcessFlow $processFlow)
     {
-        // if ($processFlow->steps()->count() > 0) {
-        //     $steps = ProcessFlowStep::where('process_flow_id', $processFlow->id)->get();
-
-        //     foreach ($steps as $step) {
-
-        //         $this->processflowStepService->deleteProcessFlowStep($step->id);
-        //         // $step->delete();
-        //     }
-        // }
 
         if ($processFlow->steps()->count() > 0) {
             $steps = ProcessFlowStep::where('process_flow_id', $processFlow->id)->get();

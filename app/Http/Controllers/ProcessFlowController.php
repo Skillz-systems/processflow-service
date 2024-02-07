@@ -67,6 +67,7 @@ class ProcessFlowController extends Controller
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c0348c4 (swagger documentation)
 /**
@@ -123,6 +124,46 @@ class ProcessFlowController extends Controller
 >>>>>>> 2186dbc (swagger documentation)
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+    /**
+     * @OA\Post(
+     *     path="/process-flows",
+     *     summary="Creates a new process flow",
+     *     tags={"Process Flows"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Process flow creation request",
+     *         @OA\JsonContent(ref="#/components/schemas/StoreProcessFlowRequest")
+     *     ),
+     *     @OA\Response(
+     *         response="201",
+     *         description="Process flow created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
+     *     ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *    @OA\Response(
+     * response="422",
+     * description="Validation errors"),
+     *    @OA\Response(
+     * response="404",
+     * description="Not Found"),
+     *    @OA\Response(
+     * response="500",
+     * description="Server Error"),
+     *
+     *     security={
+     *         {"BearerAuth": {}}
+     *     }
+     * )
+     */
+>>>>>>> 4ce93a4 (swagger bugs fixed)
 
     public function store(StoreProcessFlowRequest $request)
     {
@@ -197,11 +238,18 @@ class ProcessFlowController extends Controller
      *          description="Not Found",
      *      ),
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
      *     )
 >>>>>>> 2186dbc (swagger documentation)
 =======
 >>>>>>> c0348c4 (swagger documentation)
+=======
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error",
+     *      ),
+>>>>>>> 4ce93a4 (swagger bugs fixed)
      * )
      */
     public function show(string $id)
@@ -230,8 +278,14 @@ class ProcessFlowController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Process Flow updated",
-     *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
-     *     )
+     *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")),
+     *     @OA\Response(response=400, description="Bad request"),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=403, description="Forbidden"),
+     *     @OA\Response(response="422",description="Validation errors"),
+     *     @OA\Response(response=404,description="Not found"),
+     *     @OA\Response(response=500, description="Server error"),
+     *
      * )
      */
 <<<<<<< HEAD
@@ -255,7 +309,7 @@ class ProcessFlowController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/api/process-flows/{processFlowId}",
+     *      path="/process-flows/{id}",
      *      tags={"Process Flows"},
      *      summary="Delete a process flow and its steps",
      *      description="Deletes a process flow identified by ID along with all associated steps.",
@@ -263,7 +317,7 @@ class ProcessFlowController extends Controller
      *         {"BearerAuth": {}}
      *     },
      *      @OA\Parameter(
-     *          name="processFlowId",
+     *          name="id",
      *          description="ID of the process flow to delete",
      *          in="path",
      *          required=true,
@@ -274,34 +328,18 @@ class ProcessFlowController extends Controller
      *      ),
      *      @OA\Response(response=204, description="No content"),
      *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *      @OA\Response(response=403, description="Forbidden"),
      *      @OA\Response(
      *          response=404,
      *          description="Not found",
-     *          @OA\JsonContent(ref="#/components/schemas/NotFoundError")
-     *      ),
+     *         ),
      *      @OA\Response(response=500, description="Server error")
+     *      ),
      * )
      *
      */
 
-    /**
-     *
-     *  Deletes the specified process flow.
-     *
-     * @param int $id ID of the process flow to delete
-     * @return \Illuminate\Http\Response No content response if deleted successfull
-     */
-
-    /**
-     *
-     * Deletes the process flow with the given ID.
-     *
-     * This runs in a database transaction to ensure the process flow is deleted atomically.
-     * If any error occurs, the transaction will be rolled back.
-     *
-     * Returns a 204 No Content response if deleted successfully.
-     */
     public function destroy(int $id)
     {
         try {
