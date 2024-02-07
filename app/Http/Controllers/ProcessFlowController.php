@@ -244,11 +244,13 @@ class ProcessFlowController extends Controller
     public function destroy(int $id)
     {
         try {
-            return DB::transaction(function () use ($id) {
-                $processFlow = ProcessFlow::findOrFail($id);
-                $processFlow->delete();
 
-                return response()->noContent();
+            return DB::transaction(function () use ($id) {
+
+                if ($this->processFlowService->getProcessFlow($id)) {
+                    $this->processFlowService->deleteProcessflow($id);
+                    return response()->noContent();
+                }
             }, 5); // Setting 5 seconds timeout
         } catch (\Throwable $e) {
 
