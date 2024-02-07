@@ -134,7 +134,7 @@ class ProcessflowStepControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function test_toSee_if_we_can_create_a_new_process_flow_steps_for_a_process_flow_that_already_has_a_start_step_id()
+    public function test_to_see_if_we_can_create_a_new_process_flow_steps_for_a_process_flow_that_already_has_a_start_step_id()
     {
 
         $data = ["steps" =>
@@ -275,6 +275,53 @@ class ProcessflowStepControllerTest extends TestCase
         $getProcessFlow = (new ProcessFlowService())->getProcessFlow(1);
         $this->assertEquals($getProcessFlow->start_step_id, 8);
         $response->assertStatus(200);
+
+    }
+
+    public function test_to_see_if_a_processflow_step_can_be_deleted()
+    {
+        $processFlowData = [
+            'name' => 'Test Process Flow',
+            'frequency' => 'weekly',
+            'status' => true,
+            'frequency_for' => 'users',
+            'day' => null,
+            'week' => 'monday',
+            'steps' => [
+                [
+
+                    'name' => 'test name single test',
+                    'step_route' => 'this should be a route',
+                    'assignee_user_route' => 1,
+                    'next_user_designation' => 1,
+                    'next_user_department' => 1,
+                    'next_user_unit' => 1,
+                    'next_user_location' => 1,
+                    'step_type' => 'create',
+                    'user_type' => 'customer',
+                    'status' => 1,
+                ],
+                [
+
+                    'name' => 'test name single two test',
+                    'step_route' => 'this should be a route',
+                    'assignee_user_route' => 1,
+                    'next_user_designation' => 1,
+                    'next_user_department' => 1,
+                    'next_user_unit' => 1,
+                    'next_user_location' => 1,
+                    'step_type' => 'create',
+                    'user_type' => 'customer',
+                    'status' => 1,
+                ],
+            ],
+        ];
+        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $deleteResponse = $this->actingAsTestUser()->deleteJson('/api/processflowstep/delete/' . $response["data"]["steps"][1]["id"]);
+        $deleteResponse->assertOk();
+        $this->assertDatabaseCount("process_flow_steps", 1);
+        $this->assertDatabaseMissing("process_flow_steps", ["id" => 2]);
+        // dd($response);
 
     }
 
