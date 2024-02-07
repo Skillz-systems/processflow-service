@@ -466,9 +466,11 @@ class ProcessFlowTest extends TestCase
 
         $createdProcessFlow = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
         $processFlowId = $createdProcessFlow->json('data.id');
+        $this->assertDatabaseHas('process_flow_steps', ['name' => 'test name single two test']);
+
         $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
         $response->assertStatus(204);
-        // $this->assertDatabaseMissing('process_flows', $createdProcessFlow->toArray());
+        $this->assertDatabaseMissing('process_flow_steps', ['name' => 'test name single two test']);
         $this->assertDatabaseCount('process_flows', 0);
 
     }
