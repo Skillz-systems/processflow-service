@@ -244,6 +244,10 @@ class ProcessFlowObserver
      */
     public function deleting(ProcessFlow $processFlow)
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 52670e4 (swagger bugs fixed)
         if ($processFlow->steps()->count() > 0) {
             $steps = ProcessFlowStep::where('process_flow_id', $processFlow->id)->get();
 

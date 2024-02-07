@@ -74,6 +74,7 @@ class ProcessFlowController extends Controller
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * @OA\Post(
      *     path="/process-flows",
@@ -115,6 +116,8 @@ class ProcessFlowController extends Controller
 =======
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> 52670e4 (swagger bugs fixed)
 <<<<<<< HEAD
 =======
 >>>>>>> c0348c4 (swagger documentation)
@@ -176,7 +179,50 @@ class ProcessFlowController extends Controller
 =======
 =======
 >>>>>>> c0348c4 (swagger documentation)
+<<<<<<< HEAD
 >>>>>>> 6e3ba05 (swagger documentation)
+=======
+=======
+    /**
+     * @OA\Post(
+     *     path="/process-flows",
+     *     summary="Creates a new process flow",
+     *     tags={"Process Flows"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Process flow creation request",
+     *         @OA\JsonContent(ref="#/components/schemas/StoreProcessFlowRequest")
+     *     ),
+     *     @OA\Response(
+     *         response="201",
+     *         description="Process flow created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/ProcessFlowResource")
+     *     ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *    @OA\Response(
+     * response="422",
+     * description="Validation errors"),
+     *    @OA\Response(
+     * response="404",
+     * description="Not Found"),
+     *    @OA\Response(
+     * response="500",
+     * description="Server Error"),
+     *
+     *     security={
+     *         {"BearerAuth": {}}
+     *     }
+     * )
+     */
+>>>>>>> 4ce93a4 (swagger bugs fixed)
+>>>>>>> 52670e4 (swagger bugs fixed)
 
     public function store(StoreProcessFlowRequest $request)
     {
@@ -252,6 +298,7 @@ class ProcessFlowController extends Controller
      *      ),
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @OA\Response(
      *          response=500,
      *          description="Server Error",
@@ -263,11 +310,22 @@ class ProcessFlowController extends Controller
 >>>>>>> e0d72f7 (swagger documentation)
 =======
 =======
+>>>>>>> 52670e4 (swagger bugs fixed)
+=======
      *     )
 >>>>>>> 2186dbc (swagger documentation)
 =======
 >>>>>>> c0348c4 (swagger documentation)
+<<<<<<< HEAD
 >>>>>>> 6e3ba05 (swagger documentation)
+=======
+=======
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error",
+     *      ),
+>>>>>>> 4ce93a4 (swagger bugs fixed)
+>>>>>>> 52670e4 (swagger bugs fixed)
      * )
      */
     public function show(string $id)
