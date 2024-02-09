@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\ProcessFlow;
+use App\Models\ProcessFlowStep;
 use App\Observers\ProcessFlowObserver;
+use App\Observers\ProcessFlowStepObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         ProcessFlow::observe(ProcessFlowObserver::class);
+        ProcessFlowStep::observe(ProcessFlowStepObserver::class);
     }
 }
