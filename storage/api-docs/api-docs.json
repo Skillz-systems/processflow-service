@@ -334,6 +334,52 @@
                     }
                 }
             }
+        },
+        "/processflowstep/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Process Flow Steps"
+                ],
+                "summary": "Delete a process flow step",
+                "description": "Deletes a process flow step by its ID.",
+                "operationId": "deleteProcessFlowStep",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the process flow step to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Process flow step successfully deleted"
+                    },
+                    "404": {
+                        "description": "Process flow step not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Provided id does not match any record"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

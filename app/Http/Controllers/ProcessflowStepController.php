@@ -156,8 +156,44 @@ class ProcessflowStepController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/processflowstep/delete/{id}",
+     *      operationId="deleteProcessFlowStep",
+     *      tags={"Process Flow Steps"},
+     *      summary="Delete a process flow step",
+     *      description="Deletes a process flow step by its ID.",
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          description="ID of the process flow step to delete",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Process flow step successfully deleted"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Process flow step not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *              ),
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Provided id does not match any record"
+     *              )
+     *          )
+     *      )
+     * )
      */
+
     public function destroy(string $id)
     {
         if ($this->processflowStepService->deleteProcessFlowStep($id)) {

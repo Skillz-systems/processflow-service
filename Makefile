@@ -48,3 +48,5 @@ lint: ## Run phpcs
 
 lint-fix: ## Run phpcbf
 	./vendor/bin/phpcbf --standard=ruleset.xml app/
+swagger: ## Run phpcbf
+	docker-compose exec ${CONTAINER_PHP} php artisan l5-swagger:generate
