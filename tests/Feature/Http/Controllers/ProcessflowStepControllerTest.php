@@ -278,7 +278,7 @@ class ProcessflowStepControllerTest extends TestCase
 
     }
 
-    public function test_to_see_if_a_processflow_step_can_be_deleted()
+    public function test_to_see_if_a_processflow_step_can_be_deleted_and_next_step_id_also_adjusted()
     {
         $processFlowData = [
             'name' => 'Test Process Flow',
@@ -318,10 +318,10 @@ class ProcessflowStepControllerTest extends TestCase
         ];
         $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
         $deleteResponse = $this->actingAsTestUser()->deleteJson('/api/processflowstep/delete/' . $response["data"]["steps"][1]["id"]);
-        $deleteResponse->assertOk();
-        $this->assertDatabaseCount("process_flow_steps", 1);
-        $this->assertDatabaseMissing("process_flow_steps", ["id" => 2]);
-        // dd($response);
+        $deleteResponse->assertStatus(204);
+        $this->assertDatabaseMissing("process_flow_steps", ["next_step_id" => 2]);
+        $this->assertDatabaseHas("process_flow_steps", ["next_step_id" => null]);
+        $this->assertDatabaseCount("process_flow_steps", 1)->assertDatabaseMissing("process_flow_steps", ["id" => 2]);
 
     }
 
