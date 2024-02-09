@@ -160,6 +160,9 @@ class ProcessflowStepController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if ($this->processflowStepService->deleteProcessFlowStep($id)) {
+            return response()->noContent();
+        }
+        return response()->json(["status" => "error", "message" => "Provided id does not match any record"]);
     }
 }
