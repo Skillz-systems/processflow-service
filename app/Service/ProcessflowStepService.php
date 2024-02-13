@@ -52,9 +52,9 @@ class ProcessflowStepService
      * @param int $id The ID of the process flow step to retrieve.
      * @return \App\Models\ProcessFlowStep|null The process flow step model if found, null otherwise.
      */
-    public function getProcessFlowStep(int $id): ?ProcessFlowStep
+    public function getProcessFlowStep($id): ?ProcessFlowStep
     {
-        return ProcessFlowStep::find($id);
+        return ProcessFlowStep::findOrFail($id);
     }
 
     /**

@@ -51,4 +51,7 @@ To use the Make command , go to the make file and make change to CONTAINER_PHP="
       12. To fix lint issues
           make lint-fix
 
+      13. To generate swagger documentation
+          make swagger
+
 Cheers!!!!

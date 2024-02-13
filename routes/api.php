@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('processflowstep/create/{id}', [ProcessflowStepController::class, 'store']);
     Route::delete('processflowstep/delete/{id}', [ProcessflowStepController::class, 'destroy']);
     Route::put('processflowstep/update/{id}', [ProcessflowStepController::class, 'update']);
+    Route::get('processflowstep/view/{id}', [ProcessflowStepController::class, 'show']);
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);

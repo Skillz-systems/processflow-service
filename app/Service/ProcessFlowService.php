@@ -45,9 +45,17 @@ class ProcessFlowService
      * @return \App\Models\ProcessFlow|null The retrieved ProcessFlow, or null if not found.
      */
 
-    public function getProcessFlow(int $id): ProcessFlow | null
+    public function getProcessFlow(int $id): ProcessFlow
     {
-        return ProcessFlow::with(['steps'])->findOrFail($id);
+
+        try {
+            return ProcessFlow::with(['steps'])->findOrFail($id);
+
+            // Do something with $processFlow
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
     }
 
     /**
