@@ -9,6 +9,7 @@ use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProcessflowStepController extends Controller
 {
@@ -148,11 +149,103 @@ class ProcessflowStepController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/processflowstep/update/{id}",
+     *     summary="Update a process flow step",
+     *     tags={"Process Flow Steps"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the process flow step to update",
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"step"},
+     *             @OA\Property(
+     *                 property="step",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="string", example="1"),
+     *                     @OA\Property(property="name", type="string", example="test name"),
+     *                     @OA\Property(property="step_route", type="string", example="1"),
+     *                     @OA\Property(property="assignee_user_route", type="string", example="1"),
+     *                     @OA\Property(property="next_user_designation", type="string", example="1"),
+     *                     @OA\Property(property="next_user_department", type="string", example="1"),
+     *                     @OA\Property(property="next_user_unit", type="string", example="1"),
+     *                     @OA\Property(property="process_flow_id", type="string", example="1"),
+     *                     @OA\Property(property="ext_user_location", type="string", example="1"),
+     *                     @OA\Property(property="step_type", type="string", example="1"),
+     *                     @OA\Property(property="user_type", type="string", example="1"),
+     *                     @OA\Property(property="next_step_id", type="string", example="2"),
+     *                     @OA\Property(property="status", type="string", example="1"),
+     *
+     *
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="step", type="string", example="The step field is required.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Something went wrong.")
+     *         )
+     *     )
+     * )
      */
+
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            "step" => "required",
+        ]);
+
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+
+        $steps = $request->step;
+        $stepsRequest = new Request(["start_step_id" => $steps[0]['id']]);
+        // update start step id
+        DB::beginTransaction();
+
+        try {
+            $this->processFlowService->updateProcessflow($id, $stepsRequest);
+            // Update Start step details
+            $this->processflowStepService->updateProcessFlowStep(new Request($steps[0]), $steps[0]["id"]);
+            // update other steps
+            for ($i = 1; $i < count($steps); $i++) {
+                $this->processflowStepService->updateProcessFlowStep(new Request($steps[$i]), $steps[$i]["id"]);
+
+            }
+            DB::commit();
+            return response()->json(["status" => "success"], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw new \Exception("Something went wrong.");
+
+        }
     }
 
     /**

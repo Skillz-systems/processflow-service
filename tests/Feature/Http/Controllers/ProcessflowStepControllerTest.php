@@ -325,6 +325,70 @@ class ProcessflowStepControllerTest extends TestCase
 
     }
 
+    public function test_to_see_if_processflow_start_step_can_be_updated()
+    {
+        $createdProcessflowWithSteps = $this->createProcessflowWithSteps();
+        $data = ["step" => [
+
+            [
+                "id" => 2,
+            ],
+
+            [
+                "id" => 1,
+            ],
+        ],
+
+        ];
+        $response = $this->actingAsTestUser()->putJson('api/processflowstep/update/1', $data);
+        $response->assertOk();
+        $this->assertDatabaseHas("process_flows", [
+            "start_step_id" => 2,
+        ], );
+
+    }
+
+    public function test_to_see_if_processflow_first_step_first_step_details_stestart_step_can_be_updated()
+    {
+        $createdProcessflowWithSteps = $this->createProcessflowWithSteps();
+        $data = ["step" => [
+
+            [
+                "id" => 2,
+                "name" => "test name 2 main fake",
+                "next_step_id" => 1,
+            ],
+
+            [
+                "id" => 1,
+                "name" => "test name made last step",
+                "step_route" => "this should be a route",
+
+                "next_step_id" => null,
+            ],
+        ],
+
+        ];
+        $response = $this->actingAsTestUser()->putJson('api/processflowstep/update/1', $data);
+        $response->assertOk();
+        $this->assertDatabaseHas("process_flow_steps", [
+            "name" => "test name 2 main fake",
+            "next_step_id" => 1,
+            "id" => 2,
+        ], );
+
+    }
+
+    public function test_to_see_if_an_error_would_be_displayed_if_there_is_no_request_data_while_updating_process_flow_steps()
+    {
+        $createdProcessflowWithSteps = $this->createProcessflowWithSteps();
+        $data = [];
+        $response = $this->actingAsTestUser()->putJson('api/processflowstep/update/1', $data);
+
+        $this->assertArrayHasKey('step', $response);
+
+    }
+
     private function createProcessflow(int $quantity = 1, $withStartStep = false): void
     {
         if (!$withStartStep) {
@@ -335,6 +399,46 @@ class ProcessflowStepControllerTest extends TestCase
             ProcessFlow::factory($quantity)->create(["start_step_id" => 8]);
 
         }
+
+    }
+
+    private function createProcessflowWithSteps()
+    {
+        $data = ["steps" =>
+            [
+
+                [
+                    "name" => "test name",
+                    "step_route" => "this should be a route",
+                    "assignee_user_route" => 1,
+                    "next_user_designation" => 1,
+                    "next_user_department" => 1,
+                    "next_user_unit" => 1,
+                    "process_flow_id" => 1,
+                    "next_user_location" => 1,
+                    "step_type" => "create",
+                    "user_type" => "customer",
+                    "status" => 1,
+                ],
+                [
+                    "name" => "test name 2",
+                    "step_route" => "this should be a route 2",
+                    "assignee_user_route" => 1,
+                    "next_user_designation" => 1,
+                    "next_user_department" => 1,
+                    "next_user_unit" => 1,
+                    "process_flow_id" => 1,
+                    "next_user_location" => 1,
+                    "step_type" => "create",
+                    "user_type" => "customer",
+                    "status" => 1,
+                ],
+            ],
+        ];
+
+        $this->createProcessflow(1);
+        $response = $this->actingAsTestUser()->postJson('api/processflowstep/create/1', $data);
+        return $response;
 
     }
 }
