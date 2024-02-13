@@ -335,6 +335,151 @@
                 }
             }
         },
+        "/processflowstep/update/{id}": {
+            "put": {
+                "tags": [
+                    "Process Flow Steps"
+                ],
+                "summary": "Update a process flow step",
+                "operationId": "2b47443dbe021b6a8c3be84573c118b9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the process flow step to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "step"
+                                ],
+                                "properties": {
+                                    "step": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "test name"
+                                                },
+                                                "step_route": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "assignee_user_route": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "next_user_designation": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "next_user_department": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "next_user_unit": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "process_flow_id": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "ext_user_location": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "step_type": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "user_type": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "next_step_id": {
+                                                    "type": "string",
+                                                    "example": "2"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "step": {
+                                            "type": "string",
+                                            "example": "The step field is required."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/processflowstep/delete/{id}": {
             "delete": {
                 "tags": [
