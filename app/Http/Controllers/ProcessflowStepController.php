@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProcessFlowStepRequest;
 use App\Http\Resources\ProcessFlowResource;
+use App\Http\Resources\ProcessFlowStepResource;
 use App\Models\ProcessFlowStep;
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
@@ -141,11 +142,59 @@ class ProcessflowStepController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/processflowstep/view/{id}",
+     *     summary="View a process flow step",
+     *     tags={"Process Flow Steps"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the process flow step to view",
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             ref="#/components/schemas/ProcessFlowStepResource"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="something went wrong")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="id is invalid")
+     *         )
+     *     )
+     * )
      */
+
     public function show(string $id)
     {
-        //
+
+        try {
+            $getStep = $this->processflowStepService->getProcessFlowStep($id);
+            if ($getStep) {
+                return new ProcessFlowStepResource($getStep);
+            }
+            return response()->json(['status' => "error", "message" => "something went wrong"], 404);
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => "error", "message" => "id is invalid"], 404);
+        }
+
     }
 
     /**

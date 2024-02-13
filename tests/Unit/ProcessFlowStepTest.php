@@ -106,10 +106,11 @@ class ProcessFlowStepTest extends TestCase
 
     public function test_to_returns_null_if_not_found_or_invalid_id_for_processflow_step(): void
     {
+        $this->expectException(\Exception::class);
 
         $service = new ProcessFlowStepService();
         $foundStep = $service->getProcessFlowStep(999);
-        $this->assertNull($foundStep);
+
     }
 
     public function test_to_update_a_processflow_step_successfully(): void
@@ -153,10 +154,10 @@ class ProcessFlowStepTest extends TestCase
 
     public function test_to_throw_exception_or_error_if_processflow_step_not_found_or_invalid_id(): void
     {
-
+        $this->expectException(\Exception::class);
         $service = new ProcessflowStepService();
         $delete = $service->deleteProcessFlowStep(0);
-        $this->assertFalse($delete);
+
     }
 
 }
