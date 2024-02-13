@@ -103,8 +103,6 @@ class ProcessflowStepControllerTest extends TestCase
                 ],
             ],
         ]);
-
-        //$response->assertJsonStructure();
         $response->assertStatus(200);
     }
 
@@ -387,6 +385,51 @@ class ProcessflowStepControllerTest extends TestCase
 
         $this->assertArrayHasKey('step', $response);
 
+    }
+
+    public function test_to_see_if_a_processflow_step_id_is_wrong()
+    {
+        $response = $this->actingAsTestUser()->getJson('api/processflowstep/view/5');
+        $response->assertStatus(404);
+
+    }
+
+    public function test_to_see_if_the_expected_data_structure_is_retuned()
+    {
+        $test = $this->createProcessflowWithSteps();
+
+        $response = $this->actingAsTestUser()->getJson('api/processflowstep/view/1');
+
+        $response->assertStatus(200)->assertJsonStructure([
+
+            'data' => [
+                'id',
+                'name',
+                'step_route',
+                'assignee_user_route',
+                'next_user_designation',
+                'next_user_department',
+                'next_user_unit',
+                'next_user_location',
+                'step_type',
+                'user_type',
+                'status',
+
+            ],
+
+        ])->assertJsonFragment([
+            "name" => "test name",
+            "step_route" => "this should be a route",
+            "assignee_user_route" => "1",
+            "next_user_designation" => 1,
+            "next_user_department" => 1,
+            "next_user_unit" => 1,
+            "process_flow_id" => 1,
+            "next_user_location" => 1,
+            "step_type" => "create",
+            "user_type" => "customer",
+            "status" => 1,
+        ]);
     }
 
     private function createProcessflow(int $quantity = 1, $withStartStep = false): void
