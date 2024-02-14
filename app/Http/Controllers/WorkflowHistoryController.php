@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 class WorkflowHistoryController extends Controller
 {
- /**
+    /**
      * The WorkflowHistoryService instance that will handle the business logic.
      *
      * The constructor injects the service into the controller so it can be used
@@ -25,11 +25,55 @@ class WorkflowHistoryController extends Controller
         $this->workflowHistoryService = $workflowHistoryService;
     }
     /**
-     * Display a listing of all the workflow history resource.
-     */
+     * @OA\Get(
+     *      path="/api/workflow-histories",
+     *      operationId="getWorkflowHistories",
+     *      tags={"Workflow History"},
+     *      summary="Get paginated list of workflow histories",
+     *      description="Returns a paginated list of workflow histories with optional filtering, sorting, and pagination.",
+     *      @OA\Parameter(
+     *          name="status",
+     *          in="query",
+     *          description="Filter by status",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="sort",
+     *          in="query",
+     *          description="Sort by field (prepend with '-' for descending order)",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="page",
+     *          in="query",
+     *          description="Page number",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="per_page",
+     *          in="query",
+     *          description="Number of items per page",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/WorkflowHistoryCollection")
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error",
+     *      )
+     * )
+    */    
+    
     public function index(Request $request)
     {
-        $workflowhistories = QueryBuilder::for(WorkflowHistory::class)  
+        $workflowhistories = $this->workflowHistoryService->getWorkflowHistories($request)  
             ->allowedFilters('status')
             ->defaultSort('-user_id')
             ->allowedSorts(['processflow_id', 'status', 'user_id', 'task_id'])
