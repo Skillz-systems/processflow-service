@@ -10,33 +10,19 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class WorkflowHistoryService
 {
-   /**
-     * @OA\Get(
-     *      path="/api/workflow-histories",
-     *      operationId="getWorkflowHistories",
-     *      tags={"Workflow History"},
-     *      summary="Get all workflow histories",
-     *      description="Returns a collection of all workflow histories.",
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="array",
-     *              @OA\Items(ref="#/components/schemas/WorkflowHistoryResource")
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=500,
-     *          description="Internal server error",
-     *      )
-     * )
+    /**
+     * Retrieve all workflow histories.
+     *
+     * This method retrieves all workflow histories from the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Support\Collection|null
+     *
+     * @throws \Exception If an error occurs while retrieving the workflow histories.
     */
-
     public function getWorkflowHistories(Request $request): ?Collection
 {
-    $workflowHistories = WorkflowHistory::all();
-
-    return WorkflowHistoryResource::collection($workflowHistories);
+    return WorkflowHistory::all();
 }
 
     /**
