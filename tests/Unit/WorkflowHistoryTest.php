@@ -8,6 +8,7 @@ use App\Service\WorkflowHistoryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
+use Illuminate\Support\Collection;
 
 class WorkflowHistoryTest extends TestCase
 {
@@ -141,5 +142,15 @@ class WorkflowHistoryTest extends TestCase
         $delete = $createNewWorkflowHistoryService->deleteWorkflowHistory(1);
         $this->assertFalse($delete);
 
+    }
+
+    public function test_fetch_all_workflow_histories(): void
+    {
+        $workflowHistoryService = new WorkflowHistoryService();
+        $workflowHistories = $workflowHistoryService->getWorkflowHistories(new Request());
+        $this->assertInstanceOf(Collection::class, $workflowHistories);
+        $expectedCount = WorkflowHistory::count();
+        $actualCount = $workflowHistories->count();
+        $this->assertEquals($expectedCount, $actualCount);
     }
 }
