@@ -10,6 +10,20 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class WorkflowHistoryService
 {
+    /**
+     * Retrieve all workflow histories.
+     *
+     * This method retrieves all workflow histories from the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \App\Models\WorkflowHistory[]
+     *
+     * @throws \Exception If an error occurs while retrieving the workflow histories.
+    */
+    public function getWorkflowHistories(Request $request)
+{
+    return WorkflowHistory::all();
+}
 
     /**
      * This Method is used to create a new workflow history in the database .
