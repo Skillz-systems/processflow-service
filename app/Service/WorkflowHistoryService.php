@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Collection;
 
 class WorkflowHistoryService
 {
@@ -17,13 +16,13 @@ class WorkflowHistoryService
      * This method retrieves all workflow histories from the database.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Support\Collection|null
+     * @return \App\Models\WorkflowHistory[]
      *
      * @throws \Exception If an error occurs while retrieving the workflow histories.
     */
-    public function getWorkflowHistories(Request $request): ?Collection
+    public function getWorkflowHistories(Request $request): array
 {
-    return WorkflowHistory::all();
+    return WorkflowHistory::all()->toArray();;
 }
 
     /**
