@@ -20,9 +20,9 @@ class WorkflowHistoryService
      *
      * @throws \Exception If an error occurs while retrieving the workflow histories.
     */
-    public function getWorkflowHistories(Request $request): array
+    public function getWorkflowHistories(Request $request)
 {
-    return WorkflowHistory::all()->toArray();;
+    return WorkflowHistory::all();
 }
 
     /**

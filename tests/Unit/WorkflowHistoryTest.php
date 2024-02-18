@@ -146,15 +146,14 @@ class WorkflowHistoryTest extends TestCase
 
     public function test_fetch_all_workflow_histories(): void
     {
-        $workflowHistories = WorkflowHistory::factory()->count(3)->create();
+        WorkflowHistory::factory()->count(3)->create();
         $workflowHistoryService = new WorkflowHistoryService();
-        $fetchedWorkflowHistories = $workflowHistoryService->getWorkflowHistories(new Request());
-        $this->assertIsArray($fetchedWorkflowHistories);
-        foreach ($fetchedWorkflowHistories as $workflowHistoryData) {
-            $this->assertIsArray($workflowHistoryData);
-            $this->assertArrayHasKey('task_id', $workflowHistoryData);
-            $this->assertArrayHasKey('user_id', $workflowHistoryData);
+        $request = new Request();
+        $workflowHistories = $workflowHistoryService->getWorkflowHistories($request);
+        $this->assertInstanceOf(Collection::class, $workflowHistories);
+        foreach ($workflowHistories as $workflowHistory) {
+            $this->assertInstanceOf(WorkflowHistory::class, $workflowHistory);
         }
-        $this->assertCount(count($workflowHistories), $fetchedWorkflowHistories);
+        $this->assertEquals(3, $workflowHistories->count());
     }
 }
