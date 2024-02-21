@@ -25,6 +25,5 @@ class FetchDesignation implements ShouldQueue
      */
     public function handle(): void
     {
-        //
     }
 }

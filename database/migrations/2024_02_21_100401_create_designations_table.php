@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('designations', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->comment('get the name of the designation from the user service');
             $table->timestamps();
         });
     }
