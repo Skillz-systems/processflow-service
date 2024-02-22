@@ -8,11 +8,14 @@ use App\Http\Resources\ProcessFlowResource;
 use App\Models\ProcessFlow;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 use App\Models\ProcessFlowStep;
 >>>>>>> b4d02d3 (first code draft)
 =======
 >>>>>>> 744c314 (observer code added)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
 use Illuminate\Http\Request;
@@ -75,6 +78,7 @@ class ProcessFlowController extends Controller
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * @OA\Post(
      *     path="/process-flows",
@@ -122,6 +126,10 @@ class ProcessFlowController extends Controller
 =======
 >>>>>>> c0348c4 (swagger documentation)
 >>>>>>> 6e3ba05 (swagger documentation)
+=======
+=======
+>>>>>>> c0348c4 (swagger documentation)
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 /**
  * @OA\Post(
  *     path="/process-flows",
@@ -175,6 +183,7 @@ class ProcessFlowController extends Controller
      */
 >>>>>>> 2186dbc (swagger documentation)
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> e0d72f7 (swagger documentation)
 =======
 =======
@@ -182,6 +191,10 @@ class ProcessFlowController extends Controller
 <<<<<<< HEAD
 >>>>>>> 6e3ba05 (swagger documentation)
 =======
+=======
+=======
+>>>>>>> c0348c4 (swagger documentation)
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 =======
     /**
      * @OA\Post(
@@ -222,7 +235,10 @@ class ProcessFlowController extends Controller
      * )
      */
 >>>>>>> 4ce93a4 (swagger bugs fixed)
+<<<<<<< HEAD
 >>>>>>> 52670e4 (swagger bugs fixed)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 
     public function store(StoreProcessFlowRequest $request)
     {
@@ -299,6 +315,7 @@ class ProcessFlowController extends Controller
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @OA\Response(
      *          response=500,
      *          description="Server Error",
@@ -312,20 +329,28 @@ class ProcessFlowController extends Controller
 =======
 >>>>>>> 52670e4 (swagger bugs fixed)
 =======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
+=======
      *     )
 >>>>>>> 2186dbc (swagger documentation)
 =======
 >>>>>>> c0348c4 (swagger documentation)
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 6e3ba05 (swagger documentation)
 =======
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 =======
      * @OA\Response(
      *          response=500,
      *          description="Server Error",
      *      ),
 >>>>>>> 4ce93a4 (swagger bugs fixed)
+<<<<<<< HEAD
 >>>>>>> 52670e4 (swagger bugs fixed)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
      * )
      */
     public function show(string $id)
@@ -385,6 +410,9 @@ class ProcessFlowController extends Controller
 
     /**
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
      * @OA\Delete(
      *      path="/process-flows/{id}",
      *      tags={"Process Flows"},
@@ -435,6 +463,7 @@ class ProcessFlowController extends Controller
 
             // return response()->json(['error' => 'Failed to delete process flow'], 500);
         }
+<<<<<<< HEAD
 =======
      *
      * @OA\Delete(
@@ -519,6 +548,8 @@ class ProcessFlowController extends Controller
             // return response()->json(['error' => 'Failed to delete process flow'], 500);
         }
 >>>>>>> 744c314 (observer code added)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 
     }
 }

@@ -3,10 +3,14 @@
 namespace Tests\Feature;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 use App\Models\ProcessFlow;
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 6ecc84c (wip)
 =======
@@ -19,6 +23,12 @@ use App\Models\ProcessFlow;
 use App\Models\User;
 >>>>>>> c717375 (added test)
 >>>>>>> cedd4fa (added test)
+=======
+=======
+>>>>>>> e033fda (added test)
+use App\Models\User;
+>>>>>>> c717375 (added test)
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -476,16 +486,22 @@ class ProcessFlowTest extends TestCase
         $createdProcessFlow = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
         $processFlowId = $createdProcessFlow->json('data.id');
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
         $this->assertDatabaseHas('process_flow_steps', ['name' => 'test name single two test']);
 
         $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
         $response->assertStatus(204);
         $this->assertDatabaseMissing('process_flow_steps', ['name' => 'test name single two test']);
+<<<<<<< HEAD
 =======
         $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
         $response->assertStatus(204);
         // $this->assertDatabaseMissing('process_flows', $createdProcessFlow->toArray());
 >>>>>>> b4d02d3 (first code draft)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
         $this->assertDatabaseCount('process_flows', 0);
 
     }

@@ -70,6 +70,57 @@ class ProcessFlowObserver
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 63b2932 (update observer)
+=======
+
+namespace App\Observers;
+
+use App\Models\ProcessFlow;
+use App\Service\ProcessflowStepService;
+use Illuminate\Http\Request;
+
+class ProcessFlowObserver
+{
+<<<<<<< HEAD
+<<<<<<< HEAD
+    //
+>>>>>>> e033fda (added test)
+=======
+    protected $processFlowService, $processflowStepService;
+=======
+    protected $processflowStepService;
+>>>>>>> e5b15c5 (update processflow with or without steps)
+
+    public function __construct(ProcessflowStepService $processflowStepService)
+    {
+        $this->processflowStepService = $processflowStepService;
+    }
+
+    public function updating(ProcessFlow $processFlow)
+    {
+        // Add logic to run before the process flow is updated
+
+    }
+
+    public function updated(ProcessFlow $processFlow)
+    {
+        // Add logic to run after the process flow is updated
+        if (request()->has('steps')) {
+
+            $steps = request()->input('steps');
+
+            foreach ($steps as $step) {
+                $this->processflowStepService->updateProcessFlowStep(new Request($step), $step['id']);
+            }
+
+        }
+
+    }
+>>>>>>> 3447248 (update observer)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 
     /**
      * Handle the deleted event for a ProcessFlow.
@@ -94,6 +145,7 @@ class ProcessFlowObserver
         }
 
     }
+<<<<<<< HEAD
 =======
 =======
 
@@ -264,4 +316,6 @@ class ProcessFlowObserver
         }
     }
 >>>>>>> 744c314 (observer code added)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 }

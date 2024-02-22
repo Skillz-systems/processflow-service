@@ -31,6 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
 <<<<<<< HEAD
+<<<<<<< HEAD
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -40,6 +41,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 =======
 <<<<<<< HEAD
 >>>>>>> caac2f3 (route)
+=======
+    Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
+<<<<<<< HEAD
+=======
+    Route::delete('/processflows/{id}', [ProcessFlowController::class, 'destroy']);
+
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
     Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
     Route::post('processflowstep/create/{id}', [ProcessflowStepController::class, 'store']);
     Route::delete('processflowstep/delete/{id}', [ProcessflowStepController::class, 'destroy']);
@@ -48,6 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
     Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
@@ -88,6 +97,9 @@ Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 >>>>>>> 3edf406 (first code draft)
 >>>>>>> b4d02d3 (first code draft)
+=======
+>>>>>>> 3edf406 (first code draft)
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 
 });
 

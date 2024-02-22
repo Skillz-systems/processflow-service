@@ -48,6 +48,9 @@ class ProcessFlowService
     public function getProcessFlow(int $id): ProcessFlow
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 
         try {
             return ProcessFlow::with(['steps'])->findOrFail($id);
@@ -57,9 +60,12 @@ class ProcessFlowService
             throw $e;
         }
 
+<<<<<<< HEAD
 =======
         return ProcessFlow::with('steps')->findOrFail($id);
 >>>>>>> 6ecc84c (wip)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
     }
 
     /**

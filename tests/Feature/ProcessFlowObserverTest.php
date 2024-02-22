@@ -1,17 +1,24 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 842bee3 (observer test)
+=======
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 <?php
 
 namespace Tests\Feature;
 
 use App\Models\ProcessFlow;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 use App\Models\ProcessFlowStep;
 >>>>>>> 842bee3 (observer test)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 use App\Observers\ProcessFlowObserver;
 use App\Service\ProcessflowStepService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,6 +30,9 @@ class ProcessFlowObserverTest extends TestCase
     use RefreshDatabase;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
     //
     public function test_to_see_observer_is_called(): void
     {
@@ -144,6 +154,7 @@ class ProcessFlowObserverTest extends TestCase
         $observer = new ProcessFlowObserver($stepService);
         $observer->deleting($processFlow);
         $this->assertNull($observer->deleting($processFlow));
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     // Use the real ProcessflowStepService
@@ -271,13 +282,19 @@ class ProcessFlowObserverTest extends TestCase
         ]);
 =======
 >>>>>>> 744c314 (observer code added)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 
     }
 
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 >>>>>>> b292480 (processflow observer test file)
 =======
 >>>>>>> 5072849 (observer test)
 >>>>>>> 842bee3 (observer test)
+=======
+>>>>>>> 5072849 (observer test)
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history

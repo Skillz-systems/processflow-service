@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProcessFlowStepRequest;
 use App\Http\Resources\ProcessFlowResource;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Http\Resources\ProcessFlowStepResource;
 use App\Models\ProcessFlowStep;
 =======
 >>>>>>> 6ecc84c (wip)
+=======
+use App\Http\Resources\ProcessFlowStepResource;
+use App\Models\ProcessFlowStep;
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
 use Illuminate\Http\Request;
@@ -94,15 +99,22 @@ class ProcessflowStepController extends Controller
      * )
      */
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 6ecc84c (wip)
+=======
+
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
     public function store($id, StoreProcessFlowStepRequest $request)
     {
         $getProcessflow = $this->processFlowService->getProcessFlow($id);
         $steps = $request->steps;
         $createdStepsId = [];
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
         DB::beginTransaction();
 
         try {
@@ -146,6 +158,7 @@ class ProcessflowStepController extends Controller
 
         }
 
+<<<<<<< HEAD
 =======
         foreach ($steps as $key => $value) {
             // create a new step
@@ -174,6 +187,8 @@ class ProcessflowStepController extends Controller
         return new ProcessFlowResource($result);
 
 >>>>>>> 6ecc84c (wip)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
     }
 
     /**

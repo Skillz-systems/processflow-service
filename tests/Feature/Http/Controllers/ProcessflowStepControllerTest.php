@@ -4,10 +4,15 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\ProcessFlow;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Models\ProcessFlowStep;
 use App\Service\ProcessFlowService;
 =======
 >>>>>>> 6ecc84c (wip)
+=======
+use App\Models\ProcessFlowStep;
+use App\Service\ProcessFlowService;
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -68,6 +73,9 @@ class ProcessflowStepControllerTest extends TestCase
         $this->assertDatabaseCount("process_flows", 2);
         $this->assertDatabaseCount("process_flow_steps", 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
         $this->assertDatabaseHas("process_flow_steps", [
             "name" => "test name",
             "step_route" => "this should be a route",
@@ -81,6 +89,7 @@ class ProcessflowStepControllerTest extends TestCase
             "user_type" => "customer",
             "status" => 1,
         ], );
+<<<<<<< HEAD
 =======
         $this->assertDatabaseHas("process_flow_steps",[
                     "name" => "test name",
@@ -96,6 +105,8 @@ class ProcessflowStepControllerTest extends TestCase
                     "status" => 1,
                 ],);
 >>>>>>> 6ecc84c (wip)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
         $response->assertJsonStructure([
             'data' => [
                 'id',
@@ -123,10 +134,13 @@ class ProcessflowStepControllerTest extends TestCase
             ],
         ]);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
         //$response->assertJsonStructure();
 >>>>>>> 6ecc84c (wip)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
         $response->assertStatus(200);
     }
 
@@ -157,6 +171,9 @@ class ProcessflowStepControllerTest extends TestCase
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
     public function test_to_see_if_we_can_create_a_new_process_flow_steps_for_a_process_flow_that_already_has_a_start_step_id()
     {
 
@@ -508,10 +525,13 @@ class ProcessflowStepControllerTest extends TestCase
         $response = $this->actingAsTestUser()->postJson('api/processflowstep/create/1', $data);
         return $response;
 
+<<<<<<< HEAD
 =======
     private function createProcessflow(int $quantity = 1): void
     {
         ProcessFlow::factory($quantity)->create();
 >>>>>>> 6ecc84c (wip)
+=======
+>>>>>>> origin/NGMC-92-Create-a-route-that-would-be-used-to-fetch-all-workflow-history
     }
 }
