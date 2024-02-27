@@ -1,0 +1,47 @@
+<?php
+
+namespace Tests\Feature\Http\Controllers;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class RoutesControllerTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * A basic feature test example.
+     */
+    public function test_that_a_route_can_be_created(): void
+    {
+        $data = [
+            "name" => "home",
+            "link" => "http://routename.com/home",
+            "status" => 1,
+        ];
+
+        $result = $this->actingAsTestUser()->postJson("/api/route/create", $data);
+        $this->assertDatabaseHas("routes", $data);
+        $result->assertStatus(201)->assertJson([
+            "data" => [
+                "name" => "home",
+                "link" => "http://routename.com/home",
+                "status" => 1,
+            ],
+        ]);
+    }
+
+    public function test_that_validation_works_when_a_route_is_created()
+    {
+        $data = [
+            "name" => "home",
+            "link" => "http://routename.com/home",
+        ];
+
+        $result = $this->actingAsTestUser()->postJson("/api/route/create", $data);
+        $this->assertDatabaseMissing("routes", $data);
+        $this->assertArrayHasKey('status', $result);
+        $result->assertStatus(400);
+
+    }
+}
