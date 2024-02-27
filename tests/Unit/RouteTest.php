@@ -40,4 +40,20 @@ class RouteTest extends TestCase
 
     }
 
+    public function test_to_see_if_all_routes_can_be_fetched()
+    {
+        Routes::factory(5)->create();
+        $routeService = (new RouteService())->getAllRoute();
+        $this->assertInstanceOf(Routes::class, $routeService[0]);
+        $this->assertEquals(5, count($routeService->toArray()));
+    }
+
+    public function test_only_routes_with_status_true_can_be_fetched()
+    {
+        Routes::factory(5)->create(["status" => false]);
+        $routeService = (new RouteService())->getAllRoute();
+        $this->assertEquals(0, count($routeService->toArray()));
+
+    }
+
 }

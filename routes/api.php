@@ -44,6 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 
     Route::post('/route/create', [RoutesController::class, 'store']);
+    Route::get('/route', [RoutesController::class, 'index']);
 
 });
 

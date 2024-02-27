@@ -17,18 +17,42 @@ class RoutesController extends Controller
         $this->routeService = $routeService;
 
     }
+
     /**
-    /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *      path="/routes",
+     *      operationId="getRoutes",
+     *      tags={"Routes"},
+     *      summary="Get all routes",
+     *      description="Returns a list of all routes",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/RouteResource")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden",
+     *      )
+     * )
      */
+
     public function index()
     {
-        //
+        $data = $this->routeService->getAllRoute();
+        return RouteResource::collection($data);
     }
 
     /**
      * @OA\Post(
-     *      path="/routes",
+     *      path="/routes/create",
      *      operationId="storeRoute",
      *      tags={"Routes"},
      *      summary="Create a new route",
