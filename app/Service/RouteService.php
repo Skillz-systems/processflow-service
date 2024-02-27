@@ -30,4 +30,16 @@ class RouteService
         return $model->create($request->all());
     }
 
+    /**
+     * Retrieve all routes with status set to true.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\App\Models\Routes
+     */
+
+    public function getAllRoute()
+    {
+        return $model = (new Routes())->where(["status" => true])->get();
+
+    }
+
 }
