@@ -627,7 +627,9 @@
                         "description": "Forbidden"
                     }
                 }
-            },
+            }
+        },
+        "/routes/create": {
             "post": {
                 "tags": [
                     "Routes"
@@ -715,6 +717,45 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/routes/view/{id}": {
+            "get": {
+                "tags": [
+                    "Routes"
+                ],
+                "summary": "Get route by ID",
+                "description": "Returns a single route by its ID",
+                "operationId": "getRouteById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the route to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouteResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Route not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }

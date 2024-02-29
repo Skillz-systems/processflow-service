@@ -15,7 +15,6 @@ class RoutesController extends Controller
     public function __construct(RouteService $routeService)
     {
         $this->routeService = $routeService;
-
     }
 
     /**
@@ -123,11 +122,45 @@ class RoutesController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *      path="/routes/view/{id}",
+     *      operationId="getRouteById",
+     *      tags={"Routes"},
+     *      summary="Get route by ID",
+     *      description="Returns a single route by its ID",
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID of the route to retrieve",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              ref="#/components/schemas/RouteResource"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Route not found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error"
+     *      )
+     * )
+     *
+     * @param string $id The ID of the route to retrieve.
+     * @return \App\Http\Resources\RouteResource
      */
     public function show(string $id)
     {
-        //
+        $data = $this->routeService->getRoute($id);
+        return new RouteResource($data);
     }
 
     /**
