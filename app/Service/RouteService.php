@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service;
 
 use App\Models\Routes;
@@ -39,7 +40,27 @@ class RouteService
     public function getAllRoute()
     {
         return $model = (new Routes())->where(["status" => true])->get();
-
     }
 
+    /**
+     * Get a route by its ID.
+     *
+     * @param int $id The ID of the route to retrieve.
+     * @return \App\Models\Routes The retrieved route.
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the route with the provided ID is not found.
+     */
+    public function getRoute($id)
+    {
+        return $this->model()->findOrFail($id);
+    }
+
+    /**
+     * Get the model instance used for retrieving routes.
+     *
+     * @return \App\Models\Routes The model instance.
+     */
+    public function model()
+    {
+        return new Routes();
+    }
 }

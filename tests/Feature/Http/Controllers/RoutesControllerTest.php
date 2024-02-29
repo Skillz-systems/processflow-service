@@ -43,7 +43,6 @@ class RoutesControllerTest extends TestCase
         $this->assertDatabaseMissing("routes", $data);
         $this->assertArrayHasKey('status', $result);
         $result->assertStatus(400);
-
     }
 
     public function test_that_all_Active_routes_can_be_fetched()
@@ -61,7 +60,6 @@ class RoutesControllerTest extends TestCase
             ],
         ]);
         $this->assertEquals(6, count($result["data"]));
-
     }
 
     public function test_to_see_if_fetched_records_would_ignore_inactive_routes()
@@ -82,7 +80,6 @@ class RoutesControllerTest extends TestCase
             ],
         ]);
         $this->assertEquals(3, count($result["data"]));
-
     }
 
     public function test_to_see_no_item_is_returned_when_there_is_no_active_record()
@@ -94,6 +91,24 @@ class RoutesControllerTest extends TestCase
             "data",
         ]);
         $this->assertEquals(0, count($result["data"]));
+    }
 
+    public function test_to_see_if_view_route_can_fetch_a_single_route()
+    {
+        Routes::factory(3)->create();
+        $result = $this->actingAsTestUser()->getJson("/api/route/view/1");
+        $result->assertOk()->assertJsonStructure([
+            "data" => [
+                "name",
+                "link",
+                "status"
+            ]
+        ]);
+    }
+
+    public function test_to_see_if_an_exception_would_be_thrown_when_a_wrong_id_is_provided_for_route()
+    {
+        $result = $this->actingAsTestUser()->getJson("/api/route/view/1");
+        $result->assertStatus(404)->assertJson(['message' => 'No query results for model [App\\Models\\Routes] 1']);
     }
 }

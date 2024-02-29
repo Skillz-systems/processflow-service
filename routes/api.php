@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\ProcessFlowController;
 use App\Http\Controllers\ProcessflowStepController;
 use App\Http\Controllers\RoutesController;
@@ -45,7 +46,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/route/create', [RoutesController::class, 'store']);
     Route::get('/route', [RoutesController::class, 'index']);
-
+    Route::get('/route/view/{id}', [RoutesController::class, 'show']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
