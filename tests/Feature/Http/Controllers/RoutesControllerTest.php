@@ -131,4 +131,18 @@ class RoutesControllerTest extends TestCase
         $result->assertStatus(404)->assertJsonStructure(['status', "message"]);
         $this->assertDatabaseMissing("routes", $data);
     }
+
+    public function test_to_see_if_a_route_can_be_deleted()
+    {
+        Routes::factory(3)->create();
+        $result = $this->actingAsTestUser()->deleteJson("/api/route/delete/1");
+        $result->assertStatus(200)->assertJsonStructure(['status', "message"]);
+        $this->assertDatabaseMissing("routes", ["id" => 1]);
+    }
+
+    public function test_to_see_if_a_wrong_id_would_return_a_404_error()
+    {
+        $result = $this->actingAsTestUser()->deleteJson("/api/route/delete/1");
+        $result->assertStatus(404)->assertJsonStructure(['status', "message"]);
+    }
 }
