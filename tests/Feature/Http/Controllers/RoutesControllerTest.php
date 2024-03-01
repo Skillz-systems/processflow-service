@@ -111,4 +111,24 @@ class RoutesControllerTest extends TestCase
         $result = $this->actingAsTestUser()->getJson("/api/route/view/1");
         $result->assertStatus(404)->assertJson(['message' => 'No query results for model [App\\Models\\Routes] 1']);
     }
+
+    public function test_to_see_if_a_route_can_be_updated()
+    {
+        Routes::factory(3)->create();
+        $data = [
+            "link" => "data.com"
+        ];
+        $result = $this->actingAsTestUser()->putJson("/api/route/update/1", $data);
+        $result->assertStatus(200)->assertJsonStructure(['status', "message"]);
+        $this->assertDatabaseHas("routes", $data);
+    }
+    public function test_to_see_if_route_id_to_be_updated_does_not_exist()
+    {
+        $data = [
+            "link" => "data.com"
+        ];
+        $result = $this->actingAsTestUser()->putJson("/api/route/update/1", $data);
+        $result->assertStatus(404)->assertJsonStructure(['status', "message"]);
+        $this->assertDatabaseMissing("routes", $data);
+    }
 }

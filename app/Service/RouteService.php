@@ -55,6 +55,33 @@ class RouteService
     }
 
     /**
+     * Update a route by ID.
+     *
+     * @param int|string $id The ID of the route to update.
+     * @param \Illuminate\Http\Request $data The data containing the fields to update.
+     * @return bool|array Returns true if the route was updated successfully, otherwise returns an array of validation errors or false if the route was not found.
+     */
+    public function UpdateRoute($id, Request $data)
+    {
+
+        $validator = Validator::make($data->all(), [
+            'name' => 'sometimes|string',
+            'link' => 'sometimes|string',
+            'status' => 'sometimes|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+        try {
+            $model = $this->model()->findOrFail($id);
+            return $model->update($data->all());
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * Get the model instance used for retrieving routes.
      *
      * @return \App\Models\Routes The model instance.

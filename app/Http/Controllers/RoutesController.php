@@ -164,11 +164,59 @@ class RoutesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *      path="/routes/update/{id}",
+     *      operationId="updateRoute",
+     *      tags={"Routes"},
+     *      summary="Update a route",
+     *      description="Updates a route by its ID.",
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID of the route to update",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="Route data to update",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="name", type="string"),
+     *              @OA\Property(property="link", type="string"),
+     *              @OA\Property(property="status", type="boolean"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Route was updated")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Route not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Route not found")
+     *          )
+     *      )
+     * )
+     *
+     * @param \Illuminate\Http\Request $request The request containing the data to update.
+     * @param string $id The ID of the route to update.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, string $id)
     {
-        //
+        $model = $this->routeService->UpdateRoute($id, $request);
+        if ($model) {
+            return response()->json(["status" => "success", "message" => "Route was updated"], 200);
+        }
+        return response()->json(["status" => "success", "message" => "page not found."], 404);
     }
 
     /**
