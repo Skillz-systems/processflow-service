@@ -73,4 +73,28 @@ class RouteTest extends TestCase
             $this->assertInstanceOf(ModelNotFoundException::class, $e);
         }
     }
+
+    public function test_to_see_if_a_route_can_be_updated()
+    {
+        Routes::factory(1)->create();
+        $data = [
+            "link" => "test.com",
+            "name" => "test"
+        ];
+        $routeService = (new RouteService())->UpdateRoute(1, new Request($data));
+        $this->assertEquals(true, $routeService);
+        $this->assertDatabaseHas("routes", $data);
+    }
+
+    public function test_to_see_if_error_is_trapped_while_updating_a_route()
+    {
+        Routes::factory(1)->create();
+        $data = [
+            "link" => "test.com",
+            "name" => "test"
+        ];
+        $routeService = (new RouteService())->UpdateRoute(0, new Request($data));
+        $this->assertEquals(false, $routeService);
+        $this->assertDatabaseMissing("routes", $data);
+    }
 }
