@@ -1,7 +1,7 @@
 <?php
 
 namespace Tests\Unit;
-
+use App\Http\Controllers\WorkflowHistoryController;
 use App\Http\Controllers\WorkflowController;
 use App\Models\WorkflowHistory;
 use App\Service\WorkflowHistoryService;
@@ -9,6 +9,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 use Illuminate\Support\Collection;
+use Mockery;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Resources\WorkflowHistoryCollection;
 
 class WorkflowHistoryTest extends TestCase
 {
@@ -155,5 +158,14 @@ class WorkflowHistoryTest extends TestCase
             $this->assertInstanceOf(WorkflowHistory::class, $workflowHistory);
         }
         $this->assertEquals(3, $workflowHistories->count());
+   }
+
+   public function test_index_method_returns_workflow_history_collection()
+    {
+        $mockService = $this->createMock(WorkflowHistoryService::class);
+        $controller = new WorkflowHistoryController($mockService);
+        $request = Request::create('/workflowhistories', 'GET');
+        $response = $controller->index($request);
+        $this->assertInstanceOf(WorkflowHistoryCollection::class, $response);
     }
 }

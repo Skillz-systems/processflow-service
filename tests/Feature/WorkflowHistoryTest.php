@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Http\Resources\WorkflowHistoryCollection;
 
 class WorkflowHistoryTest extends TestCase
 {
@@ -57,5 +58,4 @@ class WorkflowHistoryTest extends TestCase
         $response->assertJsonValidationErrors(['user_id', 'task_id']);
         $response->assertStatus(422);
     }
-
 }
