@@ -25,6 +25,43 @@ class WorkflowHistoryController extends Controller
         $this->workflowHistoryService = $workflowHistoryService;
     }
 
+    /**
+ * @OA\Get(
+ *      path="/workflow-histories",
+ *      operationId="getWorkflowHistories",
+ *      tags={"Workflow Histories"},
+ *      summary="Fetch all workflow histories",
+ *      description="Returns a list of all workflow histories.",
+ *      @OA\Parameter(
+ *          name="page",
+ *          in="query",
+ *          description="Page number for pagination (default: 1)",
+ *          @OA\Schema(type="integer")
+ *      ),
+ *      @OA\Parameter(
+ *          name="limit",
+ *          in="query",
+ *          description="Number of items per page (default: 10)",
+ *          @OA\Schema(type="integer")
+ *      ),
+ *      @OA\Response(
+ *          response=200,
+ *          description="Successful operation",
+ *          @OA\JsonContent(
+ *              type="array",
+ *              @OA\Items(ref="#/components/schemas/WorkflowHistory")
+ *          )
+ *      ),
+ *      @OA\Response(
+ *          response=404,
+ *          description="No workflow histories found"
+ *      )
+ * )
+ *
+ * @param \Illuminate\Http\Request $request
+ * @return \Illuminate\Http\JsonResponse
+ */
+
     public function index(Request $request)
     {
      $workflowHistories = $this->workflowHistoryService->getWorkflowHistories($request);
