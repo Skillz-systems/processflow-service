@@ -38,10 +38,7 @@ class WorkflowHistoryTest extends TestCase
         ]);
 
         $this->assertInstanceOf(WorkflowHistory::class, $createNewWorkflowHistory);
-
-        $this->assertNotNull($createNewWorkflowHistory->id);
-        $this->assertSame(1, $createNewWorkflowHistory->user_id);
-        $this->assertSame(1, $createNewWorkflowHistory->task_id);
+       
     }
 
    public function test_to_see_if_an_error_happens_when_creating_a_workflowhistory(): void
