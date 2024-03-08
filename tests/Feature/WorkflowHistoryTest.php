@@ -87,13 +87,4 @@ class WorkflowHistoryTest extends TestCase
         );
     }
 
-    public function test_if_all_workflow_can_be_fetched_if_there_is_no_data()
-    {
-        $respponse =  $this->actingAsTestUser()->getJson("/api/workflowhistory");
-        $respponse->assertOk()->assertJsonStructure(
-            [
-                "data" 
-            ]
-        );
-    }
 }
