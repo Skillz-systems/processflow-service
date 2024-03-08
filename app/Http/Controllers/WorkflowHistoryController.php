@@ -25,40 +25,47 @@ class WorkflowHistoryController extends Controller
         $this->workflowHistoryService = $workflowHistoryService;
     }
 
-    /**
- * @OA\Get(
- *      path="/workflow-histories",
- *      operationId="getWorkflowHistories",
+/**
+ * @OA\Put(
+ *      path="/workflow-histories/{id}",
+ *      operationId="updateWorkflowHistory",
  *      tags={"Workflow Histories"},
- *      summary="Fetch all workflow histories",
- *      description="Returns a list of all workflow histories.",
+ *      summary="Update a workflow history",
+ *      description="Updates an existing workflow history record.",
  *      @OA\Parameter(
- *          name="page",
- *          in="query",
- *          description="Page number for pagination (default: 1)",
+ *          name="id",
+ *          in="path",
+ *          description="ID of the workflow history to update",
+ *          required=true,
  *          @OA\Schema(type="integer")
  *      ),
- *      @OA\Parameter(
- *          name="limit",
- *          in="query",
- *          description="Number of items per page (default: 10)",
- *          @OA\Schema(type="integer")
+ *      @OA\RequestBody(
+ *          required=true,
+ *          description="Updated workflow history data",
+ *          @OA\JsonContent(
+ *              required={"user_id", "task_id", "step_id", "process_flow_id", "status"},
+ *              @OA\Property(property="user_id", type="integer", example=1),
+ *              @OA\Property(property="task_id", type="integer", example=1),
+ *              @OA\Property(property="step_id", type="integer", example=1),
+ *              @OA\Property(property="process_flow_id", type="integer", example=1),
+ *              @OA\Property(property="status", type="boolean", example=true),
+ *          ),
  *      ),
  *      @OA\Response(
  *          response=200,
  *          description="Successful operation",
  *          @OA\JsonContent(
- *              type="array",
- *              @OA\Items(ref="#/components/schemas/WorkflowHistory")
+ *              ref="#/components/schemas/WorkflowHistory"
  *          )
  *      ),
  *      @OA\Response(
  *          response=404,
- *          description="No workflow histories found"
+ *          description="Workflow history not found"
  *      )
  * )
  *
- * @param \Illuminate\Http\Request $request
+ * @param \App\Http\Requests\UpdateWorkflowHistoryRequest $request
+ * @param int $id
  * @return \Illuminate\Http\JsonResponse
  */
 

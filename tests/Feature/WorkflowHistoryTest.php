@@ -6,6 +6,12 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Http\Resources\WorkflowHistoryCollection;
+use App\Models\WorkflowHistory;
+use App\Service\WorkflowHistoryService;
+use Illuminate\Http\Request;
+use App\Http\Controllers\WorkflowController;
+use Illuminate\Support\Collection;
+use App\Http\Controllers\WorkflowHistoryController;
 
 class WorkflowHistoryTest extends TestCase
 {
@@ -58,4 +64,27 @@ class WorkflowHistoryTest extends TestCase
         $response->assertJsonValidationErrors(['user_id', 'task_id']);
         $response->assertStatus(422);
     }
+
+    public function test_fetch_all_workflow_histories(): void
+    {
+        WorkflowHistory::factory()->count(3)->create();
+        $workflowHistoryService = new WorkflowHistoryService();
+        $request = new Request();
+        $workflowHistories = $workflowHistoryService->getWorkflowHistories($request);
+        $this->assertInstanceOf(Collection::class, $workflowHistories);
+        foreach ($workflowHistories as $workflowHistory) {
+            $this->assertInstanceOf(WorkflowHistory::class, $workflowHistory);
+        }
+        $this->assertEquals(3, $workflowHistories->count());
+   }
+
+   public function test_index_method_returns_workflow_history_collection()
+    {
+        $mockService = $this->createMock(WorkflowHistoryService::class);
+        $controller = new WorkflowHistoryController($mockService);
+        $request = Request::create('/workflow-histories', 'GET');
+        $response = $controller->index($request);
+        $this->assertInstanceOf(WorkflowHistoryCollection::class, $response);
+    }
+
 }
