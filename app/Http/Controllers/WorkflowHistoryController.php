@@ -73,13 +73,13 @@ class WorkflowHistoryController extends Controller
      *      @OA\RequestBody(
      *          required=true,
      *          description="Workflow History data",
-     *          @OA\JsonContent(ref="#/components/schemas/WorkflowHistory")
+     *          @OA\JsonContent(ref="#/components/schemas/StoreWorkflowHistoryRequest")
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Created",
      *          @OA\JsonContent(
-     *              @OA\Property(property="data", ref="#/components/schemas/WorkflowHistory")
+     *              @OA\Property(property="data", ref="#/components/schemas/StoreWorkflowHistoryRequest")
      *          )
      *      ),
      *      @OA\Response(
