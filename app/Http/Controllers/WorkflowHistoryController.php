@@ -36,7 +36,7 @@ class WorkflowHistoryController extends Controller
      *         description="Successful operation",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(ref="#/components/schemas/WorkflowHistory")
+     *             @OA\Items(ref="#/components/schemas/WorkflowHistoryResource")
      *         )
      *     ),
      *     @OA\Response(
@@ -65,33 +65,42 @@ class WorkflowHistoryController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/workflowhistory/create",
-     *      operationId="storeWorkflowHistory",
-     *      tags={"Workflow History"},
-     *      summary="Create a new workflow history",
-     *      description="Creates a new workflow history record",
-     *      @OA\RequestBody(
-     *          required=true,
-     *          description="Workflow History data",
-     *          @OA\JsonContent(ref="#/components/schemas/StoreWorkflowHistoryRequest")
-     *      ),
-     *      @OA\Response(
-     *          response=201,
-     *          description="Created",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="data", ref="#/components/schemas/StoreWorkflowHistoryRequest")
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="Unprocessable Entity",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(property="errors", type="object")
-     *          )
-     *      )
+     *     path="/workflowhistory/create",
+     *     summary="Create a new workflow history",
+     *     tags={"Workflow History"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/StoreWorkflowHistoryRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/WorkflowHistoryResource")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="The given data was invalid."
+     *             ),
+     *             @OA\Property(
+     *                 property="errors",
+     *                 type="object",
+     *                 example={
+     *                     "user_id": {"The user id field is required."},
+     *                     "task_id": {"The task id field is required."},
+     *                     "step_id": {"The step id field is required."},
+     *                     "process_flow_id": {"The process flow id field is required."},
+     *                     "status": {"The status field is required."}
+     *                 }
+     *             )
+     *         )
+     *     )
      * )
-     * 
+ 
      * @param StoreWorkflowHistoryRequest $request The request containing the workflow history data.
      * @return WorkflowHistoryResource The created workflow history resource.
 
