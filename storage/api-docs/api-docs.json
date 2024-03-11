@@ -860,7 +860,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/WorkflowHistory"
+                                        "$ref": "#/components/schemas/WorkflowHistoryResource"
                                     }
                                 }
                             }
@@ -881,37 +881,30 @@
                     "Workflow History"
                 ],
                 "summary": "Create a new workflow history",
-                "description": "Creates a new workflow history record",
-                "operationId": "storeWorkflowHistory",
+                "operationId": "157c2b881cf39b5ca3bb9f7bad858642",
                 "requestBody": {
-                    "description": "Workflow History data",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/WorkflowHistory"
+                                "$ref": "#/components/schemas/StoreWorkflowHistoryRequest"
                             }
                         }
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/WorkflowHistory"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/WorkflowHistoryResource"
                                 }
                             }
                         }
                     },
                     "422": {
-                        "description": "Unprocessable Entity",
+                        "description": "Validation error",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -921,7 +914,24 @@
                                             "example": "The given data was invalid."
                                         },
                                         "errors": {
-                                            "type": "object"
+                                            "type": "object",
+                                            "example": {
+                                                "user_id": [
+                                                    "The user id field is required."
+                                                ],
+                                                "task_id": [
+                                                    "The task id field is required."
+                                                ],
+                                                "step_id": [
+                                                    "The step id field is required."
+                                                ],
+                                                "process_flow_id": [
+                                                    "The process flow id field is required."
+                                                ],
+                                                "status": [
+                                                    "The status field is required."
+                                                ]
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -1047,6 +1057,45 @@
                             "type": "object"
                         },
                         "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "StoreWorkflowHistoryRequest": {
+                "title": "StoreWorkflowHistoryRequest",
+                "description": "Store Workflow History Request body data",
+                "required": [
+                    "user_id",
+                    "task_id",
+                    "step_id",
+                    "process_flow_id",
+                    "status"
+                ],
+                "properties": {
+                    "user_id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "task_id": {
+                        "description": "Task ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "step_id": {
+                        "description": "Step ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "process_flow_id": {
+                        "description": "Process Flow ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "description": "Status",
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -1269,7 +1318,7 @@
                 },
                 "type": "object"
             },
-            "WorkflowHistory": {
+            "WorkflowHistoryResource": {
                 "properties": {
                     "id": {
                         "type": "integer"

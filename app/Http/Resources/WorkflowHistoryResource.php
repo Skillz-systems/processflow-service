@@ -16,7 +16,7 @@ class WorkflowHistoryResource extends JsonResource
 
     /**
      * @OA\Schema(
-     *     schema="WorkflowHistory",
+     *     schema="WorkflowHistoryResource",
      *     @OA\Property(property="id", type="integer"),
      *     @OA\Property(property="user_id", type="integer"),
      *     @OA\Property(property="task_id", type="integer"),
