@@ -848,7 +848,7 @@
         "/workflowhistory": {
             "get": {
                 "tags": [
-                    "Workflow Histories"
+                    "Workflow History"
                 ],
                 "summary": "Fetch all workflow histories",
                 "operationId": "637111010cf3c61d55f16c792671b23f",

@@ -30,7 +30,7 @@ class WorkflowHistoryController extends Controller
      * @OA\Get(
      *     path="/workflowhistory",
      *     summary="Fetch all workflow histories",
-     *     tags={"Workflow Histories"},
+     *     tags={"Workflow History"},
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
