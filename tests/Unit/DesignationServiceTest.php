@@ -147,4 +147,23 @@ class DesignationServiceTest extends TestCase
         $this->assertDatabaseHas('designations', ['name' => $updatedRequest['name']]);
 
     }
+
+    public function test_service_for_getting_all_designations(): void
+    {
+        $designations = Designation::factory(20)->create();
+        $service = new DesignationService();
+        $allDesignations = $service->getAllDesignations();
+
+        $this->assertCount(20, $allDesignations);
+
+        foreach ($allDesignations as $designation) {
+            $this->assertDatabaseHas('designations', [
+                'id' => $designation->id,
+                'name' => $designation->name,
+                'created_at' => $designation->created_at,
+                'updated_at' => $designation->updated_at
+            ]);
+        }
+
+    }
 }
