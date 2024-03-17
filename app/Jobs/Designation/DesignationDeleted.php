@@ -3,10 +3,12 @@
 namespace App\Jobs\Designation;
 
 use Illuminate\Bus\Queueable;
+use App\Service\DesignationService;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
 class DesignationDeleted implements ShouldQueue
 {
@@ -15,9 +17,11 @@ class DesignationDeleted implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
+
+    private $id;
+    public function __construct($id)
     {
-        //
+        $this->id = $id;
     }
 
     /**
@@ -25,6 +29,11 @@ class DesignationDeleted implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        try {
+            $service = new DesignationService();
+            $service->deleteDesignation($this->id);
+        } catch (\Exception $e) {
+            Log::error('Error occurred while processing DesignationDeleted job: ' . $e->getMessage());
+        }
     }
 }
