@@ -50,4 +50,16 @@ class DesignationServiceTest extends TestCase
             'name' => $request['name']
         ]);
     }
+    public function test_for_service_to_delete_designation_successfully(): void
+    {
+
+    }
+    public function test_for_service_fail_to_delete_designation_id_is_not_provided(): void
+    {
+
+    }
+    public function test_for_job_to_successfully_delete_designation(): void
+    {
+
+    }
 }
