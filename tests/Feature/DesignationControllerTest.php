@@ -11,7 +11,7 @@ class DesignationControllerTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_example(): void
+    public function test_route_to_get_all_designations(): void
     {
         $response = $this->get('/');
 
