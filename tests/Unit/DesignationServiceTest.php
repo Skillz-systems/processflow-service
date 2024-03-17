@@ -44,10 +44,6 @@ class DesignationServiceTest extends TestCase
         ];
 
         DesignationCreated::dispatch($request);
-        // Queue::assertPushed(DesignationCreated::class, function ($job) use ($request) {
-        //     return $job->data['name'] === $request['name'];
-        // });
-
         (new DesignationCreated($request))->handle();
         $this->assertDatabaseCount('designations', 1);
         $this->assertDatabaseHas('designations', [

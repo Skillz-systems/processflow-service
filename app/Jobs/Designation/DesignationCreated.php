@@ -20,12 +20,9 @@ class DesignationCreated implements ShouldQueue
      * Create a new job instance.
      */
     private $data;
-    // protected $designationService = DesignationService::class;
-    // private $service;
     public function __construct(array $data)
     {
         $this->data = $data;
-        // $this->service = new DesignationService();
     }
 
     /**
@@ -34,16 +31,9 @@ class DesignationCreated implements ShouldQueue
     public function handle(): void
     {
         try {
-            // $designationService = new DesignationService();
-            // $designationService->createDesignation($this->data);
-            // $this->service->createDesignation($this->data);
 
-            Designation::create([
-                'id' => $this->data['id'],
-                'name' => $this->data['name'],
-                'created_at' => $this->data['created_at'],
-                'updated_at' => $this->data['updated_at'],
-            ]);
+            $service = new DesignationService();
+            $service->createDesignation($this->data);
         } catch (\Exception $e) {
             Log::error('Error occurred while processing DesignationCreated job: ' . $e->getMessage());
         }
