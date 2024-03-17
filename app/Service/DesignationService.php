@@ -47,4 +47,14 @@ class DesignationService
             throw new ValidationException($validator);
         }
     }
+
+    public function deleteDesignation(int $id): bool
+    {
+        $designation = Designation::find($id);
+        if (!$designation) {
+            return false;
+        }
+        $designation->delete();
+        return true;
+    }
 }
