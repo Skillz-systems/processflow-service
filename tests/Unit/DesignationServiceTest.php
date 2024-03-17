@@ -1,13 +1,14 @@
 <?php
 namespace Tests\Unit;
 
-use App\Jobs\Designation\DesignationCreated;
+use Tests\TestCase;
 use App\Models\Designation;
 use Illuminate\Support\Str;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Service\DesignationService;
 use Illuminate\Support\Facades\Queue;
-use Tests\TestCase;
+use App\Jobs\Designation\DesignationCreated;
+use App\Jobs\Designation\DesignationDeleted;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
 
@@ -70,14 +71,40 @@ class DesignationServiceTest extends TestCase
     }
     public function test_for_job_to_successfully_delete_designation(): void
     {
-        // Create a designation
-        $designation = Designation::factory()->create();
 
-        // Dispatch the DesignationDeleted job
-        $job = new DesignationDeleted($designation->id);
-        $job->handle();
 
-        // Assert that the designation no longer exists in the database
-        $this->assertDatabaseMissing('designations', ['id' => $designation->id]);
+        Queue::fake();
+
+        $request = [
+            'name' => 'supplier',
+            'id' => 999,
+            'created_at' => '',
+            'updated_at' => ''
+        ];
+
+        DesignationCreated::dispatch($request);
+        (new DesignationCreated($request))->handle();
+        $this->assertDatabaseCount('designations', 1);
+        $this->assertDatabaseHas('designations', [
+            'name' => $request['name']
+        ]);
+
+
+        DesignationDeleted::dispatch($request['id']);
+        (new DesignationDeleted($request['id']))->handle();
+
+        $this->assertDatabaseMissing('designations', ['id' => $request['id']]);
+
+        // // Create a designation
+        // $designation = Designation::factory()->create();
+
+        // // Dispatch the DesignationDeleted job
+        // $job = new DesignationDeleted($designation->id);
+        // $job->handle();
+
+
+        // $designation = Designation::factory()->create();
+
+        // $this->assertDatabaseMissing('designations', ['id' => $designation->id]);
     }
 }
