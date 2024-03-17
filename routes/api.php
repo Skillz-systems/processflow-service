@@ -1,7 +1,9 @@
 <?php
 use App\Http\Controllers\DesignationController;
+
 use App\Http\Controllers\ProcessFlowController;
 use App\Http\Controllers\ProcessflowStepController;
+use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\WorkflowHistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +36,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
     Route::delete('/processflows/{id}', [ProcessFlowController::class, 'destroy']);
 
-    Route::post('workflowhistory', [WorkflowHistoryController::class, 'store']);
+    Route::post('/workflowhistory/create', [WorkflowHistoryController::class, 'store']);
+    Route::get('/workflowhistory', [WorkflowHistoryController::class, 'index']);
+
     Route::post('processflowstep/create/{id}', [ProcessflowStepController::class, 'store']);
     Route::delete('processflowstep/delete/{id}', [ProcessflowStepController::class, 'destroy']);
     Route::put('processflowstep/update/{id}', [ProcessflowStepController::class, 'update']);
@@ -48,6 +52,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 
+    Route::post('/route/create', [RoutesController::class, 'store']);
+    Route::get('/route', [RoutesController::class, 'index']);
+    Route::get('/route/view/{id}', [RoutesController::class, 'show']);
+    Route::put('/route/update/{id}', [RoutesController::class, 'update']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -19,11 +19,12 @@ class WorkflowHistoryService
      * @return \App\Models\WorkflowHistory[]
      *
      * @throws \Exception If an error occurs while retrieving the workflow histories.
-    */
-    public function getWorkflowHistories(Request $request)
-{
-    return WorkflowHistory::all();
-}
+     */
+    public function getWorkflowHistories()
+    {
+       // return WorkflowHistory::where(["status" => 1])->get();
+        return $model = (new WorkflowHistory())->where(["status" => 1])->get();
+    }
 
     /**
      * This Method is used to create a new workflow history in the database .
@@ -51,8 +52,7 @@ class WorkflowHistoryService
             return $validator->errors();
         }
 
-       return $model->create($request->all());
-
+        return $model->create($request->all());
     }
 
     /**
@@ -63,12 +63,12 @@ class WorkflowHistoryService
      * @return \App\Models\WorkflowHistory|null The retrieved WorkflowHistory, or null if not found.
      */
 
-     public function getWorkflowHistory(int $id): WorkflowHistory | null
-     {
-         return WorkflowHistory::find($id);
-     }
+    public function getWorkflowHistory(int $id): WorkflowHistory | null
+    {
+        return WorkflowHistory::find($id);
+    }
 
-     /**
+    /**
      * Update an existing workflow History.
      *
      * @param Request $request The request containing the updated data
@@ -102,7 +102,7 @@ class WorkflowHistoryService
         return $workflowHistory;
     }
 
-        /**
+    /**
      * Delete a WorkflowHistory by its ID.
      *
      * @param int $id The ID of the WorkflowHistory to delete.
@@ -110,14 +110,14 @@ class WorkflowHistoryService
      * @return bool True if the deletion is successful, false otherwise.
      */
 
-     public function deleteWorkflowHistory(int $id): bool
-     {
-         $model = WorkflowHistory::find($id);
-         if ($model) {
-             if ($model->delete()) {
-                 return true;
-              }
-         }
-         return false;
-     }
+    public function deleteWorkflowHistory(int $id): bool
+    {
+        $model = WorkflowHistory::find($id);
+        if ($model) {
+            if ($model->delete()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
