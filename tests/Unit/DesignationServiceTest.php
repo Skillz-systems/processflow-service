@@ -106,17 +106,18 @@ class DesignationServiceTest extends TestCase
         $this->assertInstanceOf(Designation::class, $result);
         $updatedRequest = ['name' => 'Updated Client', 'id' => $result['id'], 'created_at' => '', 'updated_at' => ''];
 
-        $service->updateDesignation($updatedRequest);
+        $service->updateDesignation($updatedRequest, $result['id']);
 
         $this->assertDatabaseHas('designations', [
             'name' => $updatedRequest['name']
         ]);
     }
-    public function test_service_to_update_a_designation_return_failed_when_invalid_data_is_provided(): void
+    public function test_service_to_update_a_designation_return_fails_with_invalid_data(): void
     {
+        $this->expectException(\Illuminate\Validation\ValidationException::class);
+        $request = ['created_at' => '', 'updated_at' => ''];
         $service = new DesignationService();
-        $result = $service->updateDesignation(9119);
-        $this->assertFalse($result);
+        $result = $service->updateDesignation($request, 9119);
     }
 
     public function test_job_to_update_designation_is_successful(): void
