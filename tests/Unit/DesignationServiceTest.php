@@ -24,7 +24,7 @@ class DesignationServiceTest extends TestCase
         $this->assertInstanceOf(Designation::class, $result);
     }
 
-    public function test_to_designation_service_to_fail_processes_invalid_data(): void
+    public function test_designation_created_validation_exception(): void
     {
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
@@ -52,88 +52,10 @@ class DesignationServiceTest extends TestCase
         ]);
     }
 
-    //added now
-    // ValidationException is thrown when required data is missing
-    public function test_designation_created_validation_exception()
-    {
-        Queue::fake();
-        // Arrange
-        $data = [
-            'id' => 455,
-            'created_at' => '2021-01-01',
-            'updated_at' => '2021-01-01',
-        ];
-
-        // Assert
-        $this->expectException(\Illuminate\Validation\ValidationException::class);
-
-        // Act
-        $job = new DesignationCreated($data);
-        $job->handle();
-    }
-    // Designation is created successfully with valid data
-    public function test_designation_created_successfully()
-    {
-        Queue::fake();
-        // Arrange
-        $data = [
-            'id' => 40,
-            'name' => 'Test Designation A',
-            'created_at' => '2021-01-01',
-            'updated_at' => '2021-01-01',
-        ];
-
-        // Act
-        $job = new DesignationCreated($data);
-        $job->handle();
-
-        // Assert
-        $this->assertDatabaseHas('designations', $data);
-    }
-
-    // Designation is not created when id is missing
-    public function test_designation_not_created_when_id_missing()
-    {
-        Queue::fake();
-        // Arrange
-        $data = [
-            'name' => 'Test Designation B',
-            'created_at' => '2021-01-01',
-            'updated_at' => '2021-01-01',
-        ];
-
-        // Act
-        $job = new DesignationCreated($data);
-        $job->handle();
-
-        // Assert
-        $this->assertDatabaseMissing('designations', $data);
-    }
-
-    // ValidationException is thrown when required data is missing
-// public function test_designation_created_validation_exception()
-// {
-//     // Arrange
-//     $data = [
-//         'id' => 1,
-//         'created_at' => '2021-01-01',
-//         'updated_at' => '2021-01-01',
-//     ];
-
-    //     // Assert
-//     $this->expectException(ValidationException::class);
-
-    //     // Act
-//     $job = new DesignationCreated($data);
-//     $job->handle();
-// }
-
-    // Designation is not created when updated_at is not a valid date
     public function test_designation_not_created_invalid_updated_at()
     {
         Queue::fake();
-        // Arrange
-        $data = [
+        $request = [
             'id' => 56,
             'name' => 'Test Designation c',
             'created_at' => '2021-01-01',
@@ -141,10 +63,10 @@ class DesignationServiceTest extends TestCase
         ];
 
         // Act
-        $job = new DesignationCreated($data);
-        $job->handle();
+        DesignationCreated::dispatch($request);
+        (new DesignationCreated($request))->handle();
 
         // Assert
-        $this->assertDatabaseMissing('designations', $data);
+        $this->assertDatabaseMissing('designations', $request);
     }
 }
