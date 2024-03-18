@@ -53,10 +53,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
 
     Route::get('/designations', [DesignationController::class, 'index']);
+    Route::get('/designations/{id}', [DesignationController::class, 'show']);
 
 
 
 });
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
