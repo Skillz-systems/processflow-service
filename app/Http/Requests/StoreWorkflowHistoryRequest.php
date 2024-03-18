@@ -15,9 +15,43 @@ class StoreWorkflowHistoryRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @OA\Schema(
+     *      schema="StoreWorkflowHistoryRequest",
+     *     title="StoreWorkflowHistoryRequest",
+     *     description="Store Workflow History Request body data",
+     *     type="object",
+     *     required={"user_id", "task_id", "step_id", "process_flow_id", "status"},
+     *     @OA\Property(
+     *         property="user_id",
+     *         type="integer",
+     *         description="User ID",
+     *         example=1
+     *     ),
+     *     @OA\Property(
+     *         property="task_id",
+     *         type="integer",
+     *         description="Task ID",
+     *         example=1
+     *     ),
+     *     @OA\Property(
+     *         property="step_id",
+     *         type="integer",
+     *         description="Step ID",
+     *         example=1
+     *     ),
+     *     @OA\Property(
+     *         property="process_flow_id",
+     *         type="integer",
+     *         description="Process Flow ID",
+     *         example=1
+     *     ),
+     *     @OA\Property(
+     *         property="status",
+     *         type="boolean",
+     *         description="Status",
+     *         example=true
+     *     ),
+     * )
      */
     public function rules(): array
     {
@@ -26,7 +60,7 @@ class StoreWorkflowHistoryRequest extends FormRequest
             "task_id" => "required|integer",
             "step_id" => "required|integer",
             "process_flow_id" => "required|integer",
-            "status" => "required|boolean",        
+            "status" => "required|boolean",
         ];
     }
 }
