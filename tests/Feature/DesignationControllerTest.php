@@ -63,9 +63,8 @@ class DesignationControllerTest extends TestCase
     }
 
     // Test getting non-existent designation returns 404
-    public function test_route_non_existing_designation_get_throws_exception(): void
+    public function test_route_non_existing_designation_get_throws_non_found(): void
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
         $this->actingAsTestUser()->getJson('/api/designations/999')->assertStatus(404);
     }
 }

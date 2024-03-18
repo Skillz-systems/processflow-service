@@ -74,4 +74,8 @@ class DesignationService
     {
         return Designation::all();
     }
+    public function getSingleDesignation(int $id): Designation
+    {
+        return Designation::findOrFail($id);
+    }
 }
