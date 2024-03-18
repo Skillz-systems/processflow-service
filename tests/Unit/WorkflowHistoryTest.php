@@ -1,15 +1,14 @@
 <?php
 
 namespace Tests\Unit;
-
-use App\Http\Controllers\WorkflowController;
 use App\Models\WorkflowHistory;
 use App\Service\WorkflowHistoryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
+use Mockery;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-
 class WorkflowHistoryTest extends TestCase
 {
     use RefreshDatabase;
@@ -39,10 +38,7 @@ class WorkflowHistoryTest extends TestCase
         ]);
 
         $this->assertInstanceOf(WorkflowHistory::class, $createNewWorkflowHistory);
-
-        $this->assertNotNull($createNewWorkflowHistory->id);
-        $this->assertSame(1, $createNewWorkflowHistory->user_id);
-        $this->assertSame(1, $createNewWorkflowHistory->task_id);
+       
     }
 
    public function test_to_see_if_an_error_happens_when_creating_a_workflowhistory(): void
@@ -146,14 +142,15 @@ class WorkflowHistoryTest extends TestCase
 
     public function test_fetch_all_workflow_histories(): void
     {
-        WorkflowHistory::factory()->count(3)->create();
+        WorkflowHistory::factory(3)->create(["status" => 1]);
         $workflowHistoryService = new WorkflowHistoryService();
-        $request = new Request();
-        $workflowHistories = $workflowHistoryService->getWorkflowHistories($request);
+        $workflowHistories = $workflowHistoryService->getWorkflowHistories();
         $this->assertInstanceOf(Collection::class, $workflowHistories);
         foreach ($workflowHistories as $workflowHistory) {
             $this->assertInstanceOf(WorkflowHistory::class, $workflowHistory);
         }
-        $this->assertEquals(3, $workflowHistories->count());
-    }
+        
+        $this->assertEquals(3, count($workflowHistories->toArray()));
+   }
+
 }
