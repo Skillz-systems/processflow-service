@@ -6,6 +6,7 @@ use App\Http\Requests\StoreWorkflowHistoryRequest;
 use App\Http\Resources\WorkflowHistoryResource;
 use App\Service\WorkflowHistoryService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Request\UpdateWorkflowHistoryRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\WorkflowHistoryCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
