@@ -49,6 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     Route::get('/designations', [DesignationController::class, 'index']);
+    Route::get('/designations/{id}', [DesignationController::class, 'show']);
 
 
 
@@ -57,6 +58,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/route/view/{id}', [RoutesController::class, 'show']);
     Route::put('/route/update/{id}', [RoutesController::class, 'update']);
 });
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
