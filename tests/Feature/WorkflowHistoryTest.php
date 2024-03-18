@@ -2,15 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Http\Resources\WorkflowHistoryCollection;
-use App\Models\WorkflowHistory;
-use App\Service\WorkflowHistoryService;
+use App\Models\User;
+use App\Models\ProcessFlow;
 use Illuminate\Http\Request;
-use App\Http\Controllers\WorkflowController;
+use App\Models\WorkflowHistory;
 use Illuminate\Support\Collection;
+use App\Service\WorkflowHistoryService;
+use App\Http\Controllers\WorkflowController;
+use App\Http\Resources\WorkflowHistoryCollection;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Controllers\WorkflowHistoryController;
 
 class WorkflowHistoryTest extends TestCase
@@ -50,38 +51,39 @@ class WorkflowHistoryTest extends TestCase
     }
 
     public function test_create_workflowhistory_controller_returns_validation_errors_for_invalid_data(): void
-{
-    $user = User::factory()->create();
-    $invalidData = [];
-    $response = $this->actingAs($user)->postJson('/api/workflowhistory/create', $invalidData);
-    $response->assertStatus(422);
-    $response->assertJsonValidationErrors(['user_id', 'task_id']);
-    $response->assertJsonStructure([
-        'message',
-        'errors' => [
-            'user_id',
-            'task_id',
-            'step_id',
-            'process_flow_id',
-            'status',
-        ],
-    ]);
-}
+    {
+        $user = User::factory()->create();
+        $invalidData = [];
+        $response = $this->actingAs($user)->postJson('/api/workflowhistory/create', $invalidData);
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['user_id', 'task_id']);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'user_id',
+                'task_id',
+                'step_id',
+                'process_flow_id',
+                'status',
+            ],
+        ]);
+    }
     public function test_if_all_workflow_can_be_fetched()
     {
         WorkflowHistory::factory(3)->create(["status" => 1]);
-        $response =  $this->actingAsTestUser()->getJson("/api/workflowhistory");
+        $response = $this->actingAsTestUser()->getJson("/api/workflowhistory");
         $response->assertOk()->assertJsonStructure(
             [
-                "data" => [[
+                "data" => [
+                    [
 
-                    "task_id",
-                    "step_id",
-                    "process_flow_id",
-                    "user_id",
-                    "status",
-                ]
-                    
+                        "task_id",
+                        "step_id",
+                        "process_flow_id",
+                        "user_id",
+                        "status",
+                    ]
+
                 ]
             ]
         );
