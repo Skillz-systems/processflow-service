@@ -21,9 +21,7 @@ class DesignationController extends Controller
     {
         $this->designationService = $designationService;
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     /**
      * @OA\Get(
      *     path="/designations",
@@ -53,6 +51,11 @@ class DesignationController extends Controller
      *      ),
      * )
      */
+
+    /**
+     * Retrieves all designations and returns them as a collection of DesignationResource objects.
+     *
+     */
     public function index()
     {
         $designations = $this->designationService->getAllDesignations();
@@ -78,9 +81,53 @@ class DesignationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Designation $designation)
+
+    /**
+     * @OA\Get(
+     *     path="/designations/{id}",
+     *     tags={"Designation"},
+     *     summary="Get a designation",
+     *     description="Returns the details of a single designation",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the process flow",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Designation found",
+     *         @OA\JsonContent(ref="#/components/schemas/DesignationResource")
+     *     ),
+     * @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     * @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=404,
+     *          description="Not Found",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error",
+     *      ),
+     * )
+     */
+    /**
+     * Retrieves a single designation by its ID and returns it as a DesignationResource.
+     *
+     * @param int $id The ID of the designation to retrieve.
+     * @return DesignationResource The DesignationResource representing the retrieved designation.
+     */
+    public function show(int $id)
     {
-        //
+        $designation = $this->designationService->getSingleDesignation($id);
+        return new DesignationResource($designation);
     }
 
     /**
