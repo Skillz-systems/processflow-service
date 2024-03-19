@@ -8,6 +8,7 @@ use App\Service\DesignationService;
 use Illuminate\Support\Facades\Queue;
 use App\Jobs\Designation\DesignationCreated;
 use App\Jobs\Designation\DesignationDeleted;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
@@ -24,7 +25,7 @@ class DesignationServiceTest extends TestCase
         $this->assertInstanceOf(Designation::class, $result);
     }
 
-    public function test_to_designation_service_to_fail_processes_invalid_data(): void
+    public function test_designation_created_validation_exception(): void
     {
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
