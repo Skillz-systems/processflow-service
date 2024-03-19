@@ -8,7 +8,6 @@ use App\Service\DesignationService;
 use Illuminate\Support\Facades\Queue;
 use App\Jobs\Designation\DesignationCreated;
 use App\Jobs\Designation\DesignationDeleted;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
