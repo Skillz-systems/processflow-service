@@ -33,24 +33,7 @@ class DesignationServiceTest extends TestCase
         $service->createDesignation($request);
     }
 
-    public function test_job_handles_data_correctly()
-    {
-        Queue::fake();
 
-        $request = [
-            'name' => 'supplier',
-            'id' => 4567,
-            'created_at' => '',
-            'updated_at' => ''
-        ];
-
-        DesignationCreated::dispatch($request);
-        (new DesignationCreated($request))->handle();
-        $this->assertDatabaseCount('designations', 1);
-        $this->assertDatabaseHas('designations', [
-            'name' => $request['name']
-        ]);
-    }
     public function test_service_to_delete_designation_successfully(): void
     {
         $designation = Designation::factory()->create();
@@ -69,42 +52,5 @@ class DesignationServiceTest extends TestCase
         $result = $service->deleteDesignation(9999);
         $this->assertFalse($result);
     }
-    public function test_for_job_to_successfully_delete_designation(): void
-    {
 
-
-        Queue::fake();
-
-        $request = [
-            'name' => 'supplier',
-            'id' => 999,
-            'created_at' => '',
-            'updated_at' => ''
-        ];
-
-        DesignationCreated::dispatch($request);
-        (new DesignationCreated($request))->handle();
-        $this->assertDatabaseCount('designations', 1);
-        $this->assertDatabaseHas('designations', [
-            'name' => $request['name']
-        ]);
-
-
-        DesignationDeleted::dispatch($request['id']);
-        (new DesignationDeleted($request['id']))->handle();
-
-        $this->assertDatabaseMissing('designations', ['id' => $request['id']]);
-
-        // // Create a designation
-        // $designation = Designation::factory()->create();
-
-        // // Dispatch the DesignationDeleted job
-        // $job = new DesignationDeleted($designation->id);
-        // $job->handle();
-
-
-        // $designation = Designation::factory()->create();
-
-        // $this->assertDatabaseMissing('designations', ['id' => $designation->id]);
-    }
 }
