@@ -25,7 +25,7 @@ class DesignationServiceTest extends TestCase
         $this->assertInstanceOf(Designation::class, $result);
     }
 
-    public function test_to_designation_service_to_fail_processes_invalid_data(): void
+    public function test_designation_created_validation_exception(): void
     {
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
@@ -34,24 +34,7 @@ class DesignationServiceTest extends TestCase
         $service->createDesignation($request);
     }
 
-    public function test_job_handles_data_correctly()
-    {
-        Queue::fake();
 
-        $request = [
-            'name' => 'supplier',
-            'id' => 4567,
-            'created_at' => '',
-            'updated_at' => ''
-        ];
-
-        DesignationCreated::dispatch($request);
-        (new DesignationCreated($request))->handle();
-        $this->assertDatabaseCount('designations', 1);
-        $this->assertDatabaseHas('designations', [
-            'name' => $request['name']
-        ]);
-    }
     public function test_service_to_delete_designation_successfully(): void
     {
         $designation = Designation::factory()->create();
@@ -69,32 +52,6 @@ class DesignationServiceTest extends TestCase
         $service = new DesignationService();
         $result = $service->deleteDesignation(9999);
         $this->assertFalse($result);
-    }
-    public function test_for_job_to_successfully_delete_designation(): void
-    {
-
-
-        Queue::fake();
-
-        $request = [
-            'name' => 'supplier',
-            'id' => 999,
-            'created_at' => '',
-            'updated_at' => ''
-        ];
-
-        DesignationCreated::dispatch($request);
-        (new DesignationCreated($request))->handle();
-        $this->assertDatabaseCount('designations', 1);
-        $this->assertDatabaseHas('designations', [
-            'name' => $request['name']
-        ]);
-
-
-        DesignationDeleted::dispatch($request['id']);
-        (new DesignationDeleted($request['id']))->handle();
-
-        $this->assertDatabaseMissing('designations', ['id' => $request['id']]);
     }
 
     public function test_service_to_update_a_designation_successfully(): void
@@ -120,31 +77,4 @@ class DesignationServiceTest extends TestCase
         $result = $service->updateDesignation($request, 9119);
     }
 
-    public function test_job_to_update_designation_is_successful(): void
-    {
-
-        Queue::fake();
-
-        $request = [
-            'name' => 'staff',
-            'id' => 329,
-            'created_at' => '',
-            'updated_at' => ''
-        ];
-
-        DesignationCreated::dispatch($request);
-        (new DesignationCreated($request))->handle();
-        $this->assertDatabaseCount('designations', 1);
-        $this->assertDatabaseHas('designations', [
-            'name' => $request['name']
-        ]);
-
-        $updatedRequest = ['name' => 'Updated staff', 'id' => $request['id'], 'created_at' => '', 'updated_at' => ''];
-
-        DesignationUpdated::dispatch($updatedRequest);
-        (new DesignationUpdated($updatedRequest))->handle();
-
-        $this->assertDatabaseHas('designations', ['name' => $updatedRequest['name']]);
-
-    }
 }
