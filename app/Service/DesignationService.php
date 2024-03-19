@@ -57,4 +57,16 @@ class DesignationService
         $designation->delete();
         return true;
     }
+
+    public function updateDesignation(array $data, int $id): bool
+    {
+        $this->validateData($data);
+
+        $designation = Designation::find($id);
+        return $designation->update([
+            'name' => $data['name'],
+            'created_at' => $data['created_at'],
+            'updated_at' => $data['updated_at'],
+        ]);
+    }
 }
