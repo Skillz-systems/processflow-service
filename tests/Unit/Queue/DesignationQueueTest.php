@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Queue;
 use App\Jobs\Designation\DesignationCreated;
 use App\Jobs\Designation\DesignationDeleted;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Jobs\Designation\DesignationUpdated;
 
 class DesignationQueueTest extends TestCase
 {
@@ -58,5 +59,33 @@ class DesignationQueueTest extends TestCase
         (new DesignationDeleted($request['id']))->handle();
 
         $this->assertDatabaseMissing('designations', ['id' => $request['id']]);
+    }
+
+     public function test_job_to_update_designation_is_successful(): void
+    {
+
+        Queue::fake();
+
+        $request = [
+            'name' => 'staff',
+            'id' => 329,
+            'created_at' => '',
+            'updated_at' => ''
+        ];
+
+        DesignationCreated::dispatch($request);
+        (new DesignationCreated($request))->handle();
+        $this->assertDatabaseCount('designations', 1);
+        $this->assertDatabaseHas('designations', [
+            'name' => $request['name']
+        ]);
+
+        $updatedRequest = ['name' => 'Updated staff', 'id' => $request['id'], 'created_at' => '', 'updated_at' => ''];
+
+        DesignationUpdated::dispatch($updatedRequest);
+        (new DesignationUpdated($updatedRequest))->handle();
+
+        $this->assertDatabaseHas('designations', ['name' => $updatedRequest['name']]);
+
     }
 }
