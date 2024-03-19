@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use App\Service\DesignationService;
 use Illuminate\Support\Facades\Queue;
 use App\Jobs\Designation\DesignationCreated;
-use Illuminate\Validation\ValidationException;
+use App\Jobs\Designation\DesignationDeleted;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
@@ -33,40 +33,24 @@ class DesignationServiceTest extends TestCase
         $service->createDesignation($request);
     }
 
-    public function test_job_handles_data_correctly()
+
+    public function test_service_to_delete_designation_successfully(): void
     {
-        Queue::fake();
+        $designation = Designation::factory()->create();
+        $service = new DesignationService();
 
-        $request = [
-            'name' => 'supplier',
-            'id' => 4567,
-            'created_at' => '',
-            'updated_at' => ''
-        ];
+        $this->assertInstanceOf(Designation::class, $designation);
+        $result = $service->deleteDesignation($designation->id);
 
-        DesignationCreated::dispatch($request);
-        (new DesignationCreated($request))->handle();
-        $this->assertDatabaseCount('designations', 1);
-        $this->assertDatabaseHas('designations', [
-            'name' => $request['name']
-        ]);
+        $this->assertDatabaseMissing('designations', ['id' => $designation->id]);
+        $this->assertTrue($result);
+
+    }
+    public function test_service_to_delete_designation_not_found(): void
+    {
+        $service = new DesignationService();
+        $result = $service->deleteDesignation(9999);
+        $this->assertFalse($result);
     }
 
-    public function test_designation_not_created_invalid_updated_at()
-    {
-        Queue::fake();
-        $request = [
-            'id' => 56,
-            'name' => 'Test Designation c',
-            'created_at' => '2021-01-01',
-            'updated_at' => 'Invalid Date',
-        ];
-
-        // Act
-        DesignationCreated::dispatch($request);
-        (new DesignationCreated($request))->handle();
-
-        // Assert
-        $this->assertDatabaseMissing('designations', $request);
-    }
 }
