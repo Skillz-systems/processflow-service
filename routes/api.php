@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\DesignationController;
 
 use App\Http\Controllers\ProcessFlowController;
 use App\Http\Controllers\ProcessflowStepController;
@@ -45,6 +46,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/processflows', [ProcessFlowController::class, 'store']);
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
+
+
+    Route::get('/designations', [DesignationController::class, 'index']);
+
+
 
     Route::post('/route/create', [RoutesController::class, 'store']);
     Route::get('/route', [RoutesController::class, 'index']);

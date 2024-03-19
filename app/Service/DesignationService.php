@@ -69,4 +69,9 @@ class DesignationService
             'updated_at' => $data['updated_at'],
         ]);
     }
+
+    public function getAllDesignations(): object
+    {
+        return Designation::all();
+    }
 }
