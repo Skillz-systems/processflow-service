@@ -96,4 +96,18 @@ class DesignationServiceTest extends TestCase
         }
 
     }
+    public function test_service_to_get_a_designation(): void
+    {
+        $designation = Designation::factory()->create();
+        $service = new DesignationService();
+        $singleDesignation = $service->getSingleDesignation($designation->id);
+
+        $this->assertDatabaseHas('designations', [
+            'id' => $singleDesignation->id,
+            'name' => $singleDesignation->name,
+            'created_at' => $singleDesignation->created_at,
+            'updated_at' => $singleDesignation->updated_at
+
+        ]);
+    }
 }
