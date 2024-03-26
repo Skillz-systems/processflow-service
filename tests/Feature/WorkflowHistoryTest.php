@@ -88,5 +88,4 @@ class WorkflowHistoryTest extends TestCase
             ]
         );
     }
-
 }
