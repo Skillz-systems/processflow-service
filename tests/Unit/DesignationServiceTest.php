@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Unit;
 
 use Tests\TestCase;
@@ -9,6 +8,7 @@ use App\Service\DesignationService;
 use Illuminate\Support\Facades\Queue;
 use App\Jobs\Designation\DesignationCreated;
 use App\Jobs\Designation\DesignationDeleted;
+use App\Jobs\Designation\DesignationUpdated;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
@@ -52,6 +52,64 @@ class DesignationServiceTest extends TestCase
         $service = new DesignationService();
         $result = $service->deleteDesignation(9999);
         $this->assertFalse($result);
+    }
+
+
+    public function test_service_to_update_a_designation_successfully(): void
+    {
+        $request = ['name' => 'Client', 'id' => 75, 'created_at' => '', 'updated_at' => ''];
+        $service = new DesignationService();
+        $result = $service->createDesignation($request);
+
+        $this->assertInstanceOf(Designation::class, $result);
+        $updatedRequest = ['name' => 'Updated Client', 'id' => $result['id'], 'created_at' => '', 'updated_at' => ''];
+
+        $service->updateDesignation($updatedRequest, $result['id']);
+
+        $this->assertDatabaseHas('designations', [
+            'name' => $updatedRequest['name']
+        ]);
+    }
+    public function test_service_to_update_a_designation_return_fails_with_invalid_data(): void
+    {
+        $this->expectException(\Illuminate\Validation\ValidationException::class);
+        $request = ['created_at' => '', 'updated_at' => ''];
+        $service = new DesignationService();
+        $result = $service->updateDesignation($request, 9119);
+    }
+
+
+    public function test_service_to_getting_all_designations_available(): void
+    {
+        $designations = Designation::factory(20)->create();
+        $service = new DesignationService();
+        $allDesignations = $service->getAllDesignations();
+
+        $this->assertCount(20, $allDesignations);
+
+        foreach ($allDesignations as $designation) {
+            $this->assertDatabaseHas('designations', [
+                'id' => $designation->id,
+                'name' => $designation->name,
+                'created_at' => $designation->created_at,
+                'updated_at' => $designation->updated_at
+            ]);
+        }
+
+    }
+    public function test_service_to_get_a_designation(): void
+    {
+        $designation = Designation::factory()->create();
+        $service = new DesignationService();
+        $singleDesignation = $service->getSingleDesignation($designation->id);
+
+        $this->assertDatabaseHas('designations', [
+            'id' => $singleDesignation->id,
+            'name' => $singleDesignation->name,
+            'created_at' => $singleDesignation->created_at,
+            'updated_at' => $singleDesignation->updated_at
+
+        ]);
     }
 
 }

@@ -46,6 +46,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/processflows/{id}', [ProcessFlowController::class, 'show']);
     Route::put('/processflows/{id}', [ProcessFlowController::class, 'update']);
 
+
+    Route::get('/designations', [DesignationController::class, 'index']);
+    Route::get('/designations/{id}', [DesignationController::class, 'show']);
+
+
+
     Route::post('/route/create', [RoutesController::class, 'store']);
     Route::get('/route', [RoutesController::class, 'index']);
     Route::get('/route/view/{id}', [RoutesController::class, 'show']);
