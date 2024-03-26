@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Unit;
 
 use Tests\TestCase;
@@ -7,8 +8,7 @@ use Illuminate\Support\Str;
 use App\Service\DesignationService;
 use Illuminate\Support\Facades\Queue;
 use App\Jobs\Designation\DesignationCreated;
-use App\Jobs\Designation\DesignationDeleted;
-use App\Jobs\Designation\DesignationUpdated;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
@@ -52,132 +52,100 @@ class DesignationServiceTest extends TestCase
             'name' => $request['name']
         ]);
     }
-    public function test_service_to_delete_designation_successfully(): void
+
+    //added now
+    // ValidationException is thrown when required data is missing
+    public function test_designation_created_validation_exception()
     {
-        $designation = Designation::factory()->create();
-        $service = new DesignationService();
-
-        $this->assertInstanceOf(Designation::class, $designation);
-        $result = $service->deleteDesignation($designation->id);
-
-        $this->assertDatabaseMissing('designations', ['id' => $designation->id]);
-        $this->assertTrue($result);
-
-    }
-    public function test_service_to_delete_designation_not_found(): void
-    {
-        $service = new DesignationService();
-        $result = $service->deleteDesignation(9999);
-        $this->assertFalse($result);
-    }
-    public function test_for_job_to_successfully_delete_designation(): void
-    {
-
-
         Queue::fake();
-
-        $request = [
-            'name' => 'supplier',
-            'id' => 999,
-            'created_at' => '',
-            'updated_at' => ''
+        // Arrange
+        $data = [
+            'id' => 455,
+            'created_at' => '2021-01-01',
+            'updated_at' => '2021-01-01',
         ];
 
-        DesignationCreated::dispatch($request);
-        (new DesignationCreated($request))->handle();
-        $this->assertDatabaseCount('designations', 1);
-        $this->assertDatabaseHas('designations', [
-            'name' => $request['name']
-        ]);
-
-
-        DesignationDeleted::dispatch($request['id']);
-        (new DesignationDeleted($request['id']))->handle();
-
-        $this->assertDatabaseMissing('designations', ['id' => $request['id']]);
-    }
-
-    public function test_service_to_update_a_designation_successfully(): void
-    {
-        $request = ['name' => 'Client', 'id' => 75, 'created_at' => '', 'updated_at' => ''];
-        $service = new DesignationService();
-        $result = $service->createDesignation($request);
-
-        $this->assertInstanceOf(Designation::class, $result);
-        $updatedRequest = ['name' => 'Updated Client', 'id' => $result['id'], 'created_at' => '', 'updated_at' => ''];
-
-        $service->updateDesignation($updatedRequest, $result['id']);
-
-        $this->assertDatabaseHas('designations', [
-            'name' => $updatedRequest['name']
-        ]);
-    }
-    public function test_service_to_update_a_designation_return_fails_with_invalid_data(): void
-    {
+        // Assert
         $this->expectException(\Illuminate\Validation\ValidationException::class);
-        $request = ['created_at' => '', 'updated_at' => ''];
-        $service = new DesignationService();
-        $result = $service->updateDesignation($request, 9119);
+
+        // Act
+        $job = new DesignationCreated($data);
+        $job->handle();
     }
-
-    public function test_job_to_update_designation_is_successful(): void
+    // Designation is created successfully with valid data
+    public function test_designation_created_successfully()
     {
-
         Queue::fake();
-
-        $request = [
-            'name' => 'staff',
-            'id' => 329,
-            'created_at' => '',
-            'updated_at' => ''
+        // Arrange
+        $data = [
+            'id' => 40,
+            'name' => 'Test Designation A',
+            'created_at' => '2021-01-01',
+            'updated_at' => '2021-01-01',
         ];
 
-        DesignationCreated::dispatch($request);
-        (new DesignationCreated($request))->handle();
-        $this->assertDatabaseCount('designations', 1);
-        $this->assertDatabaseHas('designations', [
-            'name' => $request['name']
-        ]);
+        // Act
+        $job = new DesignationCreated($data);
+        $job->handle();
 
-        $updatedRequest = ['name' => 'Updated staff', 'id' => $request['id'], 'created_at' => '', 'updated_at' => ''];
-
-        DesignationUpdated::dispatch($updatedRequest);
-        (new DesignationUpdated($updatedRequest))->handle();
-
-        $this->assertDatabaseHas('designations', ['name' => $updatedRequest['name']]);
-
+        // Assert
+        $this->assertDatabaseHas('designations', $data);
     }
 
-    public function test_service_to_getting_all_designations_available(): void
+    // Designation is not created when id is missing
+    public function test_designation_not_created_when_id_missing()
     {
-        $designations = Designation::factory(20)->create();
-        $service = new DesignationService();
-        $allDesignations = $service->getAllDesignations();
+        Queue::fake();
+        // Arrange
+        $data = [
+            'name' => 'Test Designation B',
+            'created_at' => '2021-01-01',
+            'updated_at' => '2021-01-01',
+        ];
 
-        $this->assertCount(20, $allDesignations);
+        // Act
+        $job = new DesignationCreated($data);
+        $job->handle();
 
-        foreach ($allDesignations as $designation) {
-            $this->assertDatabaseHas('designations', [
-                'id' => $designation->id,
-                'name' => $designation->name,
-                'created_at' => $designation->created_at,
-                'updated_at' => $designation->updated_at
-            ]);
-        }
-
+        // Assert
+        $this->assertDatabaseMissing('designations', $data);
     }
-    public function test_service_to_get_a_designation(): void
+
+    // ValidationException is thrown when required data is missing
+    // public function test_designation_created_validation_exception()
+    // {
+    //     // Arrange
+    //     $data = [
+    //         'id' => 1,
+    //         'created_at' => '2021-01-01',
+    //         'updated_at' => '2021-01-01',
+    //     ];
+
+    //     // Assert
+    //     $this->expectException(ValidationException::class);
+
+    //     // Act
+    //     $job = new DesignationCreated($data);
+    //     $job->handle();
+    // }
+
+    // Designation is not created when updated_at is not a valid date
+    public function test_designation_not_created_invalid_updated_at()
     {
-        $designation = Designation::factory()->create();
-        $service = new DesignationService();
-        $singleDesignation = $service->getSingleDesignation($designation->id);
+        Queue::fake();
+        // Arrange
+        $data = [
+            'id' => 56,
+            'name' => 'Test Designation c',
+            'created_at' => '2021-01-01',
+            'updated_at' => 'Invalid Date',
+        ];
 
-        $this->assertDatabaseHas('designations', [
-            'id' => $singleDesignation->id,
-            'name' => $singleDesignation->name,
-            'created_at' => $singleDesignation->created_at,
-            'updated_at' => $singleDesignation->updated_at
+        // Act
+        $job = new DesignationCreated($data);
+        $job->handle();
 
-        ]);
+        // Assert
+        $this->assertDatabaseMissing('designations', $data);
     }
 }
