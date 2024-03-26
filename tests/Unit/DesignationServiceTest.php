@@ -148,7 +148,7 @@ class DesignationServiceTest extends TestCase
 
     }
 
-    public function test_service_for_getting_all_designations(): void
+    public function test_service_to_getting_all_designations_available(): void
     {
         $designations = Designation::factory(20)->create();
         $service = new DesignationService();

@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ProcessFlowController;
 use App\Http\Controllers\ProcessflowStepController;
 use App\Http\Controllers\RoutesController;
@@ -49,6 +49,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/route/view/{id}', [RoutesController::class, 'show']);
     Route::put('/route/update/{id}', [RoutesController::class, 'update']);
     Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
+
+    Route::get('/designations', [DesignationController::class, 'index']);
+
+
+
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
