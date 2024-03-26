@@ -7,15 +7,29 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class WorkflowHistoryResource extends JsonResource
 {
-    /**
+     /**
      * Transform the resource into an array.
      *
-     * @return array<string, mixed>
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+
+    /**
+     * @OA\Schema(
+     *     schema="WorkflowHistory",
+     *     @OA\Property(property="id", type="integer"),
+     *     @OA\Property(property="user_id", type="integer"),
+     *     @OA\Property(property="task_id", type="integer"),
+     *     @OA\Property(property="step_id", type="integer"),
+     *     @OA\Property(property="status", type="integer"),
+     *     @OA\Property(property="process_flow_id", type="integer"),
+     *    
+     * )
      */
     public function toArray(Request $request): array
     {
         return [
-            'id' => (string) $this->id,
+            'id' =>  $this->id,
             'user_id' => $this->user_id,
             'task_id' => $this->task_id,
             'step_id' => $this->step_id,

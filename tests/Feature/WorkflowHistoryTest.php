@@ -29,11 +29,10 @@ class WorkflowHistoryTest extends TestCase
             'status' => 1,
         ];
 
-        $response = $this->actingAs($user)->postJson('/api/workflowhistory', $workflowHistoryData);
+        $response = $this->actingAs($user)->postJson('/api/workflowhistory/create', $workflowHistoryData);
 
         $this->assertDatabaseHas('workflow_histories', $workflowHistoryData);
         $response->assertStatus(201);
-
     }
     public function test_to_failed_when_unautheticated_try_to_access_workflowhistory_route(): void
     {
@@ -46,45 +45,55 @@ class WorkflowHistoryTest extends TestCase
             'status' => true,
         ];
 
-        $response = $this->postJson('/api/workflowhistory', $workflowHistoryData);
+        $response = $this->postJson('/api/workflowhistory/create', $workflowHistoryData);
         $response->assertStatus(401);
-
     }
 
-    public function test_to_create_workflowhistory_controller_returns_validation_errors_for_invalid_data(): void
+    public function test_create_workflowhistory_controller_returns_validation_errors_for_invalid_data(): void
+{
+    $user = User::factory()->create();
+    $invalidData = [];
+    $response = $this->actingAs($user)->postJson('/api/workflowhistory/create', $invalidData);
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['user_id', 'task_id']);
+    $response->assertJsonStructure([
+        'message',
+        'errors' => [
+            'user_id',
+            'task_id',
+            'step_id',
+            'process_flow_id',
+            'status',
+        ],
+    ]);
+}
+    public function test_if_all_workflow_can_be_fetched()
     {
-        $user = User::factory()->create();
+        WorkflowHistory::factory(3)->create(["status" => 1]);
+        $response =  $this->actingAsTestUser()->getJson("/api/workflowhistory");
+        $response->assertOk()->assertJsonStructure(
+            [
+                "data" => [[
 
-        $invalidData = [
-            'user_id' => '',
-            'task_id' => 'invalid',
-        ];
-        $response = $this->actingAs($user)->postJson('/api/workflowhistory', $invalidData);
-
-        $response->assertJsonValidationErrors(['user_id', 'task_id']);
-        $response->assertStatus(422);
+                    "task_id",
+                    "step_id",
+                    "process_flow_id",
+                    "user_id",
+                    "status",
+                ]
+                    
+                ]
+            ]
+        );
     }
 
-    public function test_fetch_all_workflow_histories(): void
+    public function test_if_all_workflow_can_be_fetched_if_there_is_no_data()
     {
-        WorkflowHistory::factory()->count(3)->create();
-        $workflowHistoryService = new WorkflowHistoryService();
-        $request = new Request();
-        $workflowHistories = $workflowHistoryService->getWorkflowHistories($request);
-        $this->assertInstanceOf(Collection::class, $workflowHistories);
-        foreach ($workflowHistories as $workflowHistory) {
-            $this->assertInstanceOf(WorkflowHistory::class, $workflowHistory);
-        }
-        $this->assertEquals(3, $workflowHistories->count());
-   }
-
-   public function test_index_method_returns_workflow_history_collection()
-    {
-        $mockService = $this->createMock(WorkflowHistoryService::class);
-        $controller = new WorkflowHistoryController($mockService);
-        $request = Request::create('/workflow-histories', 'GET');
-        $response = $controller->index($request);
-        $this->assertInstanceOf(WorkflowHistoryCollection::class, $response);
+        $respponse =  $this->actingAsTestUser()->getJson("/api/workflowhistory");
+        $respponse->assertOk()->assertJsonStructure(
+            [
+                "data" 
+            ]
+        );
     }
-
 }

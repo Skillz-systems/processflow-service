@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Tests\TestCase;
 use Mockery;
 use Illuminate\Pagination\LengthAwarePaginator;
-
+use Illuminate\Support\Collection;
 class WorkflowHistoryTest extends TestCase
 {
     use RefreshDatabase;
@@ -142,5 +142,18 @@ class WorkflowHistoryTest extends TestCase
         $this->assertFalse($delete);
 
     }
+
+    public function test_fetch_all_workflow_histories(): void
+    {
+        WorkflowHistory::factory(3)->create(["status" => 1]);
+        $workflowHistoryService = new WorkflowHistoryService();
+        $workflowHistories = $workflowHistoryService->getWorkflowHistories();
+        $this->assertInstanceOf(Collection::class, $workflowHistories);
+        foreach ($workflowHistories as $workflowHistory) {
+            $this->assertInstanceOf(WorkflowHistory::class, $workflowHistory);
+        }
+        
+        $this->assertEquals(3, count($workflowHistories->toArray()));
+   }
 
 }
