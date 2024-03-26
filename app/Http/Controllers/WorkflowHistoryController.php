@@ -7,7 +7,9 @@ use App\Http\Resources\WorkflowHistoryResource;
 use App\Service\WorkflowHistoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Resources\WorkflowHistoryCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 class WorkflowHistoryController extends Controller
 {
  /**
@@ -22,14 +24,16 @@ class WorkflowHistoryController extends Controller
     {
         $this->workflowHistoryService = $workflowHistoryService;
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
+    public function index(Request $request)
+    {
+     $workflowHistories = $this->workflowHistoryService->getWorkflowHistories($request);
+    if ($workflowHistories === null || $workflowHistories->isEmpty()) {
+        return new WorkflowHistoryCollection([]);
+    }
+    return new WorkflowHistoryCollection($workflowHistories);
+    }
+    
     /**
      * Store a new workflow history.
      *
