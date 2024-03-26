@@ -57,6 +57,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 
+    Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
 });
 
 
