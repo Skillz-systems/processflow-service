@@ -44,4 +44,26 @@ class UnitService
         $unit->delete();
         return true;
     }
+
+    /**
+     * Update a unit.
+     *
+     * @param array $data
+     * @param int $id
+     * @return bool
+     * @throws ValidationException
+     */
+    public function updateUnit(array $data, int $id): ?bool
+    {
+        $this->validateData($data);
+        $unit = Unit::find($id);
+        if (!$unit) {
+            return false;
+        }
+        return $unit->update([
+        'name' => $data['name'],
+           'created_at' => $data['created_at'],
+        'updated_at' => $data['updated_at'],
+        ]);
+    }
 }
