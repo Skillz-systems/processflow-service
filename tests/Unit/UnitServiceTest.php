@@ -7,7 +7,7 @@ use App\Service\UnitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 class UnitServiceTest extends TestCase
 {
     use RefreshDatabase;
@@ -62,11 +62,10 @@ class UnitServiceTest extends TestCase
         $this->assertFalse($result);
     }
 
-    //TODO:update Unit
+
      public function test_it_can_update_a_unit(): void
     {
 
-        // $unit = Unit::factory()->create();
 
         $request = [
             'name' => 'Finance and Accounts',
@@ -116,5 +115,23 @@ class UnitServiceTest extends TestCase
         $result = $this->service->updateUnit($request, 9999);
 
         $this->assertFalse($result);
+    }
+
+
+    public function test_it_can_get_a_single_unit(): void
+    {
+        $unit = Unit::factory()->create();
+
+        $result = $this->service->getSingleUnit($unit->id);
+
+        $this->assertInstanceOf(Unit::class, $result);
+        $this->assertEquals($unit->id, $result->id);
+        $this->assertEquals($unit->name, $result->name);
+    }
+
+    public function test_it_throws_exception_when_getting_a_non_existent_unit(): void
+    {
+        $this->expectException(ModelNotFoundException::class);
+        $this->service->getSingleUnit(9999);
     }
 }
