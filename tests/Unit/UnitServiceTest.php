@@ -54,9 +54,7 @@ class UnitServiceTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+
     public function test_it_returns_false_when_deleting_a_non_existent_unit(): void
     {
         $result = $this->service->deleteUnit(8349);

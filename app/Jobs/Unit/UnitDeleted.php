@@ -13,19 +13,28 @@ class UnitDeleted implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $id;
+    private int $id;
     public function __construct($id)
     {
         $this->id = $id;
     }
-
-    public function handle(): void
+    /**
+     * Execute the job.
+     *
+     * @param UnitService $service
+     * @return void
+     */
+    public function handle(UnitService $service): void
     {
         try {
-            $service = new UnitService();
             $service->deleteUnit($this->id);
         } catch (\Exception $e) {
             Log::error('Error occurred while processing UnitDeleted job: ' . $e->getMessage());
         }
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 }
