@@ -12,6 +12,19 @@ class UnitResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+
+
+
+    /**
+     * @OA\Schema(
+     *     schema="UnitResource",
+     *     @OA\Property(property="id", type="integer"),
+     *     @OA\Property(property="name", type="string"),
+     *     @OA\Property(property="created_at", type="date"),
+     *     @OA\Property(property="updated_at", type="date"),
+     *
+     * )
+     */
     public function toArray(Request $request): array
     {
        return [
