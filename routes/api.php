@@ -53,7 +53,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/designations/{id}', [DesignationController::class, 'show']);
 
 
-
     Route::post('/route/create', [RoutesController::class, 'store']);
     Route::get('/route', [RoutesController::class, 'index']);
     Route::get('/route/view/{id}', [RoutesController::class, 'show']);
