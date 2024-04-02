@@ -1,6 +1,5 @@
 <?php
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\RoutesController;
@@ -59,6 +58,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/route/view/{id}', [RoutesController::class, 'show']);
     Route::put('/route/update/{id}', [RoutesController::class, 'update']);
     Route::get('/units/{id}', [UnitController::class,  'show']);
+    Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
+
+    Route::get('/designations', [DesignationController::class, 'index']);
+    Route::get('/designations/{id}', [DesignationController::class, 'show']);
+
 });
 
 
