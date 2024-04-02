@@ -57,6 +57,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/route', [RoutesController::class, 'index']);
     Route::get('/route/view/{id}', [RoutesController::class, 'show']);
     Route::put('/route/update/{id}', [RoutesController::class, 'update']);
+
+
+    Route::get('/units', [UnitController::class,  'index']);
     Route::get('/units/{id}', [UnitController::class,  'show']);
 });
 

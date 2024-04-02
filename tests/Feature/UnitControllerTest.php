@@ -38,4 +38,33 @@ class UnitControllerTest extends TestCase
         $unit = Unit::factory()->create();
         $response = $this->getJson('/api/units/'.$unit->id)->assertStatus(401);
     }
+
+
+     public function test_it_can_get_all_units(): void
+    {
+        Unit::factory()->count(5)->create();
+
+        $response = $this->actingAsTestUser()->getJson('/api/units');
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(5, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
+        ]);
+    }
+
+    public function test_it_returns_401_unauthenticated_to_get_all_units(): void
+    {
+        Unit::factory()->count(3)->create();
+        $this->getJson('/api/units/')->assertStatus(401);
+    }
+
+
 }
