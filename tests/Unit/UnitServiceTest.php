@@ -2,14 +2,14 @@
 
 namespace Tests\Unit;
 
+use Tests\TestCase;
 use App\Models\Unit;
 use App\Service\UnitService;
-use PHPUnit\Framework\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UnitServiceTest extends TestCase
 {
-   use RefreshDatabase;
+    use RefreshDatabase;
 
     public function test_for_Unit_service_to_create_unit_correctly(): void
     {
@@ -27,5 +27,4 @@ class UnitServiceTest extends TestCase
         $service = new UnitService();
         $service->createUnit($request);
     }
-
 }
