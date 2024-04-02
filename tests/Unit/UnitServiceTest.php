@@ -27,4 +27,23 @@ class UnitServiceTest extends TestCase
         $service = new UnitService();
         $service->createUnit($request);
     }
+
+    public function test_for_unit_service_to_delete_successfully(): void
+    {
+        $unit = Unit::factory()->create();
+        $service = new UnitService();
+
+        $this->assertInstanceOf(Unit::class, $unit);
+        $result = $service->deleteUnit($unit->id);
+
+        $this->assertDatabaseMissing('units', ['id' => $unit->id]);
+        $this->assertTrue($result);
+
+    }
+    public function test_for_Unit_service_to_delete_not_found(): void
+    {
+        $service = new Unit();
+        $result = $service->deleteUnit(9999);
+        $this->assertFalse($result);
+    }
 }
