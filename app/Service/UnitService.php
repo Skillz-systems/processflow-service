@@ -34,4 +34,14 @@ class UnitService
             throw new ValidationException($validator);
         }
     }
+
+    public function deleteUnit(int $id): bool
+    {
+        $unit = Unit::find($id);
+        if (!$unit) {
+            return false;
+        }
+        $unit->delete();
+        return true;
+    }
 }

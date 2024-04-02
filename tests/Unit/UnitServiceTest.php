@@ -42,7 +42,7 @@ class UnitServiceTest extends TestCase
     }
     public function test_for_Unit_service_to_delete_not_found(): void
     {
-        $service = new Unit();
+        $service = new UnitService();
         $result = $service->deleteUnit(9999);
         $this->assertFalse($result);
     }
