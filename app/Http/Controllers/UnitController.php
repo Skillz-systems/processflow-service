@@ -2,65 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUnitRequest;
-use App\Http\Requests\UpdateUnitRequest;
-use App\Models\Unit;
+use App\Service\UnitService;
+use App\Http\Resources\UnitResource;
+
 
 class UnitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private UnitService $unitService;
+
+    public function __construct(UnitService $unitService)
+    {
+        $this->unitService = $unitService;
+    }
+
     public function index()
     {
         //
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display the specified unit.
+     *
+     * @param int $id
+     * @return UnitResource
      */
-    public function create()
+    public function show(int $id): UnitResource
     {
-        //
-    }
+        $unit = $this->unitService->getSingleUnit($id);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUnitRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Unit $unit)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Unit $unit)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUnitRequest $request, Unit $unit)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Unit $unit)
-    {
-        //
+        return new UnitResource($unit);
     }
 }
