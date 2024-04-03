@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use App\Service\ProcessflowStepService;
 use App\Http\Resources\ProcessFlowResource;
 use App\Jobs\ProcessFlow\ProcessFlowCreated;
+use App\Jobs\ProcessFlow\ProcessFlowDeleted;
+use App\Jobs\ProcessFlow\ProcessFlowUpdated;
 use App\Http\Requests\StoreProcessFlowRequest;
 use App\Http\Requests\UpdateProcessFlowRequest;
 
@@ -207,6 +209,8 @@ class ProcessFlowController extends Controller
     {
         return DB::transaction(function () use ($request, $id) {
             $storedProcessFlow = $this->processFlowService->updateProcessFlow($id, $request);
+
+             ProcessFlowUpdated::dispatch($storedProcessFlow->toArray());
             return new ProcessFlowResource($storedProcessFlow);
         }, 5);
     }
@@ -252,6 +256,7 @@ class ProcessFlowController extends Controller
 
                 if ($this->processFlowService->getProcessFlow($id)) {
                     $this->processFlowService->deleteProcessflow($id);
+                     ProcessFlowDeleted::dispatch($id);
                     return response()->noContent();
                 }
             }, 5); // Setting 5 seconds timeout
