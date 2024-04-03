@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProcessFlow;
+use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
+use Illuminate\Support\Facades\DB;
+use App\Service\ProcessFlowService;
+use App\Http\Controllers\Controller;
+use App\Service\ProcessflowStepService;
+use App\Http\Resources\ProcessFlowResource;
+use App\Jobs\ProcessFlow\ProcessFlowCreated;
 use App\Http\Requests\StoreProcessFlowRequest;
 use App\Http\Requests\UpdateProcessFlowRequest;
-use App\Http\Resources\ProcessFlowResource;
-use App\Models\ProcessFlow;
-use App\Service\ProcessFlowService;
-use App\Service\ProcessflowStepService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Tag(name="Process Flows")
@@ -116,6 +118,7 @@ class ProcessFlowController extends Controller
             } else {
                 $storedProcessFlow = $this->processFlowService->createProcessFlow($request);
             }
+            ProcessFlowCreated::dispatch($storedProcessFlow->toArray());
             return new ProcessFlowResource($storedProcessFlow);
         }, 5);
     }
