@@ -10,7 +10,7 @@ use App\Http\Requests\UpdateDesignationRequest;
 
 
 /**
- * @OA\Tag(name="Designations ")
+ * @OA\Tag(name="Designations")
  */
 class DesignationController extends Controller
 {
@@ -49,6 +49,9 @@ class DesignationController extends Controller
      *          response=500,
      *          description="Server Error",
      *      ),
+     *  security={
+     *         {"BearerAuth": {}}
+     *     }
      * )
      */
 
@@ -116,6 +119,9 @@ class DesignationController extends Controller
      *          response=500,
      *          description="Server Error",
      *      ),
+     *  security={
+     *         {"BearerAuth": {}}
+     *     }
      * )
      */
     /**

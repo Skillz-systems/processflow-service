@@ -6,8 +6,10 @@ use App\Service\UnitService;
 use App\Http\Resources\UnitResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+
+
 /**
- * @OA\Tag(name="Units")
+ * @OA\Tag(name="Unit")
  */
 class UnitController extends Controller
 {
@@ -22,9 +24,9 @@ class UnitController extends Controller
     /**
      * @OA\Get(
      *     path="/units",
-     *     tags={"Units"},
-     *     summary="Get all units in the system",
-     *     description="Returns all available units",
+     *     tags={"Unit"},
+     *     summary="Get all Units in the system",
+     *     description="Returns all available Units",
      *     @OA\Response(
      *         response=200,
      *         description="Units found",
@@ -46,6 +48,9 @@ class UnitController extends Controller
      *          response=500,
      *          description="Server Error",
      *      ),
+     *  security={
+     *         {"BearerAuth": {}}
+     *     }
      * )
      */
 
@@ -59,12 +64,10 @@ class UnitController extends Controller
         return UnitResource::collection($units);
     }
 
-
-
     /**
      * @OA\Get(
      *     path="/units/{id}",
-     *     tags={"Units"},
+     *     tags={"Unit"},
      *     summary="Get a Unit",
      *     description="Returns the details of a single Unit",
      *     @OA\Parameter(
@@ -95,6 +98,9 @@ class UnitController extends Controller
      *          response=500,
      *          description="Server Error",
      *      ),
+     *  security={
+     *         {"BearerAuth": {}}
+     *     }
      * )
      */
 
