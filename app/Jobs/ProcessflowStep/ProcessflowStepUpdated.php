@@ -11,23 +11,15 @@ use Illuminate\Queue\SerializesModels;
 class ProcessflowStepUpdated implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    private $processFlowId;
-    private $steps;
-
-    /**
-     * Create a new job instance.
-     *
-     * @param string $processFlowId
-     * @param array $steps
-     */
-    public function __construct(string $processFlowId, array $steps)
+    private $data;
+    public function __construct(array $data)
     {
-        $this->processFlowId = $processFlowId;
-        $this->steps = $steps;
+        $this->data = $data;
     }
+
     public function handle(): void
     {
-        //
+
     }
 
      public function getData(): array

@@ -13,6 +13,7 @@ use App\Http\Resources\ProcessFlowStepResource;
 use App\Http\Requests\StoreProcessFlowStepRequest;
 use App\Jobs\ProcessflowStep\ProcessflowStepCreated;
 use App\Jobs\ProcessflowStep\ProcessflowStepDeleted;
+use App\Jobs\ProcessflowStep\ProcessflowStepUpdated;
 
 class ProcessflowStepController extends Controller
 {
@@ -290,8 +291,8 @@ class ProcessflowStepController extends Controller
 
             }
             DB::commit();
-
-            // ProccessflowStepUpdated::dispatch($id, $steps->toArray());
+            $result = $this->processflowStepService->getProcessFlowStep($id);
+            ProcessflowStepUpdated::dispatch($result->toArray());
             return response()->json(["status" => "success"], 200);
         } catch (\Exception $e) {
             DB::rollBack();
