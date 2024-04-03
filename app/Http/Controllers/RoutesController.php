@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\RouteResource;
-use App\Service\RouteService;
 use Illuminate\Http\Request;
+use App\Service\RouteService;
+use App\Jobs\Route\RouteCreated;
+use App\Jobs\Route\RouteDeleted;
+use App\Jobs\Route\RouteUpdated;
+use App\Http\Resources\RouteResource;
 use Illuminate\Support\Facades\Validator;
 
 class RoutesController extends Controller
@@ -118,6 +121,8 @@ class RoutesController extends Controller
         }
 
         $result = $this->routeService->createRoute($request);
+
+        RouteCreated::dispatch($result->toArray());
         return new RouteResource($result);
     }
 
@@ -214,6 +219,8 @@ class RoutesController extends Controller
     {
         $model = $this->routeService->UpdateRoute($id, $request);
         if ($model) {
+            $routeUpdated = $this->routeService->getRoute($id);
+             RouteUpdated::dispatch($routeUpdated->toArray());
             return response()->json(["status" => "success", "message" => "Route was updated"], 200);
         }
         return response()->json(["status" => "success", "message" => "page not found."], 404);
@@ -224,6 +231,6 @@ class RoutesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+         RouteDeleted::dispatch($id);
     }
 }
