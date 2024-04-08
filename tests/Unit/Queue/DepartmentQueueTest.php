@@ -39,7 +39,7 @@ class DepartmentQueueTest extends TestCase
             'name' => $request['name'],
         ]);
     }
-     public function test_it_dispatches_unit_creation_job_functionality(): void
+     public function test_it_dispatches_department_creation_job_functionality(): void
     {
         Queue::fake();
 
