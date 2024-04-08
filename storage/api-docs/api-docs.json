@@ -5,40 +5,6 @@
         "version": "0.1"
     },
     "paths": {
-        "/designations": {
-            "get": {
-                "tags": [
-                    "Designation"
-                ],
-                "summary": "Get all designations in the system",
-                "description": "Returns all available designations",
-                "operationId": "bd7340535e5aacc42e321aa52f77e824",
-                "responses": {
-                    "200": {
-                        "description": "Designations found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DesignationResource"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthenticated"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    },
-                    "500": {
-                        "description": "Server Error"
-                    }
-                }
-            }
-        },
         "/process-flows": {
             "post": {
                 "tags": [
@@ -1435,6 +1401,25 @@
                 },
                 "type": "object"
             },
+            "UnitResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "type": "object"
+            },
             "WorkflowHistoryResource": {
                 "properties": {
                     "id": {
@@ -1466,6 +1451,9 @@
         },
         {
             "name": "Process Flows"
+        },
+        {
+            "name": "Units"
         }
     ]
 }

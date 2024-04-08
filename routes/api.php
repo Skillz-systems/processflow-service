@@ -1,11 +1,12 @@
 <?php
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ProcessFlowController;
 use App\Http\Controllers\ProcessflowStepController;
-use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\WorkflowHistoryController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,20 +51,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/designations', [DesignationController::class, 'index']);
     Route::get('/designations/{id}', [DesignationController::class, 'show']);
 
-
-
     Route::post('/route/create', [RoutesController::class, 'store']);
     Route::get('/route', [RoutesController::class, 'index']);
     Route::get('/route/view/{id}', [RoutesController::class, 'show']);
     Route::put('/route/update/{id}', [RoutesController::class, 'update']);
+    Route::get('/units/{id}', [UnitController::class,  'show']);
     Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
 
-    Route::get('/designations', [DesignationController::class, 'index']);
-    Route::get('/designations/{id}', [DesignationController::class, 'show']);
-
-
-
-    Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
 });
 
 

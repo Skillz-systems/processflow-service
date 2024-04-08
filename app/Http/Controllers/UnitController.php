@@ -2,65 +2,76 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUnitRequest;
-use App\Http\Requests\UpdateUnitRequest;
-use App\Models\Unit;
+use App\Service\UnitService;
+use App\Http\Resources\UnitResource;
 
+/**
+ * @OA\Tag(name="Units")
+ */
 class UnitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private UnitService $unitService;
+
+    public function __construct(UnitService $unitService)
+    {
+        $this->unitService = $unitService;
+    }
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Get(
+     *     path="/units/{id}",
+     *     tags={"Units"},
+     *     summary="Get a Unit",
+     *     description="Returns the details of a single Unit",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the unit",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Unit found",
+     *         @OA\JsonContent(ref="#/components/schemas/UnitResource")
+     *     ),
+     * @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     * @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=404,
+     *          description="Not Found",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error",
+     *      ),
+     * )
      */
-    public function store(StoreUnitRequest $request)
-    {
-        //
-    }
+
 
     /**
-     * Display the specified resource.
+     * Display the specified unit.
+     *
+     * @param int $id
+     * @return UnitResource
      */
-    public function show(Unit $unit)
+    public function show(int $id): UnitResource
     {
-        //
-    }
+        $unit = $this->unitService->getSingleUnit($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Unit $unit)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUnitRequest $request, Unit $unit)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Unit $unit)
-    {
-        //
+        return new UnitResource($unit);
     }
 }

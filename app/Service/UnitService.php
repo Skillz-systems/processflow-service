@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class UnitService
@@ -65,5 +66,18 @@ class UnitService
            'created_at' => $data['created_at'],
         'updated_at' => $data['updated_at'],
         ]);
+    }
+
+
+    /**
+     * Get a single unit by ID.
+     *
+     * @param int $id
+     * @return Unit
+     * @throws ModelNotFoundException
+     */
+    public function getSingleUnit(int $id): Unit
+    {
+        return Unit::findOrFail($id);
     }
 }
