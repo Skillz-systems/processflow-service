@@ -54,7 +54,7 @@ class DepartmentServiceTest extends TestCase
             'updated_at' => '',
         ];
 
-        $created = $this->service->createDepartemt($request);
+        $created = $this->service->createDepartment($request);
 
         $this->assertInstanceOf(Department::class, $created);
 
@@ -65,7 +65,7 @@ class DepartmentServiceTest extends TestCase
             'id'=> $created->id
         ];
 
-        $result = $this->service->updateDepatment($update_request, $created->id);
+        $result = $this->service->updateDepartment($update_request, $created->id);
 
         $this->assertTrue($result);
         $this->assertDatabaseHas('departments', [
@@ -80,7 +80,7 @@ class DepartmentServiceTest extends TestCase
 
         $unit = Department::factory()->create();
         $request = ['name' => ''];
-        $this->service->updateDepatment($request, $unit->id);
+        $this->service->updateDepartment($request, $unit->id);
     }
 
     public function test_it_returns_false_when_updating_a_non_existent_department(): void
