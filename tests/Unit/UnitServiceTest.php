@@ -2,29 +2,63 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use App\Models\Unit;
 use App\Service\UnitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UnitServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_for_Unit_service_to_create_unit_correctly(): void
+    private UnitService $service;
+
+    protected function setUp(): void
     {
-        $request = ['name' => 'Finance and Accounts', 'id' => 888, 'created_at' => '', 'updated_at' => ''];
-        $service = new UnitService();
-        $result = $service->createUnit($request);
+        parent::setUp();
+        $this->service = new UnitService();
+    }
+
+
+    public function test_it_can_create_a_unit(): void
+    {
+        $request = [
+            'name' => 'Finance and Accounts',
+            'id' => 888,
+            'created_at' => '',
+            'updated_at' => '',
+        ];
+
+        $result = $this->service->createUnit($request);
+
         $this->assertInstanceOf(Unit::class, $result);
     }
 
-    public function test_for_unit_service_return_validation_exception_during_unit_creation(): void
+    public function test_it_throws_validation_exception_when_creating_unit_with_invalid_data(): void
     {
-        $this->expectException(\Illuminate\Validation\ValidationException::class);
+        $this->expectException(ValidationException::class);
 
         $request = ['id' => 475];
-        $service = new UnitService();
-        $service->createUnit($request);
+
+        $this->service->createUnit($request);
+    }
+
+    public function test_it_can_delete_a_unit(): void
+    {
+        $unit = Unit::factory()->create();
+
+        $result = $this->service->deleteUnit($unit->id);
+
+        $this->assertDatabaseMissing('units', ['id' => $unit->id]);
+        $this->assertTrue($result);
+    }
+
+
+    public function test_it_returns_false_when_deleting_a_non_existent_unit(): void
+    {
+        $result = $this->service->deleteUnit(8349);
+
+        $this->assertFalse($result);
     }
 }
