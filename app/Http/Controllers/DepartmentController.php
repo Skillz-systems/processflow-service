@@ -7,6 +7,10 @@ use App\Service\DepartmentService;
 use App\Http\Resources\DepartmentResource;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
+/**
+ * @OA\Tag(name="Department")
+ */
+
 
 class DepartmentController extends Controller
 {
@@ -39,48 +43,43 @@ class DepartmentController extends Controller
     }
 
 
-
-    /**
-     * @OA\Get(
-     *      path="/departments/{id}",
-     *      operationId="getDepartmentById",
-     *      tags={"Routes"},
-     *      summary="Get department by ID",
-     *      description="Returns a single department by its ID",
-     *      @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          required=true,
-     *          description="ID of the department to retrieve",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\JsonContent(
-     *              ref="#/components/schemas/DepartmentResource"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Department not found"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthorized"
-     *      ),
-     *      @OA\Response(
-     *          response=500,
-     *          description="Internal server error"
-     *      )
-     * )
-     *
-     * @param string $id The ID of the department to retrieve.
-     * @return \App\Http\Resources\DepartmentResource
-     */
-    public function show(int $id): DepartmentResource
+/**
+ * @OA\Get(
+ *     path="/departments/{id}",
+ *     tags={"Department"},
+ *     summary="Get a single department",
+ *     description="Returns the details of a single department",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID of the department",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful Response",
+ *         @OA\JsonContent(ref="#/components/schemas/DepartmentResource")
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Bad Request"
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthenticated"
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Not Found"
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server Error"
+ *     )
+ * )
+ */
+    public function show(int $id)
     {
         $department = $this->departmentService->getSingleDepartment($id);
 

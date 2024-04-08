@@ -8,17 +8,18 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class DepartmentResource extends JsonResource
 {
 
+/**
+ * @OA\Schema(
+ *     schema="DepartmentResource",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="created_at", type="date"),
+ *     @OA\Property(property="updated_at", type="date")
+ * )
+ */
 
-    /**
-     * @OA\Schema(
-     *     schema="DepartmentResource",
-     *     @OA\Property(property="id", type="integer"),
-     *     @OA\Property(property="name", type="string"),
-     *     @OA\Property(property="created_at", type="date"),
-     *     @OA\Property(property="updated_at", type="date"),
-     *
-     * )
-     */
+
+
     /**
      * Transform the resource into an array.
      *
