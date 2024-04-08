@@ -134,4 +134,15 @@ class UnitServiceTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
         $this->service->getSingleUnit(9999);
     }
+
+
+     public function test_it_can_get_all_units(): void
+    {
+        Unit::factory()->count(5)->create();
+
+        $result = $this->service->getAllUnits();
+
+        $this->assertCount(5, $result);
+        $this->assertInstanceOf(Unit::class, $result->first());
+    }
 }

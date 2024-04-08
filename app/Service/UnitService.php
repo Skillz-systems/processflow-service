@@ -80,4 +80,15 @@ class UnitService
     {
         return Unit::findOrFail($id);
     }
+
+
+    /**
+     * Get all units.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllUnits(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Unit::all();
+    }
 }

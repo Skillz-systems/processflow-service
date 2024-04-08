@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Service\UnitService;
 use App\Http\Resources\UnitResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /**
  * @OA\Tag(name="Units")
@@ -17,9 +18,45 @@ class UnitController extends Controller
         $this->unitService = $unitService;
     }
 
-    public function index()
+
+    /**
+     * @OA\Get(
+     *     path="/units",
+     *     tags={"Units"},
+     *     summary="Get all units in the system",
+     *     description="Returns all available units",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Units found",
+     *         @OA\JsonContent(ref="#/components/schemas/UnitResource")
+     *     ),
+     * @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     * @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=404,
+     *          description="Not Found",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error",
+     *      ),
+     * )
+     */
+
+    /**
+     * Display a listing of the units.
+     * @return AnonymousResourceCollection
+     */
+    public function index(): AnonymousResourceCollection
     {
-        //
+        $units = $this->unitService->getAllUnits();
+        return UnitResource::collection($units);
     }
 
 
