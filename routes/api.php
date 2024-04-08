@@ -61,7 +61,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/units', [UnitController::class,  'index']);
     Route::get('/units/{id}', [UnitController::class,  'show']);
-    Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
 
 });
 
