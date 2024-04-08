@@ -265,9 +265,9 @@ class RoutesController extends Controller
      */
     public function destroy(string $id)
     {
-         RouteDeleted::dispatch($id);
         $model = $this->routeService->deleteRoute($id);
         if ($model) {
+            RouteDeleted::dispatch($id);
             return response()->json(["status" => "success", "message" => "Route has been deleted"], 200);
         }
         return response()->json(["status" => "success", "message" => "page not found."], 404);
