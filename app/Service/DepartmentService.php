@@ -64,4 +64,16 @@ class DepartmentService
         return true;
     }
 
+    /**
+     * Get a single department by ID.
+     *
+     * @param int $id
+     * @return Department
+     * @throws ModelNotFoundException
+     */
+    public function getSingleDepartment(int $id): ?Department
+    {
+        return Department::findOrFail($id);
+    }
+
 }
