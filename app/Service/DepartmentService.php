@@ -53,4 +53,15 @@ class DepartmentService
         ]);
     }
 
+
+     public function deleteDepartment(int $id): bool
+    {
+        $department = Department::find($id);
+        if (!$department) {
+            return false;
+        }
+        $department->delete();
+        return true;
+    }
+
 }

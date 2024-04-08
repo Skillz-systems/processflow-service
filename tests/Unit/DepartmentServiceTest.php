@@ -96,4 +96,28 @@ class DepartmentServiceTest extends TestCase
         $this->assertFalse($result);
     }
 
+
+
+    public function test_it_can_delete_a_test_it_can_delete_a_department(): void
+    {
+        $department = Department::factory()->create();
+        $this->assertDatabaseHas('departments', [
+            'id' => $department->id,
+            'name' => $department->name,
+        ]);
+        $result = $this->service->deleteDepartment($department->id);
+
+
+        $this->assertDatabaseMissing('departments', ['id' => $department->id]);
+        $this->assertTrue($result);
+    }
+
+
+    public function test_it_returns_false_when_deleting_a_non_existent_test_it_can_delete_a_department(): void
+    {
+        $result = $this->service->deleteDepartment(674);
+
+        $this->assertFalse($result);
+    }
+
 }
