@@ -63,7 +63,6 @@ class RouteService
      */
     public function UpdateRoute($id, Request $data)
     {
-
         $validator = Validator::make($data->all(), [
             'name' => 'sometimes|string',
             'link' => 'sometimes|string',
@@ -76,6 +75,22 @@ class RouteService
         try {
             $model = $this->model()->findOrFail($id);
             return $model->update($data->all());
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Delete a route by ID.
+     *
+     * @param int|string $id The ID of the route to delete.
+     * @return bool Returns true if the route was deleted successfully, otherwise returns false.
+     */
+    public function DeleteRoute($id)
+    {
+        try {
+            $model = $this->model()->findOrFail($id);
+            return $model->delete();
         } catch (\Exception $e) {
             return false;
         }
