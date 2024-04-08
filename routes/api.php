@@ -63,12 +63,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/designations', [DesignationController::class, 'index']);
     Route::get('/designations/{id}', [DesignationController::class, 'show']);
 
-<<<<<<< HEAD
-
-
-    Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
-=======
->>>>>>> 902c80f6ed6830c32cff66dd97958516befa71d4
 });
 
 
