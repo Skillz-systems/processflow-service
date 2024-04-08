@@ -19,8 +19,8 @@ class UnitFactory extends Factory
        return [
             'id' => $this->faker->unique()->randomNumber(),
             'name' => $this->faker->word,
-            'created_at' => $this->faker->dateTime(),
-            'updated_at' => $this->faker->dateTime(),
+            'created_at' => $this->faker->date(),
+            'updated_at' => $this->faker->date(),
         ];
     }
 }
