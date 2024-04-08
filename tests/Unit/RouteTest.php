@@ -97,4 +97,18 @@ class RouteTest extends TestCase
         $this->assertEquals(false, $routeService);
         $this->assertDatabaseMissing("routes", $data);
     }
+
+    public function test_to_see_if_a_route_can_be_deleted()
+    {
+        Routes::factory(1)->create();
+        $routeService = (new RouteService())->DeleteRoute(1);
+        $this->assertEquals(true, $routeService);
+        $this->assertDatabaseMissing("routes", ["id" => 1]);
+    }
+
+    public function test_to_see_that_false_is_returned_when_deleting_a_route_with_an_invalid_id()
+    {
+        $routeService = (new RouteService())->DeleteRoute(1);
+        $this->assertEquals(false, $routeService);
+    }
 }
