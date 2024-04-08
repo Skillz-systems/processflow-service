@@ -54,6 +54,7 @@ class DesignationServiceTest extends TestCase
         $this->assertFalse($result);
     }
 
+
     public function test_service_to_update_a_designation_successfully(): void
     {
         $request = ['name' => 'Client', 'id' => 75, 'created_at' => '', 'updated_at' => ''];
@@ -110,4 +111,5 @@ class DesignationServiceTest extends TestCase
 
         ]);
     }
+
 }

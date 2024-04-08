@@ -227,10 +227,49 @@ class RoutesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/routes/delete/{id}",
+     *      operationId="deleteRoute",
+     *      tags={"Routes"},
+     *      summary="Delete a route",
+     *      description="Deletes a route by its ID.",
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID of the route to delete",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Route has been deleted")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Route not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Route not found")
+     *          )
+     *      )
+     * )
+     *
+     * @param string $id The ID of the route to delete.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(string $id)
     {
          RouteDeleted::dispatch($id);
+        $model = $this->routeService->deleteRoute($id);
+        if ($model) {
+            return response()->json(["status" => "success", "message" => "Route has been deleted"], 200);
+        }
+        return response()->json(["status" => "success", "message" => "page not found."], 404);
     }
 }
