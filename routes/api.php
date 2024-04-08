@@ -59,6 +59,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/route/view/{id}', [RoutesController::class, 'show']);
     Route::put('/route/update/{id}', [RoutesController::class, 'update']);
     Route::get('/units/{id}', [UnitController::class,  'show']);
+    Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
+
+    Route::get('/designations', [DesignationController::class, 'index']);
+    Route::get('/designations/{id}', [DesignationController::class, 'show']);
+
+
+
+    Route::delete('/route/delete/{id}', [RoutesController::class, 'destroy']);
 });
 
 
