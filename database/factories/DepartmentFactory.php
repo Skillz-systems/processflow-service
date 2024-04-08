@@ -16,8 +16,11 @@ class DepartmentFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
+       return [
+            'id' => $this->faker->unique()->randomNumber(),
+            'name' => $this->faker->word,
+            'created_at' => $this->faker->date(),
+            'updated_at' => $this->faker->date(),
         ];
     }
 }

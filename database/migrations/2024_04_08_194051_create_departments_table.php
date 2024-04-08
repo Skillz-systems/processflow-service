@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('departments', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id')->primary();
+            $table->string('name')->comment('get the name of the department from the user service');
             $table->timestamps();
         });
     }
