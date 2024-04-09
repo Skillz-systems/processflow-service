@@ -125,4 +125,10 @@ class DepartmentController extends Controller
 
         return new DepartmentResource($department);
     }
+    public function department_units(int $id)
+    {
+        $department = $this->departmentService->getDepartmentUnit($id);
+
+        return new DepartmentUnitResource($department);
+    }
 }

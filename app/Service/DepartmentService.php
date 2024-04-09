@@ -88,4 +88,8 @@ class DepartmentService
         return Department::all();
     }
 
+    public function getDepartmentUnit(){
+     return Department::with('units')->find($departmentId);
+    }
+
 }
