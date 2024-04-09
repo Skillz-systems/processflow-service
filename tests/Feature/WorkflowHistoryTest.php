@@ -88,4 +88,36 @@ class WorkflowHistoryTest extends TestCase
             ]
         );
     }
+
+
+    public function test_it_can_get_a_single_workflowhistory(): void
+    {
+        $workflowhistory = WorkflowHistory::factory()->create();
+
+        $response = $this->actingAsTestUser()->getJson('/api/workflowhistory/'.$workflowhistory->id);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'data' => [
+                'task_id' => $workflowhistory->task_id,
+                'step_id' => $workflowhistory->step_id,
+                'process_flow_id' => $workflowhistory->process_flow_id,
+                'user_id' => $workflowhistory->user_id,
+                'status' => $workflowhistory->status
+            ],
+        ]);
+    }
+
+    public function test_it_returns_404_when_getting_a_non_existent_workflowhistory(): void
+    {
+    $response = $this->actingAsTestUser()->getJson('/api/workflowhistory/9999');
+    $response->assertNotFound();
+
+    }
+
+    public function test_it_returns_401_unauthenticated_for_non_logged_users(): void
+    {
+        $workflowHistory = WorkflowHistory::factory()->create();
+        $response = $this->getJson('/api/workflowhistory/'.$workflowHistory->id)->assertStatus(401);
+    }
 }

@@ -48,7 +48,7 @@ class WorkflowHistoryController extends Controller
      *         description="Not found"
      *     )
      * )
-     * 
+     *
      * @param \App\Http\Requests\UpdateWorkflowHistoryRequest $request
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
@@ -100,7 +100,7 @@ class WorkflowHistoryController extends Controller
      *         )
      *     )
      * )
- 
+
      * @param StoreWorkflowHistoryRequest $request The request containing the workflow history data.
      * @return WorkflowHistoryResource The created workflow history resource.
 
@@ -117,9 +117,37 @@ class WorkflowHistoryController extends Controller
     /**
      * Display the specified resource.
      */
+
+     /**
+     * @OA\Get(
+     *     path="/workflowhistory/{id}",
+     *     summary="Fetch a workflow history",
+     *     tags={"Workflow History"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/WorkflowHistoryResource")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *     )
+     * )
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(string $id)
     {
-        //
+        $workflow = $this->workflowHistoryService->getWorkflowHistory($id);
+        return new WorkflowHistoryResource($workflow);
     }
     /**
      * Update the specified resource in storage.
