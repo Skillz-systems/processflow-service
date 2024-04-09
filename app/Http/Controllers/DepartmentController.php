@@ -126,6 +126,48 @@ class DepartmentController extends Controller
 
         return new DepartmentResource($department);
     }
+
+
+
+    /**
+     * @OA\Get(
+     *     path="/department_units/{id}",
+     *     tags={"Department"},
+     *     summary="Get a Department
+     *     description="Returns the details of a single Department",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the department",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Unit found",
+     *         @OA\JsonContent(ref="#/components/schemas/DepartmentUnitResource")
+     *     ),
+     * @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     * @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * @OA\Response(
+     *          response=404,
+     *          description="Not Found",
+     *      ),
+     * @OA\Response(
+     *          response=500,
+     *          description="Server Error",
+     *      ),
+     *  security={
+     *         {"BearerAuth": {}}
+     *     }
+     * )
+     */
     public function department_units(int $id)
     {
         $department = $this->departmentService->getDepartmentUnit($id);
