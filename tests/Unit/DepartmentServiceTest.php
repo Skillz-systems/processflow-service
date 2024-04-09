@@ -138,5 +138,13 @@ class DepartmentServiceTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
         $this->service->getSingleDepartment(9999);
     }
+ public function test_it_can_get_all_departments(): void
+    {
+        Department::factory()->count(5)->create();
 
+        $result = $this->service->getAllDepartments();
+
+        $this->assertCount(5, $result);
+        $this->assertInstanceOf(Department::class, $result->first());
+    }
 }
