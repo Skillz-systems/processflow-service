@@ -28,6 +28,7 @@ class UnitServiceTest extends TestCase
             'id' => 888,
             'created_at' => '',
             'updated_at' => '',
+            'department_id'=>46
         ];
 
         $result = $this->service->createUnit($request);
@@ -72,6 +73,7 @@ class UnitServiceTest extends TestCase
             'id' => 888,
             'created_at' => '',
             'updated_at' => '',
+            'department_id'=>46
         ];
 
         $created = $this->service->createUnit($request);
@@ -82,7 +84,8 @@ class UnitServiceTest extends TestCase
             'name' => 'New Name Updated',
             'created_at' => '',
             'updated_at' => '',
-            'id'=> $created->id
+            'id'=> $created->id,
+            'department_id'=>$request['department_id']
         ];
 
         $result = $this->service->updateUnit($update_request, $created->id);
@@ -110,6 +113,7 @@ class UnitServiceTest extends TestCase
             'id' => 888,
             'created_at' => '',
             'updated_at' => '',
+            'department_id'=>43
         ];
 
         $result = $this->service->updateUnit($request, 9999);

@@ -19,6 +19,7 @@ class UnitService
             'name' => $data['name'],
             'created_at' => $data['created_at'],
             'updated_at' => $data['updated_at'],
+            'department_id'=>$data['department_id']
         ]);
     }
 
@@ -29,6 +30,7 @@ class UnitService
             'name' => 'required|string|max:255',
             'created_at' => 'nullable|date',
             'updated_at' => 'nullable|date',
+            'department_id'=>'required',
         ]);
 
         if ($validator->fails()) {
@@ -65,6 +67,7 @@ class UnitService
         'name' => $data['name'],
            'created_at' => $data['created_at'],
         'updated_at' => $data['updated_at'],
+        'department_id'=>$data['department_id']
         ]);
     }
 

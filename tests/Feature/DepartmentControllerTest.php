@@ -68,4 +68,31 @@ class DepartmentControllerTest extends TestCase
     }
 
 
+     public function test_to_get_a_department_with_units()
+    {
+        $department = Department::factory()->create();
+        $unit = \App\Models\Unit::factory()->create(['department_id' => $department->id]);
+
+        $response = $this->actingAsTestUser()->getJson('/api/department_units/'.$department->id);
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+    'data' => [
+        'id',
+        'name',
+        'units' => [
+            '*' => [
+                'id',
+                'name',
+                'department_id',
+                'created_at',
+                'updated_at'
+            ]
+        ]
+    ]
+]);
+
+    }
+
 }

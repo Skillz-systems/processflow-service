@@ -11,7 +11,7 @@ class Department extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function units():HasMany
+    public function units()
     {
         return $this->hasMany(Unit::class);
     }

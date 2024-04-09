@@ -7,6 +7,7 @@ use App\Service\DepartmentService;
 use App\Http\Resources\DepartmentResource;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
+use App\Http\Resources\DepartmentUnitResource;
 /**
  * @OA\Tag(name="Department")
  */
