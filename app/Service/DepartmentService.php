@@ -76,4 +76,16 @@ class DepartmentService
         return Department::findOrFail($id);
     }
 
+
+
+    /**
+     * Get all departments.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllDepartments(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Department::all();
+    }
+
 }

@@ -64,6 +64,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/units/{id}', [UnitController::class,  'show']);
 
 
+    Route::get('/departments', [DepartmentController::class,  'index']);
     Route::get('/departments/{id}', [DepartmentController::class,  'show']);
 
 });
