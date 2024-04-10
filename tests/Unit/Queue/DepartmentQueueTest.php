@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Service\DepartmentService;
 use Illuminate\Support\Facades\Queue;
 use App\Jobs\Department\DepartmentCreated;
+use App\Jobs\Department\DepartmentDeleted;
 use App\Jobs\Department\DepartmentUpdated;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -112,6 +113,48 @@ class DepartmentQueueTest extends TestCase
         $updateJob->handle($this->service);
 
         $this->assertDatabaseHas('departments', ['name' => $updatedRequest['name']]);
+    }
+
+
+     public function test_it_handles_department_deletion_behaviour_job_correctly(): void
+    {
+        Queue::fake();
+
+        $request = [
+            'name' => 'Admin',
+            'id' => 199,
+            'created_at' => '',
+            'updated_at' => '',
+        ];
+
+        $creationJob = new DepartmentCreated($request);
+        $creationJob->handle($this->service);
+
+        $this->assertDatabaseCount('departments', 1);
+        $this->assertDatabaseHas('departments', [
+            'name' => $request['name'],
+        ]);
+
+        $department = Department::firstOrFail();
+        $deletionJob = new DepartmentDeleted($department->id);
+        $deletionJob->handle($this->service);
+
+        $this->assertDatabaseMissing('departments', ['id' => $department->id]);
+    }
+
+
+    public function test_it_dispatches_department_deletion_job_functionality(): void
+    {
+
+        Queue::fake();
+
+        $department = Department::factory()->create();
+
+        DepartmentDeleted::dispatch($department->id);
+
+        Queue::assertPushed(DepartmentDeleted::class, function ($job) use ($department) {
+            return $job->getId() == $department->id;
+        });
     }
 
 }
