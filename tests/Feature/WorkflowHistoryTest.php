@@ -120,4 +120,21 @@ class WorkflowHistoryTest extends TestCase
         $workflowHistory = WorkflowHistory::factory()->create();
         $response = $this->getJson('/api/workflowhistory/'.$workflowHistory->id)->assertStatus(401);
     }
+
+
+      public function test_it_can_get_all_workflowhistory(): void
+    {
+        WorkflowHistory::factory()->count(5)->create();
+
+        $response = $this->actingAsTestUser()->getJson('/api/workflowhistory');
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(5, 'data');
+    }
+
+    public function test_it_returns_401_unauthenticated_to_get_all_units(): void
+    {
+        WorkflowHistory::factory()->count(3)->create();
+        $this->getJson('/api/workflowhistory/')->assertStatus(401);
+    }
 }
