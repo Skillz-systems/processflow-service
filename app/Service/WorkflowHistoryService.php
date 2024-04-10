@@ -63,9 +63,11 @@ class WorkflowHistoryService
      * @return \App\Models\WorkflowHistory|null The retrieved WorkflowHistory, or null if not found.
      */
 
-    public function getWorkflowHistory(int $id): WorkflowHistory | null
+    public function getWorkflowHistory(int $id): ?WorkflowHistory
     {
-        return WorkflowHistory::find($id);
+
+        return WorkflowHistory::findOrFail($id);
+
     }
 
     /**
