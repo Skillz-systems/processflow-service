@@ -137,4 +137,39 @@ class WorkflowHistoryTest extends TestCase
         $response = $this->deleteJson('/api/workflowhistory/' . $workflowHistory->id);
         $response->assertStatus(401);
     }
+
+
+
+
+      public function test_it_can_get_all_workflowhistory(): void
+    {
+        WorkflowHistory::factory()->count(5)->create();
+
+        $response = $this->actingAsTestUser()->getJson('/api/workflowhistory');
+
+        $response->assertStatus(200);
+
+
+         $response->assertOk()->assertJsonStructure(
+            [
+                "data" => [
+                    [
+
+                        "task_id",
+                        "step_id",
+                        "process_flow_id",
+                        "user_id",
+                        "status",
+                    ]
+
+                ]
+            ]
+        );
+    }
+
+    public function test_it_returns_401_unauthenticated_to_get_all_units(): void
+    {
+        WorkflowHistory::factory()->count(3)->create();
+        $this->getJson('/api/workflowhistory/')->assertStatus(401);
+    }
 }

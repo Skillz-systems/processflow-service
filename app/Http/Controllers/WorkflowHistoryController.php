@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreWorkflowHistoryRequest;
-use App\Http\Resources\WorkflowHistoryResource;
-use App\Service\WorkflowHistoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Resources\WorkflowHistoryCollection;
+use App\Service\WorkflowHistoryService;
+use App\Http\Resources\WorkflowHistoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\WorkflowHistoryCollection;
+use App\Http\Requests\StoreWorkflowHistoryRequest;
+use App\Jobs\WorkflowHistory\WorkflowHistoryCreated;
+use App\Jobs\WorkflowHistory\WorkflowHistoryDeleted;
+use App\Jobs\WorkflowHistory\WorkflowHistoryUpdated;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class WorkflowHistoryController extends Controller
@@ -110,6 +113,8 @@ class WorkflowHistoryController extends Controller
     {
         return DB::transaction(function () use ($request) {
             $storedWorkflowHistory = $this->workflowHistoryService->createWorkflowHistory($request);
+
+             WorkflowHistoryCreated::dispatch($storedWorkflowHistory->toArray());
             return new WorkflowHistoryResource($storedWorkflowHistory);
         }, 5);
     }
@@ -154,7 +159,7 @@ class WorkflowHistoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         WorkflowHistoryUpdated::dispatch($request->toArray());
     }
 
 /**
@@ -189,16 +194,18 @@ class WorkflowHistoryController extends Controller
      */
     public function destroy(string $id)
     {
-    try {
+        try {
         $deleted = $this->workflowHistoryService->deleteWorkflowHistory($id);
-    } catch (\Exception $e) {
+        } catch (\Exception $e) {
         throw $e;
-    }
+        }
 
     if ($deleted) {
+        WorkflowHistoryDeleted::dispatch($id);
         return response()->noContent();
     }
 
     throw new NotFoundHttpException('Workflow history not found.');
+
     }
 }
