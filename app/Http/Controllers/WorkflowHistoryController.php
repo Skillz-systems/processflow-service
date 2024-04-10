@@ -157,11 +157,48 @@ class WorkflowHistoryController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
+/**
+     * @OA\Delete(
+     *      path="/workflowhistory/{id}",
+     *      operationId="deleteWorkflowHistory",
+     *      tags={"Workflow History"},
+     *      summary="Delete a workflow history",
+     *      description="Deletes a workflowhistory by its ID.",
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID of the route to delete",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Route not found",
+     *
+     *      )
+     * )
+     *
+     * @param string $id The ID of the workflow history to delete.
+     *
      */
     public function destroy(string $id)
     {
-        //
+    try {
+        $deleted = $this->workflowHistoryService->deleteWorkflowHistory($id);
+    } catch (\Exception $e) {
+        throw $e;
+    }
+
+    if ($deleted) {
+        return response()->noContent();
+    }
+
+    throw new NotFoundHttpException('Workflow history not found.');
     }
 }
