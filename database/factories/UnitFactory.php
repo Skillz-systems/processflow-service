@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class UnitFactory extends Factory
             'name' => $this->faker->word,
             'created_at' => $this->faker->date(),
             'updated_at' => $this->faker->date(),
+            'department_id' => Department::factory(),
         ];
     }
 }

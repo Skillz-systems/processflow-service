@@ -33,6 +33,7 @@ class UnitQueueTest extends TestCase
             'id' => 56,
             'created_at' => '',
             'updated_at' => '',
+            'department_id'=>37
         ];
 
         $job = new UnitCreated($request);
@@ -52,6 +53,7 @@ class UnitQueueTest extends TestCase
             'id' => 56,
             'created_at' => '',
             'updated_at' => '',
+            'department_id'=>1
         ];
 
         UnitCreated::dispatch($request);
@@ -71,6 +73,7 @@ class UnitQueueTest extends TestCase
             'id' => 199,
             'created_at' => '',
             'updated_at' => '',
+            'department_id'=>12
         ];
 
         $creationJob = new UnitCreated($request);
@@ -115,6 +118,7 @@ class UnitQueueTest extends TestCase
             'id'=>$unit->id,
             'created_at' => $unit->created_at,
             'updated_at' => $unit->updated_at,
+            'department_id'=>$unit->department_id
         ];
 
         UnitUpdated::dispatch($request, $unit->id);
@@ -133,6 +137,7 @@ class UnitQueueTest extends TestCase
             'id' => 56,
             'created_at' => '',
             'updated_at' => '',
+            'department_id'=>67
         ];
 
         $creationJob = new UnitCreated($request);
@@ -150,6 +155,7 @@ class UnitQueueTest extends TestCase
             'id' => $unit->id,
             'created_at' => '',
             'updated_at' => '',
+            'department_id'=>$unit->department_id,
         ];
 
         $updateJob = new UnitUpdated($updatedRequest, $unit->id);

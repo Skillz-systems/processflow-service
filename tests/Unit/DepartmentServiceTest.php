@@ -147,4 +147,24 @@ class DepartmentServiceTest extends TestCase
         $this->assertCount(5, $result);
         $this->assertInstanceOf(Department::class, $result->first());
     }
+
+
+
+
+    public function test_it_can_get_department_with_units(): void
+{
+
+     $department = Department::factory()->create();
+        $unit = \App\Models\Unit::factory()->create(['department_id' => $department->id]);
+    $result = $this->service->getDepartmentUnit($department->id);
+
+    $this->assertInstanceOf(Department::class, $department);
+
+    $this->assertEquals($department->id, $result->id);
+    $this->assertEquals($department->name, $result->name);
+
+    $this->assertTrue($result->relationLoaded('units'));
+    $this->assertCount($department->units->count(), $result->units);
+}
+
 }
