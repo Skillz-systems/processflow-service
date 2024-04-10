@@ -3,28 +3,40 @@
 namespace App\Jobs\WorkflowHistory;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use App\Service\WorkflowHistoryService;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
 class WorkflowHistoryUpdated implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
+   /**
+     * The data for updating the workflowhistory.
+     *
+     * @var array
      */
-    public function __construct()
-    {
-        //
-    }
+    private array $data;
 
     /**
-     * Execute the job.
+     * Create a new job instance.
+     *
+     * @param array $data
      */
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
     public function handle(): void
     {
-        //
+
+    }
+
+     public function getData(): array
+    {
+        return $this->data;
     }
 }

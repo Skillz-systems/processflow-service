@@ -12,19 +12,30 @@ class WorkflowHistoryCreated implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
+   /**
+     * The data for creating the workflowhistory.
+     *
+     * @var array
      */
-    public function __construct()
-    {
-        //
-    }
+    private array $data;
 
     /**
-     * Execute the job.
+     * Create a new job instance.
+     *
+     * @param array $data
      */
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
     public function handle(): void
     {
-        //
+
+    }
+
+     public function getData(): array
+    {
+        return $this->data;
     }
 }
