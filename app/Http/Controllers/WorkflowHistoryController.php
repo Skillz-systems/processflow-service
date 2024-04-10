@@ -121,55 +121,50 @@ class WorkflowHistoryController extends Controller
         //
     }
     /**
- * @OA\Put(
- *      path="/workflow-histories/{id}",
- *      operationId="updateWorkflowHistory",
- *      tags={"Workflow Histories"},
- *      summary="Update a workflow history",
- *      description="Updates an existing workflow history.",
- *      @OA\Parameter(
- *          name="id",
- *          in="path",
- *          description="ID of the workflow history to update",
- *          required=true,
- *          @OA\Schema(type="integer")
- *      ),
- *      @OA\RequestBody(
- *          required=true,
- *          description="Data to update the workflow history",
- *          @OA\JsonContent(ref="#/components/schemas/UpdateWorkflowHistoryRequest")
- *      ),
- *      @OA\Response(
- *          response=200,
- *          description="Successful operation",
- *          @OA\JsonContent(
- *              @OA\Property(property="data", ref="#/components/schemas/WorkflowHistory")
- *          )
- *      ),
- *      @OA\Response(
- *          response=400,
- *          description="Invalid input data"
- *      ),
- *      @OA\Response(
- *          response=404,
- *          description="Workflow history not found"
- *      )
- * )
- *
- * @param \App\Http\Requests\UpdateWorkflowHistoryRequest $request
- * @param int $id
- * @return \Illuminate\Http\JsonResponse
- */
+     * @OA\Schema(
+     *     schema="WorkflowHistory",
+     *     title="WorkflowHistory",
+     *     description="Workflow history data",
+     *     @OA\Property(
+     *         property="id",
+     *         type="integer",
+     *         description="ID of the workflow history"
+     *     ),
+     *     @OA\Property(
+     *         property="user_id",
+     *         type="integer",
+     *         description="User ID"
+     *     ),
+     *     @OA\Property(
+     *         property="task_id",
+     *         type="integer",
+     *         description="Task ID"
+     *     ),
+     *     @OA\Property(
+     *         property="step_id",
+     *         type="integer",
+     *         description="Step ID"
+     *     ),
+     *     @OA\Property(
+     *         property="process_flow_id",
+     *         type="integer",
+     *         description="Process Flow ID"
+     *     ),
+     *     @OA\Property(
+     *         property="status",
+     *         type="integer",
+     *         description="Status"
+     *     )
+     * )
+     */
+    public function update(UpdateWorkflowHistoryRequest $request, int $id)
+    {
+        return DB::transaction(function () use ($request, $id) {
+            $storedWorkflowHistory = $this->workflowHistoryService->updateWorkflowHistory($request, $id);
+            return new WorkflowHistoryResource($storedWorkflowHistory);
+        }, 5);
+    }
 
-
- public function update(UpdateWorkflowHistoryRequest $request, int $id)
- {
-     return DB::transaction(function () use ($request, $id) {
-         $storedWorkflowHistory = $this->workflowHistoryService->updateWorkflowHistory($request, $id);
-         return new WorkflowHistoryResource($storedWorkflowHistory);
-     }, 5);
- }
- 
 
     /**
      * Remove the specified resource from storage.

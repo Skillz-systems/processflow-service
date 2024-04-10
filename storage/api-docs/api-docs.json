@@ -945,6 +945,37 @@
     },
     "components": {
         "schemas": {
+            "WorkflowHistory": {
+                "title": "WorkflowHistory",
+                "description": "Workflow history data",
+                "properties": {
+                    "id": {
+                        "description": "ID of the workflow history",
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "description": "User ID",
+                        "type": "integer"
+                    },
+                    "task_id": {
+                        "description": "Task ID",
+                        "type": "integer"
+                    },
+                    "step_id": {
+                        "description": "Step ID",
+                        "type": "integer"
+                    },
+                    "process_flow_id": {
+                        "description": "Process Flow ID",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "description": "Status",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "StoreProcessFlowRequest": {
                 "title": "StoreProcessFlowRequest",
                 "description": "Store process flow request body data",
@@ -1218,6 +1249,36 @@
                             "type": "object"
                         },
                         "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateWorkflowHistoryRequest": {
+                "title": "UpdateWorkflowHistoryRequest",
+                "description": "Update workflow history request data",
+                "required": [
+                    "status"
+                ],
+                "properties": {
+                    "user_id": {
+                        "description": "User ID",
+                        "type": "integer"
+                    },
+                    "task_id": {
+                        "description": "Task ID",
+                        "type": "integer"
+                    },
+                    "step_id": {
+                        "description": "Step ID",
+                        "type": "integer"
+                    },
+                    "process_flow_id": {
+                        "description": "Process Flow ID",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "description": "Status",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"
