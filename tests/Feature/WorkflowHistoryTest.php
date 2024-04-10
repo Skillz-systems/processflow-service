@@ -5,13 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Http\Resources\WorkflowHistoryCollection;
 use App\Models\WorkflowHistory;
-use App\Service\WorkflowHistoryService;
-use Illuminate\Http\Request;
-use App\Http\Controllers\WorkflowController;
-use Illuminate\Support\Collection;
-use App\Http\Controllers\WorkflowHistoryController;
 
 class WorkflowHistoryTest extends TestCase
 {
@@ -88,40 +82,41 @@ class WorkflowHistoryTest extends TestCase
     }
 
 
-    public function test_to_update_process_flow_without_steps_successfully(): void
+    public function test_to_update_workflow_history_successfully(): void
     {
-        $processFlowData = ProcessFlow::factory()->create();
-        $processFlowId = $processFlowData->id;
+        $workflowHistoryData = WorkflowHistory::factory()->create();
+        $workflowHistoryId = $workflowHistoryData->id;
         $data = [
-            'name' => 'Updated Process Flow Name',
+            'status' => true,
         ];
 
-        $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(200);
-        $this->assertDatabaseHas('process_flows', $data);
+        $this->actingAsTestUser()->putJson('/api/workflowhistory/' . $workflowHistoryId, $data)->assertStatus(200);
+        $this->assertDatabaseHas('workflow_histories', $data);
 
     }
-    public function test_to_unauthorized_cannot_update_process_flow_(): void
+    public function test_to_unauthorized_cannot_update_workflow_history(): void
     {
-        $processFlowData = ProcessFlow::factory()->create();
-        $processFlowId = $processFlowData->id;
+        $workflowHistoryData = WorkflowHistory::factory()->create();
+        $workflowHistoryId = $workflowHistoryData->id;
         $data = [
-            'name' => 'Updated Process Flow Name',
+            'status' => true,
         ];
 
-        $this->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(401);
+        $this->putJson('/api/workflowhistory/' . $workflowHistoryId, $data)->assertStatus(401);
 
     }
 
-    public function test_to_return_error_when_trying_to_update_nonexistent_process_flow(): void
+    public function test_to_return_error_when_trying_to_update_nonexistent_workflow_history(): void
     {
 
-        $id = 9999;
+        $id = 1;
         $data = [
-            'name' => 'Updated Process Flow Name',
+            'status' => true,
         ];
 
-        $response = $this->actingAsTestUser()->putJson('/api/processflows/' . $id, $data);
+        $response = $this->actingAsTestUser()->putJson('/api/workflowhistory/' . $id, $data);
         $response->assertStatus(404);
     }
+
 
 }

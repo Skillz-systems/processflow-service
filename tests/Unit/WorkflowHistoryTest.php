@@ -6,8 +6,6 @@ use App\Service\WorkflowHistoryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
-use Mockery;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 class WorkflowHistoryTest extends TestCase
 {

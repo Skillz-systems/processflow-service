@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreWorkflowHistoryRequest;
 use App\Http\Resources\WorkflowHistoryResource;
 use App\Service\WorkflowHistoryService;
-use Illuminate\Http\Request;
-use Illuminate\Http\Request\UpdateWorkflowHistoryRequest;
+use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateWorkflowHistoryRequest;
 use Illuminate\Support\Facades\DB;
-use App\Http\Resources\WorkflowHistoryCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class WorkflowHistoryController extends Controller
 {
@@ -162,13 +160,16 @@ class WorkflowHistoryController extends Controller
  * @param int $id
  * @return \Illuminate\Http\JsonResponse
  */
-    public function update(UpdateWorkflowHistoryRequest $request, int $id)
-    {
-        return DB::transaction(function () use ($request, $id) {
-            $storedWorkflowHistory = $this->workflowHistoryService->updateWorkflowHistory($id, $request);
-            return new WorkflowHistoryResource($storedWorkflowHistory);
-        }, 5);
-    }
+
+
+ public function update(UpdateWorkflowHistoryRequest $request, int $id)
+ {
+     return DB::transaction(function () use ($request, $id) {
+         $storedWorkflowHistory = $this->workflowHistoryService->updateWorkflowHistory($request, $id);
+         return new WorkflowHistoryResource($storedWorkflowHistory);
+     }, 5);
+ }
+ 
 
     /**
      * Remove the specified resource from storage.
