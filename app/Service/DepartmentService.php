@@ -23,6 +23,7 @@ class DepartmentService
         ]);
     }
 
+
      protected function validateData(array $data): void
     {
         $validator = Validator::make($data, [
@@ -35,6 +36,21 @@ class DepartmentService
         if ($validator->fails()) {
             throw new ValidationException($validator);
         }
+    }
+
+
+    public function updateDepartment(array $data, int $id): ?bool
+    {
+        $this->validateData($data);
+        $department = Department::find($id);
+        if (!$department) {
+            return false;
+        }
+        return $department->update([
+        'name' => $data['name'],
+           'created_at' => $data['created_at'],
+        'updated_at' => $data['updated_at'],
+        ]);
     }
 
 }

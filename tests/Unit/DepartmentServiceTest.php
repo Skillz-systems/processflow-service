@@ -42,4 +42,58 @@ class DepartmentServiceTest extends TestCase
 
         $this->service->createDepartment($request);
     }
+
+         public function test_it_can_update_a_department(): void
+    {
+
+
+        $request = [
+            'name' => 'Finance',
+            'id' => 18,
+            'created_at' => '',
+            'updated_at' => '',
+        ];
+
+        $created = $this->service->createDepartment($request);
+
+        $this->assertInstanceOf(Department::class, $created);
+
+        $update_request = [
+            'name' => 'New Department Name Updated',
+            'created_at' => '',
+            'updated_at' => '',
+            'id'=> $created->id
+        ];
+
+        $result = $this->service->updateDepartment($update_request, $created->id);
+
+        $this->assertTrue($result);
+        $this->assertDatabaseHas('departments', [
+            'id' => $created->id,
+            'name' => $update_request['name'],
+        ]);
+    }
+
+    public function test_it_throws_validation_exception_when_updating_department_with_invalid_data(): void
+    {
+        $this->expectException(ValidationException::class);
+
+        $unit = Department::factory()->create();
+        $request = ['name' => ''];
+        $this->service->updateDepartment($request, $unit->id);
+    }
+
+    public function test_it_returns_false_when_updating_a_non_existent_department(): void
+    {
+        $request = [
+            'name' => 'Pharmacy',
+            'id' => 91,
+            'created_at' => '',
+            'updated_at' => '',
+        ];
+
+        $result = $this->service->updateDepartment($request, 9999);
+        $this->assertFalse($result);
+    }
+
 }
