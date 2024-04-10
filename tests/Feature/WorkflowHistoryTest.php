@@ -122,6 +122,25 @@ class WorkflowHistoryTest extends TestCase
     }
 
 
+
+    public function test_to_delete_a_workflowhistory(): void
+    { $workflowHistory = WorkflowHistory::factory()->create();
+
+        $response = $this->actingAsTestUser()->deleteJson('/api/workflowhistory/'. $workflowHistory->id);
+        $response->assertStatus(204);
+    }
+
+
+    public function test_to_unauthorized_cannot_delete_a_workflowhistory(): void
+    {
+        $workflowHistory = WorkflowHistory::factory()->create();
+        $response = $this->deleteJson('/api/workflowhistory/' . $workflowHistory->id);
+        $response->assertStatus(401);
+    }
+
+
+
+
       public function test_it_can_get_all_workflowhistory(): void
     {
         WorkflowHistory::factory()->count(5)->create();
