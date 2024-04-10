@@ -194,17 +194,18 @@ class WorkflowHistoryController extends Controller
      */
     public function destroy(string $id)
     {
-    try {
+        try {
         $deleted = $this->workflowHistoryService->deleteWorkflowHistory($id);
-    } catch (\Exception $e) {
+        } catch (\Exception $e) {
         throw $e;
-    }
+        }
 
     if ($deleted) {
+        WorkflowHistoryDeleted::dispatch($id);
         return response()->noContent();
     }
 
     throw new NotFoundHttpException('Workflow history not found.');
-       WorkflowHistoryDeleted::dispatch($id);
+
     }
 }
