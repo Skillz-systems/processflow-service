@@ -120,4 +120,23 @@ class DepartmentServiceTest extends TestCase
         $this->assertFalse($result);
     }
 
+
+
+     public function test_it_can_get_a_single_department(): void
+    {
+        $department = Department::factory()->create();
+
+        $result = $this->service->getSingleDepartment($department->id);
+
+        $this->assertInstanceOf(Department::class, $result);
+        $this->assertEquals($department->id, $result->id);
+        $this->assertEquals($department->name, $result->name);
+    }
+
+    public function test_it_throws_exception_when_getting_a_non_existent_department(): void
+    {
+        $this->expectException(ModelNotFoundException::class);
+        $this->service->getSingleDepartment(9999);
+    }
+
 }

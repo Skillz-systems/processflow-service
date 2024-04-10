@@ -3,6 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\RoutesController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ProcessFlowController;
 use App\Http\Controllers\ProcessflowStepController;
@@ -61,6 +62,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/units', [UnitController::class,  'index']);
     Route::get('/units/{id}', [UnitController::class,  'show']);
+
+
+    Route::get('/departments/{id}', [DepartmentController::class,  'show']);
 
 });
 

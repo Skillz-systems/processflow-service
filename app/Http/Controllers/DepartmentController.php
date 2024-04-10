@@ -3,14 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Service\DepartmentService;
+use App\Http\Resources\DepartmentResource;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
+/**
+ * @OA\Tag(name="Department")
+ */
+
 
 class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   private DepartmentService $departmentService;
+
+    public function __construct(DepartmentService $departmentService)
+    {
+        $this->departmentService = $departmentService;
+    }
+
     public function index()
     {
         //
@@ -32,35 +42,47 @@ class DepartmentController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Department $department)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Department $department)
+/**
+ * @OA\Get(
+ *     path="/departments/{id}",
+ *     tags={"Department"},
+ *     summary="Get a single department",
+ *     description="Returns the details of a single department",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID of the department",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful Response",
+ *         @OA\JsonContent(ref="#/components/schemas/DepartmentResource")
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Bad Request"
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthenticated"
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Not Found"
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server Error"
+ *     )
+ * )
+ */
+    public function show(int $id)
     {
-        //
-    }
+        $department = $this->departmentService->getSingleDepartment($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateDepartmentRequest $request, Department $department)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Department $department)
-    {
-        //
+        return new DepartmentResource($department);
     }
 }
