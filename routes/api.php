@@ -27,7 +27,11 @@ use App\Http\Controllers\WorkflowHistoryController;
 // Route::post('processflows', [ProcessFlowController::class, 'store']);
 // Route::middleware(['auth:sanctum'])->group(function () {
 // Route::post('processflows', [ProcessFlowController::class, 'store']);
-Route::middleware(['auth:sanctum'])->group(function () {
+// Route::middleware(['auth:sanctum'])->group(function () {
+
+
+Route::get('/test', [RoutesController::class, 'route']);
+Route::middleware('scope.user')->group(function () {
     // Route::post('processflows', [ProcessFlowController::class, 'store']);
 
     // Route::get('processflows/:id', [ProcessFlowController::class, 'show']);

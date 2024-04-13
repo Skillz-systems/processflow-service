@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Skillz\UserService;
 use Illuminate\Http\Request;
 use App\Service\RouteService;
 use App\Jobs\Route\RouteCreated;
@@ -271,5 +272,15 @@ class RoutesController extends Controller
             return response()->json(["status" => "success", "message" => "Route has been deleted"], 200);
         }
         return response()->json(["status" => "success", "message" => "page not found."], 404);
+    }
+
+    public function route(){
+
+        return request()->cookie('jwt');
+        // $response = (new UserService)->getRequest('get', 'todos/1');
+
+        // return $response;
+        // https://jsonplaceholder.typicode.com/todos/1
+        // return 'route ok';
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\User;
+use Tests\Middleware\ScopeUserTestMiddleware;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -11,8 +12,11 @@ abstract class TestCase extends BaseTestCase
     protected function actingAsTestUser()
     {
         $user = User::factory()->create();
-        return $this->actingAs($user);
-    }
+        return $this->actingAs($user)->withMiddleware(ScopeUserTestMiddleware::class);
+        // return $this->actingAs($user);
+}
+
+
     // public function userCreate()
     // {
     //     Sanctum::actingAs(
