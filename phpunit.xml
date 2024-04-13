@@ -18,6 +18,8 @@
         </include>
     </source>
     <php>
+    <env name="USERS_MS" value="http://172.18.208.1:8001"/>
+    <!-- add -->
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>

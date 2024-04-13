@@ -12,7 +12,7 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_create_new_process_flow_with_steps_controller(): void
     {
-
+        $this->actingAsAuthenticatedTestUser();
         $processFlowData = [
             'name' => 'Test Process Flow',
             'frequency' => 'weekly',
@@ -50,7 +50,7 @@ class ProcessFlowTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $response = $this->postJson('/api/processflows', $processFlowData);
 
         $response->assertJsonStructure([
             'data' => [
@@ -89,6 +89,7 @@ class ProcessFlowTest extends TestCase
     public function test_to_create_new_process_flow_without_steps_controller(): void
     {
 
+        $this->actingAsAuthenticatedTestUser();
         $processFlowData = [
             'name' => 'Test Process Flow',
             'start_step_id' => 3,
@@ -99,7 +100,7 @@ class ProcessFlowTest extends TestCase
             'week' => 'monday',
         ];
 
-        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $response = $this->postJson('/api/processflows', $processFlowData);
 
         $this->assertDatabaseHas('process_flows', $processFlowData);
         $response->assertStatus(201);
@@ -107,7 +108,7 @@ class ProcessFlowTest extends TestCase
     }
     public function test_to_failed_when_unautheticated_try_to_access_process_flow_route(): void
     {
-
+        $this->actingAsUnAuthenticatedTestUser();
         $processFlowData = [
             'name' => 'Test Process Flow',
             'start_step_id' => 3,
@@ -125,12 +126,13 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_create_process_flow_controller_returns_validation_errors_for_invalid_data(): void
     {
+        $this->actingAsAuthenticatedTestUser();
 
         $invalidData = [
             'name' => '',
             'frequency' => 'invalid',
         ];
-        $response = $this->actingAsTestUser()->postJson('/api/processflows', $invalidData);
+        $response = $this->postJson('/api/processflows', $invalidData);
 
         $response->assertJsonValidationErrors(['name', 'frequency']);
         $response->assertStatus(422);
@@ -138,6 +140,7 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_view_process_flow_with_valid_id_successfully(): void
     {
+        $this->actingAsAuthenticatedTestUser();
 
         $processFlowData = [
             'name' => 'Test Process Flow',
@@ -175,11 +178,11 @@ class ProcessFlowTest extends TestCase
                 ],
             ],
         ];
-        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $response = $this->postJson('/api/processflows', $processFlowData);
         $response->assertStatus(201);
 
         $processFlowId = $response->json('data.id');
-        $this->actingAsTestUser()->getJson('/api/processflows/' . $processFlowId)->assertStatus(200)->assertJsonStructure([
+        $this->getJson('/api/processflows/' . $processFlowId)->assertStatus(200)->assertJsonStructure([
             'data' => [
                 'id',
                 'name',
@@ -209,16 +212,17 @@ class ProcessFlowTest extends TestCase
     }
     public function test_to_return_error_when_trying_to_view_nonexistent_process_flow(): void
     {
-
+        $this->actingAsAuthenticatedTestUser();
         $id = 9999;
 
-        $response = $this->actingAsTestUser()->getJson('/api/processflows/' . $id);
+        $response = $this->getJson('/api/processflows/' . $id);
         $response->assertStatus(404);
     }
 
     public function test_to_verify_only_logged_in_users_can_view_a_process_flow(): void
     {
 
+        $this->actingAsAuthenticatedTestUser();
         $processFlowData = [
             'name' => 'Test Process Flow',
             'start_step_id' => 3,
@@ -229,7 +233,7 @@ class ProcessFlowTest extends TestCase
             'week' => 'monday',
         ];
 
-        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $response = $this->postJson('/api/processflows', $processFlowData);
         $response->assertStatus(201);
         $processFlowId = $response->json('data.id');
 
@@ -238,6 +242,7 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_verify_unauthenticated_users_cannot_view_a_process_flow(): void
     {
+        $this->actingAsUnAuthenticatedTestUser();
         $processFlowData = [
             'name' => 'Test Process Flow',
             'start_step_id' => 3,
@@ -258,6 +263,8 @@ class ProcessFlowTest extends TestCase
  */
     public function test_to_update_process_flow_with_valid_data_successfully(): void
     {
+
+        $this->actingAsAuthenticatedTestUser();
         $processFlowData = [
             'name' => 'Test Process Flow',
             'frequency' => 'weekly',
@@ -295,11 +302,11 @@ class ProcessFlowTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $response = $this->postJson('/api/processflows', $processFlowData);
         $response->assertStatus(201);
         $processFlowId = $response->json('data.id');
 
-        $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, [
+        $this->putJson('/api/processflows/' . $processFlowId, [
             'name' => 'Test Process Flow Updated',
         ])
             ->assertStatus(200)->assertJsonStructure([
@@ -332,18 +339,20 @@ class ProcessFlowTest extends TestCase
     }
     public function test_to_update_process_flow_without_steps_successfully(): void
     {
+        $this->actingAsAuthenticatedTestUser();
         $processFlowData = ProcessFlow::factory()->create();
         $processFlowId = $processFlowData->id;
         $data = [
             'name' => 'Updated Process Flow Name',
         ];
 
-        $this->actingAsTestUser()->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(200);
+        $this->putJson('/api/processflows/' . $processFlowId, $data)->assertStatus(200);
         $this->assertDatabaseHas('process_flows', $data);
 
     }
     public function test_to_unauthorized_cannot_update_process_flow_(): void
     {
+        $this->actingAsUnAuthenticatedTestUser();
         $processFlowData = ProcessFlow::factory()->create();
         $processFlowId = $processFlowData->id;
         $data = [
@@ -356,13 +365,14 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_return_error_when_trying_to_update_nonexistent_process_flow(): void
     {
+        $this->actingAsAuthenticatedTestUser();
 
         $id = 9999;
         $data = [
             'name' => 'Updated Process Flow Name',
         ];
 
-        $response = $this->actingAsTestUser()->putJson('/api/processflows/' . $id, $data);
+        $response = $this->putJson('/api/processflows/' . $id, $data);
         $response->assertStatus(404);
     }
 
@@ -370,9 +380,10 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_delete_a_processflow_successfully(): void
     {
+        $this->actingAsAuthenticatedTestUser();
         $processFlowData = ProcessFlow::factory()->create();
         $processFlowId = $processFlowData->id;
-        $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
+        $response = $this->deleteJson('/api/processflows/' . $processFlowId);
         $response->assertStatus(204);
         $this->assertDatabaseMissing('process_flows', $processFlowData->toArray());
         $this->assertDatabaseCount('process_flows', 0);
@@ -380,6 +391,8 @@ class ProcessFlowTest extends TestCase
     }
     public function test_to_delete_a_processflow_and_associative_steps_successfully(): void
     {
+
+        $this->actingAsAuthenticatedTestUser();
 
         $processFlowData = [
             'name' => 'Test Process Flow',
@@ -418,11 +431,11 @@ class ProcessFlowTest extends TestCase
             ],
         ];
 
-        $createdProcessFlow = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $createdProcessFlow = $this->postJson('/api/processflows', $processFlowData);
         $processFlowId = $createdProcessFlow->json('data.id');
         $this->assertDatabaseHas('process_flow_steps', ['name' => 'test name single two test']);
 
-        $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
+        $response = $this->deleteJson('/api/processflows/' . $processFlowId);
         $response->assertStatus(204);
         $this->assertDatabaseMissing('process_flow_steps', ['name' => 'test name single two test']);
         $this->assertDatabaseCount('process_flows', 0);
@@ -431,6 +444,7 @@ class ProcessFlowTest extends TestCase
 
     public function test_to_unauthorized_users_cannot_delete_a_processflow(): void
     {
+        $this->actingAsUnAuthenticatedTestUser();
         $processFlowData = ProcessFlow::factory()->create();
         $processFlowId = $processFlowData->id;
         $response = $this->deleteJson('/api/processflows/' . $processFlowId);
@@ -438,8 +452,9 @@ class ProcessFlowTest extends TestCase
     }
     public function test_to_invalid_processflow_id_throws_error(): void
     {
+        $this->actingAsAuthenticatedTestUser();
         $processFlowId = 99999;
-        $response = $this->actingAsTestUser()->deleteJson('/api/processflows/' . $processFlowId);
+        $response = $this->deleteJson('/api/processflows/' . $processFlowId);
         $response->assertStatus(404);
     }
 }
