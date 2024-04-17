@@ -24,9 +24,9 @@ class UnitDeleted implements ShouldQueue
      * @param UnitService $service
      * @return void
      */
-    public function handle(UnitService $service): void
+    public function handle(): void
     {
-         $service = new  DepartmentService();
+         $service = new  UnitService();
          $service->deleteUnit($this->id);
     }
 
