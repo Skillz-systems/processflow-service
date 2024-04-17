@@ -66,10 +66,7 @@ class UnitUpdated implements ShouldQueue
      */
     public function handle(UnitService $service): void
     {
-        try {
-            $service->updateUnit($this->data, $this->id);
-        } catch (\Exception $e) {
-            Log::error('Error occurred while processing UnitUpdated job: ' . $e->getMessage());
-        }
+         $service = new  DepartmentService();
+         $service->updateUnit($this->data, $this->id);
     }
 }

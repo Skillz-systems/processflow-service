@@ -29,11 +29,7 @@ class DesignationDeleted implements ShouldQueue
      */
     public function handle(): void
     {
-        try {
-            $service = new DesignationService();
-            $service->deleteDesignation($this->id);
-        } catch (\Exception $e) {
-            Log::error('Error occurred while processing DesignationDeleted job: ' . $e->getMessage());
-        }
+        $service = new DesignationService();
+        $service->deleteDesignation($this->id);
     }
 }

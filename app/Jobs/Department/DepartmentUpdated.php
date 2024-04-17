@@ -67,10 +67,12 @@ class DepartmentUpdated implements ShouldQueue
      */
     public function handle(DepartmentService $service): void
     {
-        try {
-            $service->updateDepartment($this->data, $this->id);
-        } catch (\Exception $e) {
-            Log::error('Error occurred while processing DepartmentUpdated job: ' . $e->getMessage());
-        }
+
+         $service = new  DepartmentService();
+         $service->updateDepartment($this->data, $this->id);
+        // try {
+        // } catch (\Exception $e) {
+        //     Log::error('Error occurred while processing DepartmentUpdated job: ' . $e->getMessage());
+        // }
     }
 }

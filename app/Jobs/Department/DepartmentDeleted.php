@@ -24,13 +24,11 @@ class DepartmentDeleted implements ShouldQueue
      * @param  DepartmentService $service
      * @return void
      */
-    public function handle(DepartmentService $service): void
+    public function handle(): void
     {
-        try {
-            $service->deleteDepartment($this->id);
-        } catch (\Exception $e) {
-            Log::error('Error occurred while processing DeleteDepartment job: ' . $e->getMessage());
-        }
+
+         $service = new  DepartmentService();
+         $service->deleteDepartment($this->id);
     }
 
     public function getId(): int

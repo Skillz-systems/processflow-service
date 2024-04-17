@@ -28,13 +28,8 @@ class DesignationUpdated implements ShouldQueue
      */
     public function handle(): void
     {
-        try {
 
-            $service = new DesignationService();
-            $service->updateDesignation($this->data, $this->data['id']);
-        } catch (\Exception $e) {
-            // Log any errors that occur during the processing of the job
-            Log::error('Error occurred while processing DesignationUpdated job: ' . $e->getMessage());
-        }
+        $service = new DesignationService();
+        $service->updateDesignation($this->data, $this->data['id']);
     }
 }
