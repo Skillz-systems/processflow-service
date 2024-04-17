@@ -6,8 +6,12 @@ RUN apt-get update && \
     docker-php-ext-configure gd --with-jpeg && \
     docker-php-ext-install pdo_mysql gd
 
+RUN docker-php-ext-install sockets
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+
 
 # Set working directory and copy Laravel application files
 WORKDIR /app

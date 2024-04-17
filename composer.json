@@ -11,7 +11,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "skillz-systems/user-service": "dev-main"
+        "skillz-systems/user-service": "dev-main",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

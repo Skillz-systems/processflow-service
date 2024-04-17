@@ -39,11 +39,9 @@ class UnitCreated implements ShouldQueue
      */
     public function handle(UnitService $service): void
     {
-        try {
-            $service->createUnit($this->data);
-        } catch (\Exception $e) {
-            Log::error('Error occurred while processing UnitCreated job: ' . $e->getMessage());
-        }
+         $service = new  DepartmentService();
+         $service->createUnit($this->data);
+
     }
 
      public function getData(): array

@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Department;
 
+use App\Models\Department;
 use Illuminate\Bus\Queueable;
 use App\Service\DepartmentService;
 use Illuminate\Queue\SerializesModels;
@@ -18,7 +19,7 @@ class DepartmentCreated implements ShouldQueue
      *
      * @var array
      */
-    private array $data;
+    public array $data;
 
     /**
      * Create a new job instance.
@@ -36,13 +37,17 @@ class DepartmentCreated implements ShouldQueue
      * @param DepartmentService $service
      * @return void
      */
-    public function handle(DepartmentService $service): void
+    public function handle(): void
     {
-        try {
-            $service->createDepartment($this->data);
-        } catch (\Exception $e) {
-            Log::error('Error occurred while processing DepartementCreated job: ' . $e->getMessage());
-        }
+
+        $service = new  DepartmentService();
+        $service->createDepartment($this->data);
+
+        // try {
+        //     $service->createDepartment($this->data);
+        // } catch (\Exception $e) {
+        //     Log::error('Error occurred while processing DepartementCreated job: ' . $e->getMessage());
+        // }
     }
 
      public function getData(): array
