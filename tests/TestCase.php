@@ -11,12 +11,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-//     protected function actingAsTestUser()
-//     {
-//         $user = User::factory()->create();
 
-//         return $this->actingAs($user);
-// }
 
 public  function actingAsAuthenticatedTestUser(){
     Http::fake([
