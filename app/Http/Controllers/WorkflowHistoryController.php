@@ -114,7 +114,7 @@ class WorkflowHistoryController extends Controller
         return DB::transaction(function () use ($request) {
             $storedWorkflowHistory = $this->workflowHistoryService->createWorkflowHistory($request);
 
-             WorkflowHistoryCreated::dispatch($storedWorkflowHistory->toArray());
+            WorkflowHistoryCreated::dispatch($storedWorkflowHistory->toArray());
             return new WorkflowHistoryResource($storedWorkflowHistory);
         }, 5);
     }

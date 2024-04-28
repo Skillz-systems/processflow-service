@@ -17,6 +17,7 @@ class ProcessFlowStepObserverTest extends TestCase
      */
     public function test_to_see_if_we_can_update_the_nextstep_of_the_dependent_step(): void
     {
+        $this->actingAsAuthenticatedTestUser();
         $processFlowData = [
             'name' => 'Test Process Flow',
             'frequency' => 'weekly',
@@ -54,7 +55,7 @@ class ProcessFlowStepObserverTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $response = $this->postJson('/api/processflows', $processFlowData);
 
         $processFlowStepObserver = new ProcessFlowStepObserver((new ProcessflowStepService));
         $processFlowStepModel = ProcessFlowStep::where(["id" => 2])->first();
@@ -66,6 +67,7 @@ class ProcessFlowStepObserverTest extends TestCase
 
     public function test_to_see_if_item_being_deleted_is_the_first_step(): void
     {
+        $this->actingAsAuthenticatedTestUser();
         $processFlowData = [
             'name' => 'Test Process Flow',
             'frequency' => 'weekly',
@@ -103,7 +105,7 @@ class ProcessFlowStepObserverTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
+        $response = $this->postJson('/api/processflows', $processFlowData);
 
         $processFlowStepObserver = new ProcessFlowStepObserver((new ProcessflowStepService));
         $processFlowStepModel = ProcessFlowStep::where(["id" => 1])->first();

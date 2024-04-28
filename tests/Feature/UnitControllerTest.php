@@ -2,9 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Models\Unit;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\Unit;
+use Skillz\UserService;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+
+
+
+
 
 class UnitControllerTest extends TestCase
 {
@@ -12,29 +19,32 @@ class UnitControllerTest extends TestCase
 
     public function test_it_can_get_a_single_unit(): void
     {
-        $unit = Unit::factory()->create();
+    $this->actingAsAuthenticatedTestUser();
 
-        $response = $this->actingAsTestUser()->getJson('/api/units/'.$unit->id);
+        $unit = Unit::factory()->create();
+        $response = $this->getJson('/api/units/'.$unit->id);
 
         $response->assertStatus(200);
         $response->assertJson([
             'data' => [
                 'id' => $unit->id,
                 'name' => $unit->name,
-                'created_at' => $unit->created_at->toISOString(), // Convert Carbon instance to ISO string
-                'updated_at' => $unit->updated_at->toISOString(), // Convert Carbon instance to ISO string
+                'created_at' => $unit->created_at->toISOString(),
+                'updated_at' => $unit->updated_at->toISOString(),
             ],
         ]);
     }
 
     public function test_it_returns_404_when_getting_a_non_existent_unit(): void
     {
-        $response = $this->actingAsTestUser()->getJson('/api/units/9999');
+        $this->actingAsAuthenticatedTestUser();
+        $response = $this->getJson('/api/units/9999');
         $response->assertNotFound();
     }
 
     public function test_it_returns_401_unauthenticated_for_non_logged_users(): void
     {
+        $this->actingAsUnAuthenticatedTestUser();
         $unit = Unit::factory()->create();
         $response = $this->getJson('/api/units/'.$unit->id)->assertStatus(401);
     }
@@ -42,9 +52,10 @@ class UnitControllerTest extends TestCase
 
      public function test_it_can_get_all_units(): void
     {
+         $this->actingAsAuthenticatedTestUser();
         Unit::factory()->count(5)->create();
 
-        $response = $this->actingAsTestUser()->getJson('/api/units');
+        $response = $this->getJson('/api/units');
 
         $response->assertStatus(200);
         $response->assertJsonCount(5, 'data');
@@ -62,6 +73,7 @@ class UnitControllerTest extends TestCase
 
     public function test_it_returns_401_unauthenticated_to_get_all_units(): void
     {
+        $this->actingAsUnAuthenticatedTestUser();
         Unit::factory()->count(3)->create();
         $this->getJson('/api/units/')->assertStatus(401);
     }
