@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 class WorkflowHistoryTest extends TestCase
 {
     use RefreshDatabase;
@@ -36,7 +37,7 @@ class WorkflowHistoryTest extends TestCase
         ]);
 
         $this->assertInstanceOf(WorkflowHistory::class, $createNewWorkflowHistory);
-       
+
     }
 
    public function test_to_see_if_an_error_happens_when_creating_a_workflowhistory(): void
@@ -76,10 +77,11 @@ class WorkflowHistoryTest extends TestCase
 
     public function test_to_see_if_workflowhistory_returns_a_content(): void
     {
+
+        $this->expectException(ModelNotFoundException::class);
         $createNewWorkflowHistoryService = new WorkflowHistoryService();
         $fetchService = $createNewWorkflowHistoryService->getWorkflowHistory(1);
-
-        $this->assertNull($fetchService);
+        // $this->assertNull($fetchService);
 
     }
 
@@ -147,7 +149,7 @@ class WorkflowHistoryTest extends TestCase
         foreach ($workflowHistories as $workflowHistory) {
             $this->assertInstanceOf(WorkflowHistory::class, $workflowHistory);
         }
-        
+
         $this->assertEquals(3, count($workflowHistories->toArray()));
    }
 

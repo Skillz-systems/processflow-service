@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\RouteResource;
-use App\Service\RouteService;
+use Skillz\UserService;
 use Illuminate\Http\Request;
+use App\Service\RouteService;
+use App\Jobs\Route\RouteCreated;
+use App\Jobs\Route\RouteDeleted;
+use App\Jobs\Route\RouteUpdated;
+use App\Http\Resources\RouteResource;
 use Illuminate\Support\Facades\Validator;
 
 class RoutesController extends Controller
@@ -118,6 +122,8 @@ class RoutesController extends Controller
         }
 
         $result = $this->routeService->createRoute($request);
+
+        RouteCreated::dispatch($result->toArray());
         return new RouteResource($result);
     }
 
@@ -214,16 +220,67 @@ class RoutesController extends Controller
     {
         $model = $this->routeService->UpdateRoute($id, $request);
         if ($model) {
+            $routeUpdated = $this->routeService->getRoute($id);
+             RouteUpdated::dispatch($routeUpdated->toArray());
             return response()->json(["status" => "success", "message" => "Route was updated"], 200);
         }
         return response()->json(["status" => "success", "message" => "page not found."], 404);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/routes/delete/{id}",
+     *      operationId="deleteRoute",
+     *      tags={"Routes"},
+     *      summary="Delete a route",
+     *      description="Deletes a route by its ID.",
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID of the route to delete",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Route has been deleted")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Route not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Route not found")
+     *          )
+     *      )
+     * )
+     *
+     * @param string $id The ID of the route to delete.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(string $id)
     {
-        //
+        $model = $this->routeService->deleteRoute($id);
+        if ($model) {
+            RouteDeleted::dispatch($id);
+            return response()->json(["status" => "success", "message" => "Route has been deleted"], 200);
+        }
+        return response()->json(["status" => "success", "message" => "page not found."], 404);
+    }
+
+    public function route(){
+
+        return request()->cookie('jwt');
+        // $response = (new UserService)->getRequest('get', 'todos/1');
+
+        // return $response;
+        // https://jsonplaceholder.typicode.com/todos/1
+        // return 'route ok';
     }
 }

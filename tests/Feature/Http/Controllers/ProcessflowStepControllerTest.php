@@ -25,6 +25,7 @@ class ProcessflowStepControllerTest extends TestCase
 
     public function test_to_see_if_processflow_step_can_be_created_and_update_start_step_id_with_the_first_created_step(): void
     {
+        $this->actingAsAuthenticatedTestUser();
         // super user
 
         // create two processflow
@@ -61,7 +62,7 @@ class ProcessflowStepControllerTest extends TestCase
         ];
 
         $this->createProcessflow(2);
-        $response = $this->actingAsTestUser()->postJson('api/processflowstep/create/1', $data);
+        $response = $this->postJson('api/processflowstep/create/1', $data);
         $this->assertDatabaseCount("process_flows", 2);
         $this->assertDatabaseCount("process_flow_steps", 2);
         $this->assertDatabaseHas("process_flow_steps", [
@@ -108,6 +109,7 @@ class ProcessflowStepControllerTest extends TestCase
 
     public function tests_to_see_if_processflow_does_not_exist()
     {
+        $this->actingAsAuthenticatedTestUser();
         $data = ["steps" =>
             [
 
@@ -128,13 +130,13 @@ class ProcessflowStepControllerTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAsTestUser()->postJson('api/processflowstep/create/1', $data);
+        $response = $this->postJson('api/processflowstep/create/1', $data);
         $response->assertStatus(404);
     }
 
     public function test_to_see_if_we_can_create_a_new_process_flow_steps_for_a_process_flow_that_already_has_a_start_step_id()
     {
-
+$this->actingAsAuthenticatedTestUser();
         $data = ["steps" =>
             [
 
@@ -170,7 +172,7 @@ class ProcessflowStepControllerTest extends TestCase
         $this->createProcessflow(1, true);
 
         ProcessFlowStep::factory()->create(["process_flow_id" => 1]);
-        $response = $this->actingAsTestUser()->postJson('api/processflowstep/create/1', $data);
+        $response = $this->postJson('api/processflowstep/create/1', $data);
 
         $this->assertDatabaseCount("process_flows", 1);
         $this->assertDatabaseCount("process_flow_steps", 3);
@@ -212,6 +214,7 @@ class ProcessflowStepControllerTest extends TestCase
 
     public function test_toSee_if_we_can_create_a_new_process_flow_steps_for_a_process_flow_that_already_has_a_start_step_id_and_new_step_is_not_more_than_1()
     {
+        $this->actingAsAuthenticatedTestUser();
 
         $data = ["steps" =>
             [
@@ -236,7 +239,7 @@ class ProcessflowStepControllerTest extends TestCase
         $this->createProcessflow(1, true);
 
         ProcessFlowStep::factory()->create(["process_flow_id" => 1]);
-        $response = $this->actingAsTestUser()->postJson('api/processflowstep/create/1', $data);
+        $response = $this->postJson('api/processflowstep/create/1', $data);
 
         $this->assertDatabaseCount("process_flows", 1);
         $this->assertDatabaseCount("process_flow_steps", 2);
@@ -278,6 +281,7 @@ class ProcessflowStepControllerTest extends TestCase
 
     public function test_to_see_if_a_processflow_step_can_be_deleted_and_next_step_id_also_adjusted()
     {
+        $this->actingAsAuthenticatedTestUser();
         $processFlowData = [
             'name' => 'Test Process Flow',
             'frequency' => 'weekly',
@@ -314,8 +318,8 @@ class ProcessflowStepControllerTest extends TestCase
                 ],
             ],
         ];
-        $response = $this->actingAsTestUser()->postJson('/api/processflows', $processFlowData);
-        $deleteResponse = $this->actingAsTestUser()->deleteJson('/api/processflowstep/delete/' . $response["data"]["steps"][1]["id"]);
+        $response = $this->postJson('/api/processflows', $processFlowData);
+        $deleteResponse = $this->deleteJson('/api/processflowstep/delete/' . $response["data"]["steps"][1]["id"]);
         $deleteResponse->assertStatus(204);
         $this->assertDatabaseMissing("process_flow_steps", ["next_step_id" => 2]);
         $this->assertDatabaseHas("process_flow_steps", ["next_step_id" => null]);
@@ -325,6 +329,7 @@ class ProcessflowStepControllerTest extends TestCase
 
     public function test_to_see_if_processflow_start_step_can_be_updated()
     {
+        $this->actingAsAuthenticatedTestUser();
         $createdProcessflowWithSteps = $this->createProcessflowWithSteps();
         $data = ["step" => [
 
@@ -338,7 +343,7 @@ class ProcessflowStepControllerTest extends TestCase
         ],
 
         ];
-        $response = $this->actingAsTestUser()->putJson('api/processflowstep/update/1', $data);
+        $response = $this->putJson('api/processflowstep/update/1', $data);
         $response->assertOk();
         $this->assertDatabaseHas("process_flows", [
             "start_step_id" => 2,
@@ -348,6 +353,7 @@ class ProcessflowStepControllerTest extends TestCase
 
     public function test_to_see_if_processflow_first_step_first_step_details_stestart_step_can_be_updated()
     {
+        $this->actingAsAuthenticatedTestUser();
         $createdProcessflowWithSteps = $this->createProcessflowWithSteps();
         $data = ["step" => [
 
@@ -367,7 +373,7 @@ class ProcessflowStepControllerTest extends TestCase
         ],
 
         ];
-        $response = $this->actingAsTestUser()->putJson('api/processflowstep/update/1', $data);
+        $response = $this->putJson('api/processflowstep/update/1', $data);
         $response->assertOk();
         $this->assertDatabaseHas("process_flow_steps", [
             "name" => "test name 2 main fake",
@@ -379,9 +385,10 @@ class ProcessflowStepControllerTest extends TestCase
 
     public function test_to_see_if_an_error_would_be_displayed_if_there_is_no_request_data_while_updating_process_flow_steps()
     {
+        $this->actingAsAuthenticatedTestUser();
         $createdProcessflowWithSteps = $this->createProcessflowWithSteps();
         $data = [];
-        $response = $this->actingAsTestUser()->putJson('api/processflowstep/update/1', $data);
+        $response = $this->putJson('api/processflowstep/update/1', $data);
 
         $this->assertArrayHasKey('step', $response);
 
@@ -389,16 +396,18 @@ class ProcessflowStepControllerTest extends TestCase
 
     public function test_to_see_if_a_processflow_step_id_is_wrong()
     {
-        $response = $this->actingAsTestUser()->getJson('api/processflowstep/view/5');
+        $this->actingAsAuthenticatedTestUser();
+        $response = $this->getJson('api/processflowstep/view/5');
         $response->assertStatus(404);
 
     }
 
     public function test_to_see_if_the_expected_data_structure_is_retuned()
     {
+        $this->actingAsAuthenticatedTestUser();
         $test = $this->createProcessflowWithSteps();
 
-        $response = $this->actingAsTestUser()->getJson('api/processflowstep/view/1');
+        $response = $this->getJson('api/processflowstep/view/1');
 
         $response->assertStatus(200)->assertJsonStructure([
 
@@ -447,6 +456,7 @@ class ProcessflowStepControllerTest extends TestCase
 
     private function createProcessflowWithSteps()
     {
+        $this->actingAsAuthenticatedTestUser();
         $data = ["steps" =>
             [
 
@@ -480,7 +490,7 @@ class ProcessflowStepControllerTest extends TestCase
         ];
 
         $this->createProcessflow(1);
-        $response = $this->actingAsTestUser()->postJson('api/processflowstep/create/1', $data);
+        $response = $this->postJson('api/processflowstep/create/1', $data);
         return $response;
 
     }

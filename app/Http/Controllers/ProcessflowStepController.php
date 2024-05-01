@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProcessFlowStepRequest;
-use App\Http\Resources\ProcessFlowResource;
-use App\Http\Resources\ProcessFlowStepResource;
+use Illuminate\Http\Request;
 use App\Models\ProcessFlowStep;
+use Illuminate\Support\Facades\DB;
 use App\Service\ProcessFlowService;
 use App\Service\ProcessflowStepService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\ProcessFlowResource;
+use App\Http\Resources\ProcessFlowStepResource;
+use App\Http\Requests\StoreProcessFlowStepRequest;
+use App\Jobs\ProcessflowStep\ProcessflowStepCreated;
+use App\Jobs\ProcessflowStep\ProcessflowStepDeleted;
+use App\Jobs\ProcessflowStep\ProcessflowStepUpdated;
 
 class ProcessflowStepController extends Controller
 {
@@ -130,7 +133,7 @@ class ProcessflowStepController extends Controller
             }
             $result = $this->processFlowService->getProcessFlow($id);
             DB::commit();
-
+            ProcessflowStepCreated::dispatch($result->toArray());
             return new ProcessFlowResource($result);
 
         } catch (\Exception $e) {
@@ -288,10 +291,11 @@ class ProcessflowStepController extends Controller
 
             }
             DB::commit();
+            $result = $this->processflowStepService->getProcessFlowStep($id);
+            ProcessflowStepUpdated::dispatch($result->toArray());
             return response()->json(["status" => "success"], 200);
         } catch (\Exception $e) {
             DB::rollBack();
-
             throw new \Exception("Something went wrong.");
 
         }
@@ -339,6 +343,7 @@ class ProcessflowStepController extends Controller
     public function destroy(string $id)
     {
         if ($this->processflowStepService->deleteProcessFlowStep($id)) {
+             ProcessflowStepDeleted::dispatch($id);
             return response()->noContent();
         }
         return response()->json(["status" => "error", "message" => "Provided id does not match any record"]);
