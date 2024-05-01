@@ -24,7 +24,7 @@ jobs:
 
     
       - run:
-          name: Install dependencies
+          name: Run Test
           command:  CI=false php artisan test
 
     
@@ -62,11 +62,11 @@ jobs:
       - run:
           name: rename .env.example file to .env 
           command: |
-            mv Backend/.env.example Backend/.env
+            mv .env.example .env
 
       - run:
           name: Install dependencies
-          command:  cd Backend && CI=false composer clear-cache && CI=false  composer install &&  CI=false php artisan key:generate
+          command:  CI=false composer clear-cache && CI=false  composer install &&  CI=false php artisan key:generate
 
       - run: sudo apt update
       - run: sudo apt-get install rsync
@@ -77,29 +77,32 @@ jobs:
       - run:
           name: find and replace in document
           command: |
-            sed -i -e 's:/public/index.php:/index.php:g' Backend/public/index.php && sed -i -e 's:/../vendor/autoload.php:/vendor/autoload.php:g' Backend/public/index.php && sed -i -e 's:DB_DATABASE=forge:DB_DATABASE=skillz_revenuehub:g' Backend/.env && sed -i -e 's:DB_USERNAME=forge:DB_USERNAME=skillz_revenuehub:g' Backend/.env  && sed -i -e 's:/../bootstrap/app.php:/bootstrap/app.php:g' Backend/public/index.php && sed -i -e 's:DB_PASSWORD=forge:DB_PASSWORD="Ubuxa##99":g' Backend/.env
+            sed -i -e 's:/public/index.php:/index.php:g' public/index.php && sed -i -e 's:/../vendor/autoload.php:/vendor/autoload.php:g' public/index.php && sed -i -e 's:DB_DATABASE=forge:DB_DATABASE=skillz_nnpc_processflow:g' .env && sed -i -e 's:DB_USERNAME=forge:DB_USERNAME=skillz_nnpc:g' .env  && sed -i -e 's:/../bootstrap/app.php:/bootstrap/app.php:g' public/index.php && sed -i -e 's:DB_PASSWORD=forge:DB_PASSWORD=nnpcNGML:g' .env
 
       
       - run:
           name: ssh login  
           command: |
-             rsync --delete -va -e 'ssh -p 7822 -o StrictHostKeyChecking=no'   Backend/app Backend/database Backend/phpunit.xml Backend/storage Backend/vendor Backend/artisan Backend/.env Backend/tests Backend/bootstrap Backend/composer.json Backend/resources Backend/composer.lock Backend/routes Backend/config Backend/package.json Backend/public/ Backend/public skillz@185.160.67.60:revenuehub/api
+             --delete -va -e 'ssh -p 7822 -o StrictHostKeyChecking=no'   app database phpunit.xml storage vendor artisan .env tests bootstrap composer.json resources composer.lock routes config package.json public/ public skillz@185.160.67.60:nnpc/api/processflow
       - run:
           name: ssh and effect migration  
           command: |
-             ssh -p 7822 -t skillz@185.160.67.60 "cd revenuehub/api && php artisan migrate"
+             ssh -p 7822 -t skillz@185.160.67.60 "cd nnpc/api/processflow && php artisan migrate"
 workflows:
   version: 2
   revenue_hub_deploy:
     jobs:
-      - deploy-processflow-test # Use the pre-configured job, deploy-via-git
+      - deploy-processflow-test: # Use the pre-configured job, deploy-via-git
+          filters:
+              branches:
+                only: dev
          
       - deploy-processflow-dev: # Use the pre-configured job, deploy-via-git
           requires:
             - deploy-processflow-test
-          filters:
-            branches:
-              only: dev
+          # filters:
+          #   branches:
+          #     only: dev
       
       # - deploy-nest: # Use the pre-configured job, deploy-via-git
       #     filters:
