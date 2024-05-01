@@ -86,7 +86,7 @@ jobs:
       - run:
           name: ssh and effect migration  
           command: |
-             ssh -p 7822 -t skillz@185.160.67.60 "cd nnpc/api/processflow && php artisan migrate & php artisan queue:work & php artisan schedule:work "
+             ssh -p 7822 -t skillz@185.160.67.60 "cd nnpc/api/processflow && php artisan migrate && php artisan queue:work && php artisan schedule:work "
 workflows:
   version: 2
   nnpc_processflow_deploy:
