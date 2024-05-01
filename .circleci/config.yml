@@ -97,9 +97,9 @@ workflows:
               branches:
                 only: dev
          
-      - deploy-processflow-dev: # Use the pre-configured job, deploy-via-git
-          requires:
-            - deploy-processflow-test
+      - deploy-processflow-dev # Use the pre-configured job, deploy-via-git
+          # requires:
+          #   - deploy-processflow-test
           # filters:
           #   branches:
           #     only: dev
