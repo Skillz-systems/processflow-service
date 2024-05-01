@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Jobs\Department;
+namespace App\Jobs\User;
 
+use App\Service\UserService;
 use Illuminate\Bus\Queueable;
-use App\Service\DepartmentService;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class DepartmentDeleted implements ShouldQueue
+class UserDeleted implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -21,14 +21,13 @@ class DepartmentDeleted implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param  DepartmentService $service
+     * @param UnitService $service
      * @return void
      */
     public function handle(): void
     {
-
-         $service = new  DepartmentService();
-         $service->deleteDepartment($this->id);
+         $service = new  UserService();
+         $service->deleteUser($this->id);
     }
 
     public function getId(): int

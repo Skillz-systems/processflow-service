@@ -70,6 +70,30 @@ return [
             'block_for' => null,
             'after_commit' => false,
         ],
+        'rabbitmq' => [
+
+            'driver' => 'rabbitmq',
+            'hosts' => [
+                [
+                    'host' => env('RABBITMQ_HOST', ''),
+                    'port' => env('RABBITMQ_PORT', 5672),
+                    'user' => env('RABBITMQ_USER', ''),
+                    'password' => env('RABBITMQ_PASSWORD', ''),
+                    'vhost' => env('RABBITMQ_VHOST', ''),
+                ],
+            ],
+            'options' => [
+                'queue' => [
+                    // ...
+
+                    'prioritize_delayed' => false,
+                    'queue_max_priority' => 10,
+                ],
+            ],
+            'worker' => env('RABBITMQ_WORKER', 'default'),
+
+
+        ],
 
     ],
 

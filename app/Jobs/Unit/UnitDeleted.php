@@ -24,13 +24,10 @@ class UnitDeleted implements ShouldQueue
      * @param UnitService $service
      * @return void
      */
-    public function handle(UnitService $service): void
+    public function handle(): void
     {
-        try {
-            $service->deleteUnit($this->id);
-        } catch (\Exception $e) {
-            Log::error('Error occurred while processing UnitDeleted job: ' . $e->getMessage());
-        }
+         $service = new  UnitService();
+         $service->deleteUnit($this->id);
     }
 
     public function getId(): int

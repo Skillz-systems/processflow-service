@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Jobs\Unit;
+namespace App\Jobs\User;
 
-use App\Service\UnitService;
+use App\Service\UserService;
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class UnitCreated implements ShouldQueue
+class UserCreated implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
+     /**
      * The data for creating the unit.
      *
      * @var array
@@ -34,13 +33,13 @@ class UnitCreated implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param UnitService $service
+     * @param UserService $service
      * @return void
      */
     public function handle(): void
     {
-         $service = new  UnitService();
-         $service->createUnit($this->data);
+         $service = new  UserService();
+         $service->createUser($this->data);
 
     }
 
