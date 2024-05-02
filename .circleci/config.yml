@@ -71,9 +71,6 @@ jobs:
       - run: sudo apt update
       - run: sudo apt-get install rsync
 
-      # - run:
-      #     name: Update known hosts
-      #     command:  CI=false ssh-keyscan -H 185.160.67.60 >> ~/.ssh/known_hosts && cat ~/.ssh/known_hosts
       - run:
           name: find and replace in document
           command: |
