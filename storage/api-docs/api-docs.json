@@ -845,69 +845,6 @@
                 }
             }
         },
-        "/routes/delete/{id}": {
-            "delete": {
-                "tags": [
-                    "Routes"
-                ],
-                "summary": "Delete a route",
-                "description": "Deletes a route by its ID.",
-                "operationId": "deleteRoute",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the route to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Route has been deleted"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Route not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Route not found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/workflowhistory": {
             "get": {
                 "tags": [
@@ -1008,6 +945,37 @@
     },
     "components": {
         "schemas": {
+            "WorkflowHistory": {
+                "title": "WorkflowHistory",
+                "description": "Workflow history data",
+                "properties": {
+                    "id": {
+                        "description": "ID of the workflow history",
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "description": "User ID",
+                        "type": "integer"
+                    },
+                    "task_id": {
+                        "description": "Task ID",
+                        "type": "integer"
+                    },
+                    "step_id": {
+                        "description": "Step ID",
+                        "type": "integer"
+                    },
+                    "process_flow_id": {
+                        "description": "Process Flow ID",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "description": "Status",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "StoreProcessFlowRequest": {
                 "title": "StoreProcessFlowRequest",
                 "description": "Store process flow request body data",
@@ -1285,21 +1253,32 @@
                 },
                 "type": "object"
             },
-            "DesignationResource": {
+            "UpdateWorkflowHistoryRequest": {
+                "title": "UpdateWorkflowHistoryRequest",
+                "description": "Update workflow history request data",
+                "required": [
+                    "status"
+                ],
                 "properties": {
-                    "id": {
+                    "user_id": {
+                        "description": "User ID",
                         "type": "integer"
                     },
-                    "name": {
-                        "type": "string"
+                    "task_id": {
+                        "description": "Task ID",
+                        "type": "integer"
                     },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date"
+                    "step_id": {
+                        "description": "Step ID",
+                        "type": "integer"
                     },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date"
+                    "process_flow_id": {
+                        "description": "Process Flow ID",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "description": "Status",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"
@@ -1400,25 +1379,6 @@
                 },
                 "type": "object"
             },
-            "UnitResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date"
-                    }
-                },
-                "type": "object"
-            },
             "WorkflowHistoryResource": {
                 "properties": {
                     "id": {
@@ -1446,13 +1406,7 @@
     },
     "tags": [
         {
-            "name": "Designations"
-        },
-        {
             "name": "Process Flows"
-        },
-        {
-            "name": "Unit"
         }
     ]
 }

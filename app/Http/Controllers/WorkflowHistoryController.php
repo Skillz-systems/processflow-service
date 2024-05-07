@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Service\WorkflowHistoryService;
-use App\Http\Resources\WorkflowHistoryResource;
-use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\WorkflowHistoryCollection;
 use App\Http\Requests\StoreWorkflowHistoryRequest;
-use App\Jobs\WorkflowHistory\WorkflowHistoryCreated;
-use App\Jobs\WorkflowHistory\WorkflowHistoryDeleted;
-use App\Jobs\WorkflowHistory\WorkflowHistoryUpdated;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\WorkflowHistoryResource;
+use App\Service\WorkflowHistoryService;
+use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateWorkflowHistoryRequest;
+use Illuminate\Support\Facades\DB;
 
 class WorkflowHistoryController extends Controller
 {
@@ -51,7 +47,7 @@ class WorkflowHistoryController extends Controller
      *         description="Not found"
      *     )
      * )
-     *
+     * 
      * @param \App\Http\Requests\UpdateWorkflowHistoryRequest $request
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
@@ -103,7 +99,7 @@ class WorkflowHistoryController extends Controller
      *         )
      *     )
      * )
-
+ 
      * @param StoreWorkflowHistoryRequest $request The request containing the workflow history data.
      * @return WorkflowHistoryResource The created workflow history resource.
 
@@ -113,8 +109,6 @@ class WorkflowHistoryController extends Controller
     {
         return DB::transaction(function () use ($request) {
             $storedWorkflowHistory = $this->workflowHistoryService->createWorkflowHistory($request);
-
-            WorkflowHistoryCreated::dispatch($storedWorkflowHistory->toArray());
             return new WorkflowHistoryResource($storedWorkflowHistory);
         }, 5);
     }
@@ -122,90 +116,61 @@ class WorkflowHistoryController extends Controller
     /**
      * Display the specified resource.
      */
-
-     /**
-     * @OA\Get(
-     *     path="/workflowhistory/{id}",
-     *     summary="Fetch a workflow history",
-     *     tags={"Workflow History"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/WorkflowHistoryResource")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Not found"
-     *     )
-     * )
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show(string $id)
     {
-        $workflow = $this->workflowHistoryService->getWorkflowHistory($id);
-        return new WorkflowHistoryResource($workflow);
+        //
     }
     /**
-     * Update the specified resource in storage.
+     * @OA\Schema(
+     *     schema="WorkflowHistory",
+     *     title="WorkflowHistory",
+     *     description="Workflow history data",
+     *     @OA\Property(
+     *         property="id",
+     *         type="integer",
+     *         description="ID of the workflow history"
+     *     ),
+     *     @OA\Property(
+     *         property="user_id",
+     *         type="integer",
+     *         description="User ID"
+     *     ),
+     *     @OA\Property(
+     *         property="task_id",
+     *         type="integer",
+     *         description="Task ID"
+     *     ),
+     *     @OA\Property(
+     *         property="step_id",
+     *         type="integer",
+     *         description="Step ID"
+     *     ),
+     *     @OA\Property(
+     *         property="process_flow_id",
+     *         type="integer",
+     *         description="Process Flow ID"
+     *     ),
+     *     @OA\Property(
+     *         property="status",
+     *         type="integer",
+     *         description="Status"
+     *     )
+     * )
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateWorkflowHistoryRequest $request, int $id)
     {
-         WorkflowHistoryUpdated::dispatch($request->toArray());
+        return DB::transaction(function () use ($request, $id) {
+            $storedWorkflowHistory = $this->workflowHistoryService->updateWorkflowHistory($request, $id);
+            return new WorkflowHistoryResource($storedWorkflowHistory);
+        }, 5);
     }
 
-/**
-     * @OA\Delete(
-     *      path="/workflowhistory/{id}",
-     *      operationId="deleteWorkflowHistory",
-     *      tags={"Workflow History"},
-     *      summary="Delete a workflow history",
-     *      description="Deletes a workflowhistory by its ID.",
-     *      @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          required=true,
-     *          description="ID of the route to delete",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=204,
-     *          description="Successful operation",
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Route not found",
-     *
-     *      )
-     * )
-     *
-     * @param string $id The ID of the workflow history to delete.
-     *
+
+    /**
+     * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        try {
-        $deleted = $this->workflowHistoryService->deleteWorkflowHistory($id);
-        } catch (\Exception $e) {
-        throw $e;
-        }
-
-    if ($deleted) {
-        WorkflowHistoryDeleted::dispatch($id);
-        return response()->noContent();
-    }
-
-    throw new NotFoundHttpException('Workflow history not found.');
-
+        //
     }
 }
